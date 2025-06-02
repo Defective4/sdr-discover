@@ -1,4 +1,4 @@
-package io.github.defective4.sdr.sdrdscv;
+package io.github.defective4.sdr.sdrdscv.radio;
 
 public class RadioStation {
     public static enum Modulation {

@@ -18,8 +18,9 @@ import io.github.defective4.sdr.rds.RDSAdapter;
 import io.github.defective4.sdr.rds.RDSFlags;
 import io.github.defective4.sdr.rds.RDSListener;
 import io.github.defective4.sdr.rds.RDSReceiver;
-import io.github.defective4.sdr.sdrdscv.RadioStation;
-import io.github.defective4.sdr.sdrdscv.RadioStation.Modulation;
+import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
+import io.github.defective4.sdr.sdrdscv.radio.RadioStation.Modulation;
+import io.github.defective4.sdr.sdrdscv.radio.tuner.Tuner;
 import io.github.defective4.sdr.sdrdscv.tool.GRScriptRunner;
 
 public class BcastFMDiscoveryService implements DiscoveryService {
@@ -39,6 +40,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
     private final double sensitivity;
     private final float startFreq, endFreq;
     private final StationNameConflictMode stationNameConflictMode;
+    private Tuner tuner;
     private final boolean verbose = true; // TODO
 
     public BcastFMDiscoveryService(String sdrParams, int gain, int rdsPort, int probePort, int ctlPort,
@@ -70,6 +72,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         try (RawMessageReceiver signalProbe = new RawMessageReceiver("tcp://localhost:" + probePort, false);
                 RawMessageSender controller = new RawMessageSender("tcp://localhost:" + ctlPort, false);
                 RDSReceiver rdsReceiver = new RDSReceiver("tcp://localhost:" + rdsPort, false)) {
+            tuner = DiscoveryService.createTuner(controller);
             rdsReceiver.setAllowDuplicateStationUpdates(true);
             rdsReceiver.setAllowDuplicateRadiotextUpdates(true);
             controller.start();
@@ -91,7 +94,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
                             .println("Probing average signal strength on the control frequency " + controlProbeFrequency
                                     + "Hz...");
                 }
-                Collection<Double> avgCol = measureAverageSignalStrength(controller, signalProbe);
+                Collection<Double> avgCol = measureAverageSignalStrength(signalProbe);
                 average = avgCol.stream().mapToDouble(e -> e).average().orElse(-1);
                 if (average < 0) throw new IOException("Failed to calculate average signal");
                 if (verbose) System.err
@@ -102,7 +105,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             List<RadioStation> stations = new ArrayList<>();
             for (float freq = startFreq; freq <= endFreq; freq += 100e3f) {
                 if (verbose) System.err.println("Trying " + freq + "Hz...");
-                RadioStation station = tryFrequency(freq, controller, signalProbe, rdsReceiver, average);
+                RadioStation station = tryFrequency(freq, signalProbe, rdsReceiver, average);
                 if (station != null) {
                     System.err.println("Detected a new station \"" + station.getName() + "\" on " + freq + "Hz");
                     if (automaticStep) freq += 100e3f;
@@ -112,10 +115,10 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         }
     }
 
-    private Collection<Double> measureAverageSignalStrength(RawMessageSender controller, RawMessageReceiver probe)
+    private Collection<Double> measureAverageSignalStrength(RawMessageReceiver probe)
             throws InterruptedException, IOException {
         if (!process.isAlive()) throw new IOException("The received died");
-        controller.sendMessage(new MessagePair("freq", (double) controlProbeFrequency));
+        tuner.tune(controlProbeFrequency);
         Thread.sleep(100);
         List<Double> measures = new ArrayList<>();
         MessageListener probeListener = new MessageListener() {
@@ -130,10 +133,10 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         return Collections.unmodifiableCollection(measures);
     }
 
-    private RadioStation tryFrequency(float freq, RawMessageSender controller, RawMessageReceiver probe,
-            RDSReceiver rdsReceiver, double threshold) throws InterruptedException, IOException {
+    private RadioStation tryFrequency(float freq, RawMessageReceiver probe, RDSReceiver rdsReceiver, double threshold)
+            throws InterruptedException, IOException {
         if (!process.isAlive()) throw new IOException("The received died");
-        controller.sendMessage(new MessagePair("freq", (double) freq));
+        tuner.tune(freq);
         Thread.sleep(100);
         AtomicReference<Double> signalRef = new AtomicReference<>();
         MessageListener probeListener = new MessageListener() {
