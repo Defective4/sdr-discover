@@ -25,6 +25,112 @@ import io.github.defective4.sdr.sdrdscv.tool.GRScriptRunner;
 
 public class BcastFMDiscoveryService implements DiscoveryService {
 
+    public static class Builder {
+        private boolean automaticStep = true, detectStereo = true;
+        private float controlProbeFrequency = -1;
+        private long controlProbeLength = 2500;
+        private int gain = 0, rdsPort = 25555, probePort = 25556, ctlPort = 25557;
+        private boolean offsetTuning = false;
+        private long probeTimeout = 10000;
+        private long rdsRecvTime = 10000;
+        private String sdrParams = "";
+        private double sensitivity = 0;
+        private float startFreq = 88e6f, endFreq = 108e6f;
+        private StationNameConflictMode stationNameConflictMode = StationNameConflictMode.SMART;
+        private boolean verbose = false;
+
+        public BcastFMDiscoveryService build() {
+            return new BcastFMDiscoveryService(sdrParams, gain, rdsPort, probePort, ctlPort, controlProbeFrequency,
+                    controlProbeLength, sensitivity, startFreq, endFreq, probeTimeout, rdsRecvTime,
+                    stationNameConflictMode, automaticStep, detectStereo, offsetTuning, verbose);
+        }
+
+        public Builder enableOffsetTuning() {
+            offsetTuning = true;
+            return this;
+        }
+
+        public Builder verbose() {
+            verbose = true;
+            return this;
+        }
+
+        public Builder withAutomaticStep(boolean automaticStep) {
+            this.automaticStep = automaticStep;
+            return this;
+        }
+
+        public Builder withControlPort(int ctlPort) {
+            this.ctlPort = ctlPort;
+            return this;
+        }
+
+        public Builder withControlProbeDuration(long controlProbeDuration) {
+            controlProbeLength = controlProbeDuration;
+            return this;
+        }
+
+        public Builder withControlProbeFrequency(float controlProbeFrequency) {
+            this.controlProbeFrequency = controlProbeFrequency;
+            return this;
+        }
+
+        public Builder withDetectStereo(boolean detectStereo) {
+            this.detectStereo = detectStereo;
+            return this;
+        }
+
+        public Builder withEndFrequency(float endFreq) {
+            this.endFreq = endFreq;
+            return this;
+        }
+
+        public Builder withGain(int gain) {
+            this.gain = gain;
+            return this;
+        }
+
+        public Builder withProbePort(int probePort) {
+            this.probePort = probePort;
+            return this;
+        }
+
+        public Builder withProbeTimeout(long probeTimeout) {
+            this.probeTimeout = probeTimeout;
+            return this;
+        }
+
+        public Builder withRDSPort(int rdsPort) {
+            this.rdsPort = rdsPort;
+            return this;
+        }
+
+        public Builder withRDSReceiveTime(long rdsRecvTime) {
+            this.rdsRecvTime = rdsRecvTime;
+            return this;
+        }
+
+        public Builder withSDRParams(String sdrParams) {
+            this.sdrParams = sdrParams;
+            return this;
+        }
+
+        public Builder withSensitivity(double sensitivity) {
+            this.sensitivity = sensitivity;
+            return this;
+        }
+
+        public Builder withStartFrequency(float startFreq) {
+            this.startFreq = startFreq;
+            return this;
+        }
+
+        public Builder withStationNameConflictMode(StationNameConflictMode stationNameConflictMode) {
+            this.stationNameConflictMode = stationNameConflictMode;
+            return this;
+        }
+    }
+
     public static enum StationNameConflictMode {
         MERGE, SMART;
     }
@@ -42,12 +148,12 @@ public class BcastFMDiscoveryService implements DiscoveryService {
     private final float startFreq, endFreq;
     private final StationNameConflictMode stationNameConflictMode;
     private Tuner tuner;
-    private final boolean verbose = true; // TODO
+    private final boolean verbose;
 
-    public BcastFMDiscoveryService(String sdrParams, int gain, int rdsPort, int probePort, int ctlPort,
+    private BcastFMDiscoveryService(String sdrParams, int gain, int rdsPort, int probePort, int ctlPort,
             float controlProbeFrequency, long controlProbeLength, double sensitivity, float startFreq, float endFreq,
             long probeTimeout, long rdsRecvTime, StationNameConflictMode stationNameConflictMode, boolean automaticStep,
-            boolean detectStereo, boolean offsetTuning) {
+            boolean detectStereo, boolean offsetTuning, boolean verbose) {
         this.sdrParams = sdrParams;
         this.gain = gain;
         this.rdsPort = rdsPort;
@@ -64,6 +170,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         this.automaticStep = automaticStep;
         this.detectStereo = detectStereo;
         this.offsetTuning = offsetTuning;
+        this.verbose = verbose;
     }
 
     @Override
