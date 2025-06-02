@@ -33,6 +33,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
     private final float controlProbeFrequency;
     private final long controlProbeLength;
     private final int gain, rdsPort, probePort, ctlPort;
+    private final boolean offsetTuning;
     private final long probeTimeout;
     private Process process;
     private final long rdsRecvTime;
@@ -46,7 +47,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
     public BcastFMDiscoveryService(String sdrParams, int gain, int rdsPort, int probePort, int ctlPort,
             float controlProbeFrequency, long controlProbeLength, double sensitivity, float startFreq, float endFreq,
             long probeTimeout, long rdsRecvTime, StationNameConflictMode stationNameConflictMode, boolean automaticStep,
-            boolean detectStereo) {
+            boolean detectStereo, boolean offsetTuning) {
         this.sdrParams = sdrParams;
         this.gain = gain;
         this.rdsPort = rdsPort;
@@ -62,6 +63,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         this.stationNameConflictMode = stationNameConflictMode;
         this.automaticStep = automaticStep;
         this.detectStereo = detectStereo;
+        this.offsetTuning = offsetTuning;
     }
 
     @Override
@@ -72,7 +74,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         try (RawMessageReceiver signalProbe = new RawMessageReceiver("tcp://localhost:" + probePort, false);
                 RawMessageSender controller = new RawMessageSender("tcp://localhost:" + ctlPort, false);
                 RDSReceiver rdsReceiver = new RDSReceiver("tcp://localhost:" + rdsPort, false)) {
-            tuner = DiscoveryService.createTuner(controller);
+            tuner = DiscoveryService.createTuner(controller, offsetTuning);
             rdsReceiver.setAllowDuplicateStationUpdates(true);
             rdsReceiver.setAllowDuplicateRadiotextUpdates(true);
             controller.start();

@@ -57,6 +57,18 @@ blocks:
     coordinate: [200, 136.0]
     rotation: 0
     state: true
+- name: freq_offset
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [352, 144.0]
+    rotation: 0
+    state: true
 - name: pilot_taps
   id: variable_band_pass_filter_taps
   parameters:
@@ -312,13 +324,14 @@ blocks:
       \    def __init__(self):\n        gr.sync_block.__init__(\n            self,\
       \ name=\"Message Controller\", in_sig=None, out_sig=None)\n\n        self.message_port_register_in(pmt.intern(\"\
       source\"))\n        self.set_msg_handler(pmt.intern(\"source\"), self.msg_handler)\n\
-      \n    def callbacks(self, freq):\n        self.cb = {\n            \"freq\"\
-      : freq\n        }\n\n    def msg_handler(self, msg):\n        if not pmt.is_pair(msg)\
-      \ or pmt.is_dict(msg) or pmt.is_pdu(msg):\n            gr.log.warn(\n      \
-      \          \"Input message %s is not a simple pair, dropping\" % repr(msg))\n\
-      \            return\n        key = pmt.to_python(pmt.car(msg))\n        val\
-      \ = pmt.to_python(pmt.cdr(msg))\n        if key in self.cb:\n            self.cb[key](val)\n\
-      \n    def stop(self):\n        return True\n"
+      \n    def callbacks(self, freq, freq_offset):\n        self.cb = {\n       \
+      \     \"freq\": freq,\n            \"freq_offset\": freq_offset\n        }\n\
+      \n    def msg_handler(self, msg):\n        if not pmt.is_pair(msg) or pmt.is_dict(msg)\
+      \ or pmt.is_pdu(msg):\n            gr.log.warn(\n                \"Input message\
+      \ %s is not a simple pair, dropping\" % repr(msg))\n            return\n   \
+      \     key = pmt.to_python(pmt.car(msg))\n        val = pmt.to_python(pmt.cdr(msg))\n\
+      \        if key in self.cb:\n            self.cb[key](val)\n\n    def stop(self):\n\
+      \        return True\n"
     affinity: ''
     alias: ''
     comment: ''
@@ -422,19 +435,6 @@ blocks:
     coordinate: [200, 8.0]
     rotation: 0
     state: enabled
-- name: note_0
-  id: note
-  parameters:
-    alias: ''
-    comment: ''
-    note: TODO center frequency 0
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [440, 312.0]
-    rotation: 0
-    state: true
 - name: osmosdr_source_0
   id: osmosdr_source
   parameters:
@@ -917,7 +917,7 @@ blocks:
   id: snippet
   parameters:
     alias: ''
-    code: self.epy_block_0.callbacks(self.set_freq)
+    code: self.epy_block_0.callbacks(self.set_freq,self.set_freq_offset)
     comment: ''
     priority: '0'
     section: main_after_start
