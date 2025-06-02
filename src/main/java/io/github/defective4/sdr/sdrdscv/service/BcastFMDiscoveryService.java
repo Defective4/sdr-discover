@@ -65,8 +65,8 @@ public class BcastFMDiscoveryService implements DiscoveryService {
     @Override
     public List<RadioStation> discover() throws Exception {
         process = GRScriptRunner
-                .run("/rds_rx.py", "--params", sdrParams, "--gain", gain, "--rdsPort", rdsPort, "--probePort",
-                        probePort, "--ctlPort", ctlPort);
+                .run("rds_rx.py", Collections.singleton("rds_rx_epy_block_0.py"), "--params", sdrParams, "--gain", gain,
+                        "--rdsPort", rdsPort, "--probePort", probePort, "--ctlPort", ctlPort);
         try (RawMessageReceiver signalProbe = new RawMessageReceiver("tcp://localhost:" + probePort, false);
                 RawMessageSender controller = new RawMessageSender("tcp://localhost:" + ctlPort, false);
                 RDSReceiver rdsReceiver = new RDSReceiver("tcp://localhost:" + rdsPort, false)) {
