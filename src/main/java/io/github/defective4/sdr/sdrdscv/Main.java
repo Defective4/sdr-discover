@@ -71,6 +71,8 @@ public class Main {
             return;
         }
 
+        boolean verbose = cli.hasOption('v');
+
         if (cli.hasOption('A')) {
             for (String moduleName : cli.getOptionValues('A')) {
                 Module module = ModuleManager.getModules().get(moduleName.toLowerCase());
@@ -82,6 +84,7 @@ public class Main {
 
                 try {
                     DiscoveryServiceBuilder builder = module.getBuilderClass().getConstructor().newInstance();
+                    if (verbose) builder.verbose();
                     for (Entry<Option, Method> entry : module.getArguments().entrySet()) {
                         Option key = entry.getKey();
                         if (cli.hasOption(key)) {
