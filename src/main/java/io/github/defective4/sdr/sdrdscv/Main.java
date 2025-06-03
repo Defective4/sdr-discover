@@ -1,6 +1,9 @@
 package io.github.defective4.sdr.sdrdscv;
 
+import java.io.FileWriter;
+import java.io.Writer;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -14,7 +17,10 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import io.github.defective4.sdr.sdrdscv.io.writer.BookmarkWriter;
+import io.github.defective4.sdr.sdrdscv.io.writer.OneLineBookmarkWriter;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
+import io.github.defective4.sdr.sdrdscv.radio.RadioStation.Modulation;
 import io.github.defective4.sdr.sdrdscv.service.ServiceEntry;
 import io.github.defective4.sdr.sdrdscv.service.ServiceManager;
 import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryServiceBuilder;
@@ -45,8 +51,19 @@ public class Main {
                 .addOption(Option.builder("v").desc("Be verbose.").longOpt("verbose").build());
     }
 
+    public static void main(String[] args) throws Exception {
+        List<RadioStation> stations = List
+                .of(new RadioStation("RMF FM", "Teraz gramy: ", 1001e5f, Modulation.WFM_STEREO),
+                        new RadioStation("R-MARYJA", "Katolicki głos w Twoim domu", 1006e5f, Modulation.WFM_STEREO),
+                        new RadioStation("(TRENDY)", "Wakacje z Trendy Radio", 1019e5f, Modulation.WFM));
+        BookmarkWriter writer = new OneLineBookmarkWriter();
+        try (Writer fw = new FileWriter("bookmarks.txt", StandardCharsets.UTF_8)) {
+            writer.write(fw, stations);
+        }
+    }
+
     @SuppressWarnings("resource")
-    public static void main(String[] a) {
+    public static void main2(String[] a) {
         System.err.print("> ");
         String[] args = new Scanner(System.in).nextLine().split(" ");
 
