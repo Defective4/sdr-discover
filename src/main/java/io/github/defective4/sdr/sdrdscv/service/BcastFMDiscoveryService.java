@@ -325,7 +325,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
                         break;
                     }
                 }
-                String radioText = resolveDuplicates(radiotexts);
+                String radioText = radiotexts.isEmpty() ? null : resolveDuplicates(radiotexts);
                 return new RadioStation(stationName, radioText, freq,
                         detectStereo && stereo.get() ? Modulation.WFM_STEREO : Modulation.WFM);
             }

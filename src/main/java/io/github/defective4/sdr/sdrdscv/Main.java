@@ -1,6 +1,8 @@
 package io.github.defective4.sdr.sdrdscv;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Scanner;
 
@@ -14,6 +16,7 @@ import org.apache.commons.cli.ParseException;
 
 import io.github.defective4.sdr.sdrdscv.module.Module;
 import io.github.defective4.sdr.sdrdscv.module.ModuleManager;
+import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 import io.github.defective4.sdr.sdrdscv.service.DiscoveryServiceBuilder;
 
 public class Main {
@@ -74,6 +77,7 @@ public class Main {
         boolean verbose = cli.hasOption('v');
 
         if (cli.hasOption('A')) {
+            List<RadioStation> stations = new ArrayList<>();
             for (String moduleName : cli.getOptionValues('A')) {
                 Module module = ModuleManager.getModules().get(moduleName.toLowerCase());
                 if (module == null) {
@@ -100,10 +104,12 @@ public class Main {
                             }
                         }
                     }
+                    stations.addAll(builder.build().discover());
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }
             }
+            System.out.println(stations);
         } else {
             System.err.println("You must add at least one module");
         }
