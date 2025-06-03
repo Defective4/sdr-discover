@@ -38,12 +38,13 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         private double sensitivity = 0;
         private float startFreq = 88e6f, endFreq = 108e6f;
         private StationNameConflictMode stationNameConflictMode = StationNameConflictMode.SMART;
+        private long tuningDelay = 200;
 
         @Override
         public BcastFMDiscoveryService build() {
             return new BcastFMDiscoveryService(sdrParams, gain, rdsPort, probePort, ctlPort, controlProbeFrequency,
                     controlProbeLength, sensitivity, startFreq, endFreq, probeTimeout, rdsRecvTime,
-                    stationNameConflictMode, automaticStep, detectStereo, offsetTuning, verbose);
+                    stationNameConflictMode, automaticStep, detectStereo, offsetTuning, verbose, tuningDelay);
         }
 
         @ModuleArgument(argName = "disable-offset-tuning", description = "Disable offset tuning - always tune to the center of the signal")
@@ -142,6 +143,12 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             return this;
         }
 
+        @ModuleArgument(argName = "tuning-delay", description = "A delay (ms) between each tuning attempt. Higher values might help with detecting new stations, but they will make the scan take longer time", defaultField = "tuningDelay")
+        public Builder withTuningDelay(long delay) {
+            tuningDelay = delay;
+            return this;
+        }
+
     }
 
     public static enum StationNameConflictMode {
@@ -161,12 +168,13 @@ public class BcastFMDiscoveryService implements DiscoveryService {
     private final float startFreq, endFreq;
     private final StationNameConflictMode stationNameConflictMode;
     private Tuner tuner;
+    private final long tuningDelay;
     private final boolean verbose;
 
     private BcastFMDiscoveryService(String sdrParams, int gain, int rdsPort, int probePort, int ctlPort,
             float controlProbeFrequency, long controlProbeLength, double sensitivity, float startFreq, float endFreq,
             long probeTimeout, long rdsRecvTime, StationNameConflictMode stationNameConflictMode, boolean automaticStep,
-            boolean detectStereo, boolean offsetTuning, boolean verbose) {
+            boolean detectStereo, boolean offsetTuning, boolean verbose, long tuningDelay) {
         this.sdrParams = sdrParams;
         this.gain = gain;
         this.rdsPort = rdsPort;
@@ -184,6 +192,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         this.detectStereo = detectStereo;
         this.offsetTuning = offsetTuning;
         this.verbose = verbose;
+        this.tuningDelay = tuningDelay;
     }
 
     @Override
@@ -242,7 +251,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             throws InterruptedException, IOException {
         if (!process.isAlive()) throw new IOException("The received died");
         tuner.tune(controlProbeFrequency);
-        Thread.sleep(100);
+        Thread.sleep(tuningDelay);
         List<Double> measures = new ArrayList<>();
         MessageListener probeListener = new MessageListener() {
             @Override
@@ -260,7 +269,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             throws InterruptedException, IOException {
         if (!process.isAlive()) throw new IOException("The received died");
         tuner.tune(freq);
-        Thread.sleep(100);
+        Thread.sleep(tuningDelay);
         AtomicReference<Double> signalRef = new AtomicReference<>();
         MessageListener probeListener = new MessageListener() {
             @Override
