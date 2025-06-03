@@ -55,7 +55,7 @@
                         </goals>
                         <phase>compile</phase>
                         <configuration>
-                            <executable>echo</executable>
+                            <executable>grcc</executable>
                             <arguments>
                                 <argument>-o</argument>
                                 <argument>${project.basedir}/target/grc</argument>

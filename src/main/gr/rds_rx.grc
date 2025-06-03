@@ -370,7 +370,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    center_freq: freq
+    center_freq: freq_offset
     comment: ''
     decim: decimation
     maxoutbuf: '0'
