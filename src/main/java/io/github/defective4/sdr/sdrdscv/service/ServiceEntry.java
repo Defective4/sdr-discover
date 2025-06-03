@@ -1,18 +1,18 @@
-package io.github.defective4.sdr.sdrdscv.module;
+package io.github.defective4.sdr.sdrdscv.service;
 
 import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.apache.commons.cli.Option;
 
-import io.github.defective4.sdr.sdrdscv.service.DiscoveryServiceBuilder;
+import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryServiceBuilder;
 
-public class Module {
+public class ServiceEntry {
     private final Map<Option, Method> arguments;
     private final Class<? extends DiscoveryServiceBuilder> builderClass;
     private final String description;
 
-    public Module(Class<? extends DiscoveryServiceBuilder> builderClass, Map<Option, Method> arguments,
+    public ServiceEntry(Class<? extends DiscoveryServiceBuilder> builderClass, Map<Option, Method> arguments,
             String description) {
         this.builderClass = builderClass;
         this.arguments = arguments;

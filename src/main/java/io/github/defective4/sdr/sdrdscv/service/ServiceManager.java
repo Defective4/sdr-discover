@@ -1,4 +1,4 @@
-package io.github.defective4.sdr.sdrdscv.module;
+package io.github.defective4.sdr.sdrdscv.service;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -13,18 +13,18 @@ import org.apache.commons.cli.Option.Builder;
 import org.apache.commons.cli.Options;
 
 import io.github.defective4.sdr.sdrdscv.ParamConverters;
-import io.github.defective4.sdr.sdrdscv.service.BcastFMDiscoveryService;
-import io.github.defective4.sdr.sdrdscv.service.DiscoveryServiceBuilder;
+import io.github.defective4.sdr.sdrdscv.service.impl.BcastFMDiscoveryService;
+import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryServiceBuilder;
 
-public class ModuleManager {
-    private static final Map<String, Module> MODULES = new LinkedHashMap<>();
+public class ServiceManager {
+    private static final Map<String, ServiceEntry> SERVICES = new LinkedHashMap<>();
 
     static {
         try {
             String bcastFM = "bcastfm";
             Class<? extends DiscoveryServiceBuilder> bcastFMBuilder = BcastFMDiscoveryService.Builder.class;
             Map<Option, Method> bcastFMOptions = makeOptionMap(bcastFMBuilder, bcastFM);
-            MODULES.put(bcastFM, new Module(bcastFMBuilder, bcastFMOptions, "Broadcast FM"));
+            SERVICES.put(bcastFM, new ServiceEntry(bcastFMBuilder, bcastFMOptions, "Broadcast FM"));
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(67);
@@ -33,20 +33,20 @@ public class ModuleManager {
 
     public static Options getAllOptions() {
         Options ops = new Options();
-        for (String mod : MODULES.keySet()) {
+        for (String mod : SERVICES.keySet()) {
             Options sub = makeOptionsFor(mod);
             ops.addOptions(sub);
         }
         return ops;
     }
 
-    public static Map<String, Module> getModules() {
-        return Collections.unmodifiableMap(MODULES);
+    public static Map<String, ServiceEntry> getServices() {
+        return Collections.unmodifiableMap(SERVICES);
     }
 
-    public static Options makeOptionsFor(String module) {
-        if (!MODULES.containsKey(module)) return null;
-        Module mod = MODULES.get(module);
+    public static Options makeOptionsFor(String service) {
+        if (!SERVICES.containsKey(service)) return null;
+        ServiceEntry mod = SERVICES.get(service);
         Options ops = new Options();
         for (Option op : mod.getArguments().keySet()) {
             ops.addOption(op);
@@ -60,10 +60,10 @@ public class ModuleManager {
         try {
             builderInstance = clazz.getConstructor().newInstance();
         } catch (Throwable e) {}
-        for (Method method : clazz.getMethods()) if (method.isAnnotationPresent(ModuleArgument.class)) {
+        for (Method method : clazz.getMethods()) if (method.isAnnotationPresent(ServiceArgument.class)) {
             if (method.getParameterCount() > 1)
                 throw new IllegalStateException("Method " + method.getName() + " has more than one parameter.");
-            ModuleArgument arg = method.getAnnotation(ModuleArgument.class);
+            ServiceArgument arg = method.getAnnotation(ServiceArgument.class);
             String desc = arg.description();
             if (!desc.endsWith(".")) desc = desc + ".";
             if (!arg.defaultField().isEmpty() && builderInstance != null) try {

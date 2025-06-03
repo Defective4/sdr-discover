@@ -1,4 +1,4 @@
-package io.github.defective4.sdr.sdrdscv.module;
+package io.github.defective4.sdr.sdrdscv.service;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 @Retention(RUNTIME)
 @Target(METHOD)
-public @interface ModuleArgument {
+public @interface ServiceArgument {
     String argName();
 
     String defaultField() default "";

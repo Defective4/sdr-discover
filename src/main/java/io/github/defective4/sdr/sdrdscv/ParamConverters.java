@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.cli.Converter;
 
-import io.github.defective4.sdr.sdrdscv.service.BcastFMDiscoveryService;
+import io.github.defective4.sdr.sdrdscv.service.impl.BcastFMDiscoveryService;
 
 public class ParamConverters {
 

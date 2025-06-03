@@ -14,10 +14,10 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import io.github.defective4.sdr.sdrdscv.module.Module;
-import io.github.defective4.sdr.sdrdscv.module.ModuleManager;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
-import io.github.defective4.sdr.sdrdscv.service.DiscoveryServiceBuilder;
+import io.github.defective4.sdr.sdrdscv.service.ServiceEntry;
+import io.github.defective4.sdr.sdrdscv.service.ServiceManager;
+import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryServiceBuilder;
 
 public class Main {
     public static final String APP_NAME = "sdr-discover";
@@ -26,20 +26,20 @@ public class Main {
     static {
         rootOptions = new Options()
                 .addOption(Option
-                        .builder("A")
-                        .argName("module")
+                        .builder("S")
+                        .argName("service")
                         .hasArg()
-                        .desc("Add a discovery module")
-                        .longOpt("add-module")
+                        .desc("Add a discovery service")
+                        .longOpt("add-service")
                         .valueSeparator(',')
                         .build())
                 .addOption(Option.builder("h").desc("Show this help").longOpt("help").build())
                 .addOption(Option
                         .builder("H")
-                        .desc("Show help about a module, or don't provide an argument to show a list of modules")
-                        .longOpt("help-module")
+                        .desc("Show help about a service, or don't provide an argument to show a list of services")
+                        .longOpt("help-service")
                         .hasArg()
-                        .argName("module")
+                        .argName("service")
                         .optionalArg(true)
                         .build())
                 .addOption(Option.builder("v").desc("Be verbose").longOpt("verbose").build());
@@ -52,7 +52,7 @@ public class Main {
 
         Options allOptions = new Options();
         allOptions.addOptions(rootOptions);
-        allOptions.addOptions(ModuleManager.getAllOptions());
+        allOptions.addOptions(ServiceManager.getAllOptions());
 
         CommandLineParser parser = new DefaultParser();
 
@@ -69,7 +69,7 @@ public class Main {
         }
         if (cli.hasOption('H')) {
             String val = cli.getOptionValue('H');
-            if (val == null) printModules();
+            if (val == null) printServices();
             else printHelp(val);
             return;
         }
@@ -78,18 +78,18 @@ public class Main {
 
         if (cli.hasOption('A')) {
             List<RadioStation> stations = new ArrayList<>();
-            for (String moduleName : cli.getOptionValues('A')) {
-                Module module = ModuleManager.getModules().get(moduleName.toLowerCase());
-                if (module == null) {
-                    System.out.println("Module not found: " + moduleName);
-                    printModules();
+            for (String serviceName : cli.getOptionValues('A')) {
+                ServiceEntry service = ServiceManager.getServices().get(serviceName.toLowerCase());
+                if (service == null) {
+                    System.out.println("Service not found: " + serviceName);
+                    printServices();
                     return;
                 }
 
                 try {
-                    DiscoveryServiceBuilder builder = module.getBuilderClass().getConstructor().newInstance();
+                    DiscoveryServiceBuilder builder = service.getBuilderClass().getConstructor().newInstance();
                     if (verbose) builder.verbose();
-                    for (Entry<Option, Method> entry : module.getArguments().entrySet()) {
+                    for (Entry<Option, Method> entry : service.getArguments().entrySet()) {
                         Option key = entry.getKey();
                         if (cli.hasOption(key)) {
                             try {
@@ -111,34 +111,34 @@ public class Main {
             }
             System.out.println(stations);
         } else {
-            System.err.println("You must add at least one module");
+            System.err.println("You must add at least one service");
         }
     }
 
-    private static void printHelp(String module) {
+    private static void printHelp(String service) {
         Options ops;
         String cmdline = APP_NAME;
         String footer = null;
         String header = null;
-        if (module == null) {
+        if (service == null) {
             ops = rootOptions;
         } else {
-            ops = ModuleManager.makeOptionsFor(module);
+            ops = ServiceManager.makeOptionsFor(service);
             if (ops == null) {
-                System.out.println("Module not found: " + module);
-                printModules();
+                System.out.println("Service not found: " + service);
+                printServices();
                 return;
             }
-            cmdline += " -A " + module + " <options>";
+            cmdline += " -A " + service + " <options>";
             header = "Valid options are:";
         }
 
         new HelpFormatter().printHelp(128, cmdline, header, ops, footer);
     }
 
-    private static void printModules() {
-        System.out.println("List of available modules:");
-        for (Entry<String, Module> entry : ModuleManager.getModules().entrySet())
+    private static void printServices() {
+        System.out.println("List of available services:");
+        for (Entry<String, ServiceEntry> entry : ServiceManager.getServices().entrySet())
             System.out.println(" - " + entry.getKey() + " - " + entry.getValue().getDescription());
     }
 }
