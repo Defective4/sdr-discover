@@ -36,7 +36,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         private long rdsRecvTime = 10000;
         private String sdrParams = "";
         private double sensitivity = 0;
-        private float startFreq = 88e6f, endFreq = 108e6f;
+        private float startFreq = 87e6f, endFreq = 108e6f;
         private StationNameConflictMode stationNameConflictMode = StationNameConflictMode.SMART;
         private long tuningDelay = 200;
 
