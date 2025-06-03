@@ -26,7 +26,7 @@ import io.github.defective4.sdr.sdrdscv.tool.GRScriptRunner;
 
 public class BcastFMDiscoveryService implements DiscoveryService {
 
-    public static class Builder {
+    public static class Builder extends DiscoveryServiceBuilder {
         private boolean automaticStep = true, detectStereo = true;
         private float controlProbeFrequency = -1;
         private long controlProbeLength = 2500;
@@ -38,8 +38,8 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         private double sensitivity = 0;
         private float startFreq = 88e6f, endFreq = 108e6f;
         private StationNameConflictMode stationNameConflictMode = StationNameConflictMode.SMART;
-        private boolean verbose = false;
 
+        @Override
         public BcastFMDiscoveryService build() {
             return new BcastFMDiscoveryService(sdrParams, gain, rdsPort, probePort, ctlPort, controlProbeFrequency,
                     controlProbeLength, sensitivity, startFreq, endFreq, probeTimeout, rdsRecvTime,
@@ -49,12 +49,6 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         @ModuleArgument(argName = "offset-tuning", description = "Enable offset tuning")
         public Builder enableOffsetTuning() {
             offsetTuning = true;
-            return this;
-        }
-
-        // TODO
-        public Builder verbose() {
-            verbose = true;
             return this;
         }
 

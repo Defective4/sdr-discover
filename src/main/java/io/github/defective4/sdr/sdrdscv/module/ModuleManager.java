@@ -11,6 +11,7 @@ import org.apache.commons.cli.Option.Builder;
 import org.apache.commons.cli.Options;
 
 import io.github.defective4.sdr.sdrdscv.service.BcastFMDiscoveryService;
+import io.github.defective4.sdr.sdrdscv.service.DiscoveryServiceBuilder;
 
 public class ModuleManager {
     private static final Map<String, Module> MODULES = new LinkedHashMap<>();
@@ -18,9 +19,9 @@ public class ModuleManager {
     static {
         try {
             String bcastFM = "bcastfm";
-            Class<?> bcastFMBuilder = BcastFMDiscoveryService.Builder.class;
+            Class<? extends DiscoveryServiceBuilder> bcastFMBuilder = BcastFMDiscoveryService.Builder.class;
             Map<Option, Method> bcastFMOptions = makeOptionMap(bcastFMBuilder, bcastFM);
-            MODULES.put(bcastFM, new Module(bcastFMBuilder, bcastFMOptions, "Broadcast FM discovery service"));
+            MODULES.put(bcastFM, new Module(bcastFMBuilder, bcastFMOptions, "Broadcast FM"));
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(67);
