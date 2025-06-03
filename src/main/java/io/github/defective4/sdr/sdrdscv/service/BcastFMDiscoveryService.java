@@ -31,7 +31,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         private float controlProbeFrequency = -1;
         private long controlProbeLength = 2500;
         private int gain = 0, rdsPort = 25555, probePort = 25556, ctlPort = 25557;
-        private boolean offsetTuning = false;
+        private boolean offsetTuning = true;
         private long probeTimeout = 10000;
         private long rdsRecvTime = 10000;
         private String sdrParams = "";
@@ -46,9 +46,9 @@ public class BcastFMDiscoveryService implements DiscoveryService {
                     stationNameConflictMode, automaticStep, detectStereo, offsetTuning, verbose);
         }
 
-        @ModuleArgument(argName = "offset-tuning", description = "Enable offset tuning")
-        public Builder enableOffsetTuning() {
-            offsetTuning = true;
+        @ModuleArgument(argName = "disable-offset-tuning", description = "Disable offset tuning - always tune to the center of the signal")
+        public Builder disableOffsetTuning() {
+            offsetTuning = false;
             return this;
         }
 
