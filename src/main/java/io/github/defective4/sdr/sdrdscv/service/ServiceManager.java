@@ -24,7 +24,9 @@ public class ServiceManager {
             String bcastFM = "bcastfm";
             Class<? extends DiscoveryServiceBuilder> bcastFMBuilder = BcastFMDiscoveryService.Builder.class;
             Map<Option, Method> bcastFMOptions = makeOptionMap(bcastFMBuilder, bcastFM);
-            SERVICES.put(bcastFM, new ServiceEntry(bcastFMBuilder, bcastFMOptions, "Broadcast FM"));
+            SERVICES
+                    .put(bcastFM, new ServiceEntry(bcastFMBuilder, bcastFMOptions,
+                            "Discover Broadcast FM stations by scanning the band for RDS services."));
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(67);

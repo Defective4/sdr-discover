@@ -125,7 +125,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             return this;
         }
 
-        @ServiceArgument(defaultField = "sensitivty", argName = "sensitivity")
+        @ServiceArgument(defaultField = "sensitivty", argName = "sensitivity", description = "Manually specify receiver sensitivity. Values between 0 - 10 are recommended. Higher values mean lower sensitivity, and values > 10 turn the receiver practically deaf.")
         public Builder withSensitivity(double sensitivity) {
             this.sensitivity = sensitivity;
             return this;

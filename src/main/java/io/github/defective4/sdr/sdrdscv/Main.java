@@ -76,9 +76,9 @@ public class Main {
 
         boolean verbose = cli.hasOption('v');
 
-        if (cli.hasOption('A')) {
+        if (cli.hasOption('S')) {
             List<RadioStation> stations = new ArrayList<>();
-            for (String serviceName : cli.getOptionValues('A')) {
+            for (String serviceName : cli.getOptionValues('S')) {
                 ServiceEntry service = ServiceManager.getServices().get(serviceName.toLowerCase());
                 if (service == null) {
                     System.out.println("Service not found: " + serviceName);
