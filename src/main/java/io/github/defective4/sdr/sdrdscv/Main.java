@@ -2,6 +2,7 @@ package io.github.defective4.sdr.sdrdscv;
 
 import java.util.Arrays;
 import java.util.Map.Entry;
+import java.util.Scanner;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -39,15 +40,25 @@ public class Main {
                 .addOption(Option.builder("v").desc("Be verbose").longOpt("verbose").build());
     }
 
-    public static void main(String[] a) throws ParseException {
-        String[] args = {
-                "-H"
-        };
+    @SuppressWarnings("resource")
+    public static void main(String[] a) {
+        System.err.print("> ");
+        String[] args = new Scanner(System.in).nextLine().split(" ");
+
+        Options allOptions = new Options();
+        allOptions.addOptions(rootOptions);
+        allOptions.addOptions(ModuleManager.getAllOptions());
 
         CommandLineParser parser = new DefaultParser();
 
-        CommandLine cli = parser.parse(rootOptions, args, true);
-        if (cli.hasOption('h')) {
+        CommandLine cli;
+        try {
+            cli = parser.parse(allOptions, args);
+        } catch (ParseException e) {
+            new HelpFormatter().printHelp(APP_NAME, null, rootOptions, "\n" + e.getMessage());
+            return;
+        }
+        if (cli.getOptions().length == 0 || cli.hasOption('h')) {
             printHelp(null);
             return;
         }
@@ -75,12 +86,12 @@ public class Main {
         } else {
             ops = ModuleManager.makeOptionsFor(module);
             if (ops == null) {
-                footer = "\nModule not found: " + module;
-                ops = rootOptions;
-            } else {
-                cmdline += " -A " + module + " <options>";
-                header = "Valid options are:";
+                System.out.println("Module not found: " + module);
+                printModules();
+                return;
             }
+            cmdline += " -A " + module + " <options>";
+            header = "Valid options are:";
         }
 
         new HelpFormatter().printHelp(128, cmdline, header, ops, footer);

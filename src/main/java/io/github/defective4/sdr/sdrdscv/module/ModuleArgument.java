@@ -11,5 +11,7 @@ import java.lang.annotation.Target;
 public @interface ModuleArgument {
     String argName();
 
+    String defaultField() default "";
+
     String description() default "";
 }

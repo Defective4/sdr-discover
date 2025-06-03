@@ -58,13 +58,13 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             return this;
         }
 
-        @ModuleArgument(argName = "control-port", description = "Control port for GNU Radio communication")
+        @ModuleArgument(argName = "control-port", description = "Control port for GNU Radio communication", defaultField = "ctlPort")
         public Builder withControlPort(int ctlPort) {
             this.ctlPort = ctlPort;
             return this;
         }
 
-        @ModuleArgument(argName = "control-probe-duration", description = "How long (ms) should a control probe last? Only used if control-probe-freq is set")
+        @ModuleArgument(defaultField = "controlProbeLength", argName = "control-probe-duration", description = "How long (ms) should a control probe last? Only used if control-probe-freq is set")
         public Builder withControlProbeDuration(long controlProbeDuration) {
             controlProbeLength = controlProbeDuration;
             return this;
@@ -76,13 +76,13 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             return this;
         }
 
-        @ModuleArgument(argName = "end-frequency", description = "Maximum scanning frequency")
+        @ModuleArgument(defaultField = "endFreq", argName = "end-frequency", description = "Maximum scanning frequency")
         public Builder withEndFrequency(float endFreq) {
             this.endFreq = endFreq;
             return this;
         }
 
-        @ModuleArgument(argName = "gain", description = "RF Gain")
+        @ModuleArgument(defaultField = "gain", argName = "gain", description = "RF Gain")
         public Builder withGain(int gain) {
             this.gain = gain;
             return this;
@@ -100,25 +100,25 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             return this;
         }
 
-        @ModuleArgument(argName = "probe-port", description = "Probe port for GNU Radio communication")
+        @ModuleArgument(defaultField = "probePort", argName = "probe-port", description = "Probe port for GNU Radio communication")
         public Builder withProbePort(int probePort) {
             this.probePort = probePort;
             return this;
         }
 
-        @ModuleArgument(argName = "probe-timeout", description = "How long (ms) should we wait for a signal probe?")
+        @ModuleArgument(defaultField = "probeInterval", argName = "probe-timeout", description = "How long (ms) should we wait for a signal probe?")
         public Builder withProbeTimeout(long probeTimeout) {
             this.probeTimeout = probeTimeout;
             return this;
         }
 
-        @ModuleArgument(argName = "rds-port", description = "RDS port for GNU Radio communication")
+        @ModuleArgument(defaultField = "rdsPort", argName = "rds-port", description = "RDS port for GNU Radio communication")
         public Builder withRDSPort(int rdsPort) {
             this.rdsPort = rdsPort;
             return this;
         }
 
-        @ModuleArgument(argName = "rds-receive-time", description = "How long (ms) should we wait for RDS data. Longer values may improve the quality of detected data, but will make discovery take a significantly longer amount of time")
+        @ModuleArgument(defaultField = "rdsRecvTime", argName = "rds-receive-time", description = "How long (ms) should we wait for RDS data. Longer values may improve the quality of detected data, but will make discovery take a significantly longer amount of time")
         public Builder withRDSReceiveTime(long rdsRecvTime) {
             this.rdsRecvTime = rdsRecvTime;
             return this;
@@ -130,19 +130,19 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             return this;
         }
 
-        @ModuleArgument(argName = "sensitivity")
+        @ModuleArgument(defaultField = "sensitivty", argName = "sensitivity")
         public Builder withSensitivity(double sensitivity) {
             this.sensitivity = sensitivity;
             return this;
         }
 
-        @ModuleArgument(argName = "start-frequency", description = "Scan start frequency")
+        @ModuleArgument(defaultField = "startFreq", argName = "start-frequency", description = "Scan start frequency")
         public Builder withStartFrequency(float startFreq) {
             this.startFreq = startFreq;
             return this;
         }
 
-        @ModuleArgument(argName = "station-name-conflict-mode", description = "How to resolve name conflicts? \"Smart\" will try to detect the most commonly transmitted station name. \"Merge\" will remove duplicates and merge all received station names into one.")
+        @ModuleArgument(defaultField = "stationNameConflictMode", argName = "station-name-conflict-mode", description = "How to resolve name conflicts? \"Smart\" will try to detect the most commonly transmitted station name. \"Merge\" will remove duplicates and merge all received station names into one.")
         public Builder withStationNameConflictMode(StationNameConflictMode stationNameConflictMode) {
             this.stationNameConflictMode = stationNameConflictMode;
             return this;
