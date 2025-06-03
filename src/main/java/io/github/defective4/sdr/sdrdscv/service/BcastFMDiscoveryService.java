@@ -64,7 +64,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             return this;
         }
 
-        @ModuleArgument(argName = "control-probe-freq", description = "Control probe frequency (Hz). If this option is enabled, the discovery service will first probe signal on the specified frequency, then use it as a reference point to detect other stations. It's recommended to set this option to frequency of the weakest radio station in your area")
+        @ModuleArgument(argName = "control-probe-frequency", description = "Control probe frequency (Hz). If this option is enabled, the discovery service will first probe signal on the specified frequency, then use it as a reference point to detect other stations. It's recommended to set this option to frequency of the weakest radio station in your area")
         public Builder withControlProbeFrequency(float controlProbeFrequency) {
             this.controlProbeFrequency = controlProbeFrequency;
             return this;
@@ -141,6 +141,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             this.stationNameConflictMode = stationNameConflictMode;
             return this;
         }
+
     }
 
     public static enum StationNameConflictMode {

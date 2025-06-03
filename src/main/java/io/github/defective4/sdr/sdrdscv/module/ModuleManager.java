@@ -2,14 +2,17 @@ package io.github.defective4.sdr.sdrdscv.module;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.cli.Converter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Option.Builder;
 import org.apache.commons.cli.Options;
 
+import io.github.defective4.sdr.sdrdscv.ParamConverters;
 import io.github.defective4.sdr.sdrdscv.service.BcastFMDiscoveryService;
 import io.github.defective4.sdr.sdrdscv.service.DiscoveryServiceBuilder;
 
@@ -73,7 +76,11 @@ public class ModuleManager {
             } catch (Throwable e) {}
             Builder opt = Option.builder().longOpt(prefix + "-" + arg.argName()).desc(desc);
             if (method.getParameterCount() == 1) {
-                opt.hasArg().argName(method.getParameters()[0].getName());
+                Parameter param = method.getParameters()[0];
+                Converter<?, Throwable> converter = ParamConverters.getConverter(param.getType());
+                if (converter == null) throw new IllegalStateException(
+                        "Couldn't find a converter for param type " + param.getType().getName());
+                opt.hasArg().argName(param.getName()).converter(converter);
             }
             ops.put(opt.build(), method);
         }

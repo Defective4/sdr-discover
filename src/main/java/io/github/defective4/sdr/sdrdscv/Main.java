@@ -1,6 +1,6 @@
 package io.github.defective4.sdr.sdrdscv;
 
-import java.util.Arrays;
+import java.lang.reflect.Method;
 import java.util.Map.Entry;
 import java.util.Scanner;
 
@@ -14,6 +14,7 @@ import org.apache.commons.cli.ParseException;
 
 import io.github.defective4.sdr.sdrdscv.module.Module;
 import io.github.defective4.sdr.sdrdscv.module.ModuleManager;
+import io.github.defective4.sdr.sdrdscv.service.DiscoveryServiceBuilder;
 
 public class Main {
     public static final String APP_NAME = "sdr-discover";
@@ -27,6 +28,7 @@ public class Main {
                         .hasArg()
                         .desc("Add a discovery module")
                         .longOpt("add-module")
+                        .valueSeparator(',')
                         .build())
                 .addOption(Option.builder("h").desc("Show this help").longOpt("help").build())
                 .addOption(Option
@@ -70,7 +72,35 @@ public class Main {
         }
 
         if (cli.hasOption('A')) {
-            System.out.println(Arrays.toString(cli.getOptionValues('A')));
+            for (String moduleName : cli.getOptionValues('A')) {
+                Module module = ModuleManager.getModules().get(moduleName.toLowerCase());
+                if (module == null) {
+                    System.out.println("Module not found: " + moduleName);
+                    printModules();
+                    return;
+                }
+
+                try {
+                    DiscoveryServiceBuilder builder = module.getBuilderClass().getConstructor().newInstance();
+                    for (Entry<Option, Method> entry : module.getArguments().entrySet()) {
+                        Option key = entry.getKey();
+                        if (cli.hasOption(key)) {
+                            try {
+                                Object value = cli.getParsedOptionValue(key);
+                                if (value == null) entry.getValue().invoke(builder);
+                                else entry.getValue().invoke(builder, value);
+                            } catch (ParseException e) {
+                                System.err
+                                        .println(String
+                                                .format("Invalid value \"%s\" for option %s", cli.getOptionValue(key),
+                                                        key.getKey()));
+                            }
+                        }
+                    }
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+            }
         } else {
             System.err.println("You must add at least one module");
         }
