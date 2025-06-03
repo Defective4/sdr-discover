@@ -231,6 +231,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
                 if (station != null) {
                     System.err.println("Detected a new station \"" + station.getName() + "\" on " + freq + "Hz");
                     if (automaticStep) freq += 100e3f;
+                    stations.add(station);
                 }
             }
             return Collections.unmodifiableList(stations);
