@@ -29,20 +29,20 @@ public class Main {
                         .builder("S")
                         .argName("service")
                         .hasArg()
-                        .desc("Add a discovery service")
+                        .desc("Add a discovery service.")
                         .longOpt("add-service")
                         .valueSeparator(',')
                         .build())
-                .addOption(Option.builder("h").desc("Show this help").longOpt("help").build())
+                .addOption(Option.builder("h").desc("Show this help.").longOpt("help").build())
                 .addOption(Option
                         .builder("H")
-                        .desc("Show help about a service, or don't provide an argument to show a list of services")
+                        .desc("Show help about a service, or don't provide an argument to show a list of services.")
                         .longOpt("help-service")
                         .hasArg()
                         .argName("service")
                         .optionalArg(true)
                         .build())
-                .addOption(Option.builder("v").desc("Be verbose").longOpt("verbose").build());
+                .addOption(Option.builder("v").desc("Be verbose.").longOpt("verbose").build());
     }
 
     @SuppressWarnings("resource")
@@ -60,7 +60,7 @@ public class Main {
         try {
             cli = parser.parse(allOptions, args);
         } catch (ParseException e) {
-            new HelpFormatter().printHelp(APP_NAME, null, rootOptions, "\n" + e.getMessage());
+            printHelp(e.getMessage());
             return;
         }
         if (cli.getOptions().length == 0 || cli.hasOption('h')) {
@@ -69,8 +69,7 @@ public class Main {
         }
         if (cli.hasOption('H')) {
             String val = cli.getOptionValue('H');
-            if (val == null) printServices();
-            else printHelp(val);
+            printServiceHelp(val);
             return;
         }
 
@@ -82,7 +81,6 @@ public class Main {
                 ServiceEntry service = ServiceManager.getServices().get(serviceName.toLowerCase());
                 if (service == null) {
                     System.out.println("Service not found: " + serviceName);
-                    printServices();
                     return;
                 }
 
@@ -115,30 +113,34 @@ public class Main {
         }
     }
 
-    private static void printHelp(String service) {
-        Options ops;
-        String cmdline = APP_NAME;
-        String footer = null;
-        String header = null;
-        if (service == null) {
-            ops = rootOptions;
-        } else {
-            ops = ServiceManager.makeOptionsFor(service);
-            if (ops == null) {
-                System.out.println("Service not found: " + service);
-                printServices();
-                return;
-            }
-            cmdline += " -A " + service + " <options>";
-            header = "Valid options are:";
+    private static String createServicesString() {
+        StringBuilder builder = new StringBuilder();
+        for (Entry<String, ServiceEntry> entry : ServiceManager.getServices().entrySet()) {
+            builder.append(String.format(" - %s - %s\n", entry.getKey(), entry.getValue().getDescription()));
         }
-
-        new HelpFormatter().printHelp(128, cmdline, header, ops, footer);
+        return builder.toString();
     }
 
-    private static void printServices() {
-        System.out.println("List of available services:");
-        for (Entry<String, ServiceEntry> entry : ServiceManager.getServices().entrySet())
-            System.out.println(" - " + entry.getKey() + " - " + entry.getValue().getDescription());
+    private static void printHelp(String message) {
+        new HelpFormatter()
+                .printHelp(APP_NAME + " [options] [output]", null, rootOptions,
+                        message == null ? "\nAvailable services:\n" + createServicesString() : "\n" + message);
+    }
+
+    private static void printServiceHelp(String service) {
+        Options ops = new Options();
+        if (service == null) {
+            ops.addOptions(ServiceManager.getAllOptions());
+        } else {
+            ServiceEntry svc = ServiceManager.getServices().get(service);
+            if (svc == null) {
+                System.err.println("Service not found: " + service);
+                return;
+            }
+            for (Option op : svc.getArguments().keySet()) ops.addOption(op);
+        }
+        new HelpFormatter()
+                .printHelp(128, APP_NAME + " -S " + (service == null ? "<service>" : service) + " [options] [output]",
+                        null, ops, null);
     }
 }
