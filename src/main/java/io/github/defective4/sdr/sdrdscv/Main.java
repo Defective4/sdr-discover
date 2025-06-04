@@ -14,6 +14,8 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import io.github.defective4.sdr.sdrdscv.io.writer.WriterRegistry;
+import io.github.defective4.sdr.sdrdscv.io.writer.WriterRegistry.WriterEntry;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 import io.github.defective4.sdr.sdrdscv.service.ServiceEntry;
 import io.github.defective4.sdr.sdrdscv.service.ServiceManager;
@@ -113,6 +115,14 @@ public class Main {
         }
     }
 
+    private static String createOutputsString() {
+        StringBuilder builder = new StringBuilder();
+        for (Entry<String, WriterEntry> entry : WriterRegistry.getWriters().entrySet()) {
+            builder.append(String.format(" - %s - %s\n", entry.getKey(), entry.getValue().getDescription()));
+        }
+        return builder.toString();
+    }
+
     private static String createServicesString() {
         StringBuilder builder = new StringBuilder();
         for (Entry<String, ServiceEntry> entry : ServiceManager.getServices().entrySet()) {
@@ -124,7 +134,10 @@ public class Main {
     private static void printHelp(String message) {
         new HelpFormatter()
                 .printHelp(APP_NAME + " [options] [output]", null, rootOptions,
-                        message == null ? "\nAvailable services:\n" + createServicesString() : "\n" + message);
+                        message == null
+                                ? "\nAvailable services:\n" + createServicesString() + "\nAvailable outputs:\n"
+                                        + createOutputsString()
+                                : "\n" + message);
     }
 
     private static void printServiceHelp(String service) {
