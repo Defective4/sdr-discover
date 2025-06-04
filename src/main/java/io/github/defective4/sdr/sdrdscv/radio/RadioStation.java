@@ -2,7 +2,36 @@ package io.github.defective4.sdr.sdrdscv.radio;
 
 public class RadioStation {
     public static enum Modulation {
-        WFM, WFM_STEREO
+        WFM(160e3f, "WFM (mono)", 1, "wfm"), WFM_STEREO(160e3f, "WFM (stereo)", 1, "wfm");
+
+        private final float bandwidth;
+        private final String gqrxMod;
+        private final String owrxMod;
+        private final int sdrppMod;
+
+        private Modulation(float bandwidth, String gqrxMod, int sdrppMod, String owrxMod) {
+            this.bandwidth = bandwidth;
+            this.gqrxMod = gqrxMod;
+            this.sdrppMod = sdrppMod;
+            this.owrxMod = owrxMod;
+        }
+
+        public float getBandwidth() {
+            return bandwidth;
+        }
+
+        public String getGqrxMod() {
+            return gqrxMod;
+        }
+
+        public String getOwrxMod() {
+            return owrxMod;
+        }
+
+        public int getSdrppMod() {
+            return sdrppMod;
+        }
+
     }
 
     private final float frequency;
