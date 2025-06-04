@@ -10,7 +10,8 @@ public class CSVBookmarkWriter implements BookmarkWriter {
 
     private final char separator;
 
-    public CSVBookmarkWriter(char separator) {
+    public CSVBookmarkWriter(
+            @WriterParam(argName = "separator", defaultValue = ",", description = "A character used to separate values in the resulting CSV file.") char separator) {
         this.separator = separator;
     }
 

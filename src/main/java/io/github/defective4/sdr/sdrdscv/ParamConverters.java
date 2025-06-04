@@ -1,5 +1,6 @@
 package io.github.defective4.sdr.sdrdscv;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,9 +15,10 @@ public class ParamConverters {
     static {
         CONVERTERS
                 .putAll(Map
-                        .of(int.class, Integer::parseInt, long.class, Long::parseLong, float.class, Float::parseFloat,
-                                boolean.class, Boolean::parseBoolean, String.class, str -> str, double.class,
-                                Double::parseDouble, BcastFMDiscoveryService.StationNameConflictMode.class,
+                        .of(Color.class, Color::decode, char.class, str -> str.charAt(0), int.class, Integer::parseInt,
+                                long.class, Long::parseLong, float.class, Float::parseFloat, boolean.class,
+                                Boolean::parseBoolean, String.class, str -> str, double.class, Double::parseDouble,
+                                BcastFMDiscoveryService.StationNameConflictMode.class,
                                 str -> BcastFMDiscoveryService.StationNameConflictMode.valueOf(str.toUpperCase())));
     }
 

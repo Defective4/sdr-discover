@@ -14,8 +14,8 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import io.github.defective4.sdr.sdrdscv.io.writer.WriterRegistry;
-import io.github.defective4.sdr.sdrdscv.io.writer.WriterRegistry.WriterEntry;
+import io.github.defective4.sdr.sdrdscv.io.writer.BookmarkWriterRegistry;
+import io.github.defective4.sdr.sdrdscv.io.writer.BookmarkWriterRegistry.WriterEntry;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 import io.github.defective4.sdr.sdrdscv.service.ServiceEntry;
 import io.github.defective4.sdr.sdrdscv.service.ServiceManager;
@@ -38,10 +38,18 @@ public class Main {
                 .addOption(Option.builder("h").desc("Show this help.").longOpt("help").build())
                 .addOption(Option
                         .builder("H")
-                        .desc("Show help about a service, or don't provide an argument to show a list of services.")
+                        .desc("Show help about a service, or don't provide an argument to show help for all services.")
                         .longOpt("help-service")
                         .hasArg()
                         .argName("service")
+                        .optionalArg(true)
+                        .build())
+                .addOption(Option
+                        .builder()
+                        .desc("Show help about an output format, or don't probide an argument to show help for all output formats")
+                        .longOpt("help-output")
+                        .hasArg()
+                        .argName("output")
                         .optionalArg(true)
                         .build())
                 .addOption(Option.builder("v").desc("Be verbose.").longOpt("verbose").build());
@@ -72,6 +80,11 @@ public class Main {
         if (cli.hasOption('H')) {
             String val = cli.getOptionValue('H');
             printServiceHelp(val);
+            return;
+        }
+        if (cli.hasOption("--help-output")) {
+            String val = cli.getOptionValue("--help-output");
+            printOutputHelp(val);
             return;
         }
 
@@ -117,7 +130,7 @@ public class Main {
 
     private static String createOutputsString() {
         StringBuilder builder = new StringBuilder();
-        for (Entry<String, WriterEntry> entry : WriterRegistry.getWriters().entrySet()) {
+        for (Entry<String, WriterEntry> entry : BookmarkWriterRegistry.getWriters().entrySet()) {
             builder.append(String.format(" - %s - %s\n", entry.getKey(), entry.getValue().getDescription()));
         }
         return builder.toString();
@@ -138,6 +151,23 @@ public class Main {
                                 ? "\nAvailable services:\n" + createServicesString() + "\nAvailable outputs:\n"
                                         + createOutputsString()
                                 : "\n" + message);
+    }
+
+    private static void printOutputHelp(String output) {
+        Options ops = new Options();
+        if (output == null) {
+            // TODO
+        } else {
+            WriterEntry entry = BookmarkWriterRegistry.getWriterForID(output);
+            if (entry == null) {
+                System.err.println("Output format not found: " + output);
+                return;
+            }
+            ops.addOptions(BookmarkWriterRegistry.constructOptions(output, entry));
+        }
+        new HelpFormatter()
+                .printHelp(128, APP_NAME + " -O " + (output == null ? "<format>" : output) + " [output]", null, ops,
+                        null);
     }
 
     private static void printServiceHelp(String service) {

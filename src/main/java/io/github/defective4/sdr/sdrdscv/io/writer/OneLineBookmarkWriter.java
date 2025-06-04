@@ -10,7 +10,10 @@ public class OneLineBookmarkWriter implements BookmarkWriter {
 
     private final String format;
 
-    public OneLineBookmarkWriter(String format) {
+    public OneLineBookmarkWriter(
+            @WriterParam(argName = "format", defaultValue = "%s1 %s2Hz %s3 (%s4)", description = "Format of each line.\n"
+                    + "$s1 - Station name\n" + "$s2 - Frequuuency\n" + "%s3 - Modulation\n"
+                    + "%s4 - Description\n") String format) {
         this.format = format;
     }
 

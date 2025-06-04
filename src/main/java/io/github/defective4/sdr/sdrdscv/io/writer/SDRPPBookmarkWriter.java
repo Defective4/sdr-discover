@@ -14,7 +14,9 @@ public class SDRPPBookmarkWriter implements BookmarkWriter {
     private final Gson gson;
     private final String listName;
 
-    public SDRPPBookmarkWriter(String listName, boolean prettyPrint) {
+    public SDRPPBookmarkWriter(
+            @WriterParam(argName = "list-name", defaultValue = "Discovered", description = "Sets name of the list containing detected stations.") String listName,
+            @WriterParam(argName = "disable-pretty-print", defaultValue = "true", description = "Disables pretty printing of the resulting JSON, saving space.") boolean prettyPrint) {
         this.listName = listName;
         GsonBuilder builder = new GsonBuilder();
         if (prettyPrint) builder = builder.setPrettyPrinting();

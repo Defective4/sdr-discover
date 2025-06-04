@@ -12,7 +12,9 @@ public class GqrxBookmarkWriter implements BookmarkWriter {
     private final Color tagColor;
     private final String tagName;
 
-    public GqrxBookmarkWriter(String tagName, Color tagColor) {
+    public GqrxBookmarkWriter(
+            @WriterParam(argName = "tag-name", defaultValue = "Discovered", description = "Assigns a tag name to all detected stations.") String tagName,
+            @WriterParam(argName = "tag-color", defaultValue = "#ffffff", description = "Defines the color used for all detected stations.") Color tagColor) {
         this.tagName = tagName;
         this.tagColor = tagColor;
     }

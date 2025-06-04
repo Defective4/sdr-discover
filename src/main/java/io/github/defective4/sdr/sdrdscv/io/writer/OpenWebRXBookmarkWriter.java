@@ -15,7 +15,10 @@ public class OpenWebRXBookmarkWriter implements BookmarkWriter {
     private final Gson gson;
     private final boolean includeDescription, scannable;
 
-    public OpenWebRXBookmarkWriter(boolean includeDescription, boolean scannable, boolean prettyPrint) {
+    public OpenWebRXBookmarkWriter(
+            @WriterParam(argName = "include-description", defaultValue = "false", description = "If enabled, includes additional received info (for example radiotext) as stations' descriptions.") boolean includeDescription,
+            @WriterParam(argName = "scannable", defaultValue = "false", description = "Marks all detected stations as scannable.") boolean scannable,
+            @WriterParam(argName = "disable-pretty-print", defaultValue = "true", description = "Disables pretty printing of the resulting JSON, saving space.") boolean prettyPrint) {
         this.includeDescription = includeDescription;
         this.scannable = scannable;
         GsonBuilder builder = new GsonBuilder();
