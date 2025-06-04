@@ -1,12 +1,12 @@
 package io.github.defective4.sdr.sdrdscv.service.impl;
 
-public abstract class DiscoveryServiceBuilder {
+public abstract class DiscoveryServiceBuilder<T extends DiscoveryService> {
 
     protected boolean verbose;
 
-    public abstract DiscoveryService build();
+    public abstract T build();
 
-    public DiscoveryServiceBuilder verbose() {
+    public DiscoveryServiceBuilder<T> verbose() {
         verbose = true;
         return this;
     }

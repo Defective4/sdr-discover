@@ -87,7 +87,7 @@ public class Main {
                 }
 
                 try {
-                    DiscoveryServiceBuilder builder = service.getBuilderClass().getConstructor().newInstance();
+                    DiscoveryServiceBuilder<?> builder = service.getBuilderClass().getConstructor().newInstance();
                     if (verbose) builder.verbose();
                     for (Entry<Option, Method> entry : service.getArguments().entrySet()) {
                         Option key = entry.getKey();

@@ -22,7 +22,7 @@ public class ServiceManager {
     static {
         try {
             String bcastFM = "bcastfm";
-            Class<? extends DiscoveryServiceBuilder> bcastFMBuilder = BcastFMDiscoveryService.Builder.class;
+            Class<? extends DiscoveryServiceBuilder<?>> bcastFMBuilder = BcastFMDiscoveryService.Builder.class;
             Map<Option, Method> bcastFMOptions = makeOptionMap(bcastFMBuilder, bcastFM);
             SERVICES
                     .put(bcastFM, new ServiceEntry(bcastFMBuilder, bcastFMOptions,

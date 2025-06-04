@@ -9,10 +9,10 @@ import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryServiceBuilder;
 
 public class ServiceEntry {
     private final Map<Option, Method> arguments;
-    private final Class<? extends DiscoveryServiceBuilder> builderClass;
+    private final Class<? extends DiscoveryServiceBuilder<?>> builderClass;
     private final String description;
 
-    public ServiceEntry(Class<? extends DiscoveryServiceBuilder> builderClass, Map<Option, Method> arguments,
+    public ServiceEntry(Class<? extends DiscoveryServiceBuilder<?>> builderClass, Map<Option, Method> arguments,
             String description) {
         this.builderClass = builderClass;
         this.arguments = arguments;
@@ -23,7 +23,7 @@ public class ServiceEntry {
         return arguments;
     }
 
-    public Class<? extends DiscoveryServiceBuilder> getBuilderClass() {
+    public Class<? extends DiscoveryServiceBuilder<?>> getBuilderClass() {
         return builderClass;
     }
 

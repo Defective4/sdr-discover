@@ -26,7 +26,7 @@ import io.github.defective4.sdr.sdrdscv.tool.GRScriptRunner;
 
 public class BcastFMDiscoveryService implements DiscoveryService {
 
-    public static class Builder extends DiscoveryServiceBuilder {
+    public static class Builder extends DiscoveryServiceBuilder<BcastFMDiscoveryService> {
         private boolean automaticStep = true, detectStereo = true;
         private float controlProbeFrequency = -1;
         private long controlProbeLength = 2500;
