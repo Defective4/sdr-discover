@@ -7,12 +7,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation.Modulation;
@@ -66,11 +70,23 @@ public class JSONDiscoveryService implements DiscoveryService {
             for (JsonElement child : array) {
                 if (child instanceof JsonObject obj) {
                     try {
+                        Map<String, Object> metadata = new HashMap<>();
                         String name = obj.get("name").getAsString();
                         Modulation mod = Modulation.valueOf(obj.get("modulation").getAsString().toUpperCase());
-                        String description = obj.has("description") ? obj.get("description").getAsString() : null;
                         float frequency = obj.get("frequency").getAsFloat();
-                        stations.add(new RadioStation(name, description, frequency, mod));
+                        if (obj.has("metadata")) {
+                            JsonObject metaObj = obj.getAsJsonObject("metadata");
+                            for (Entry<String, JsonElement> entry : metaObj.entrySet())
+                                if (entry.getValue() instanceof JsonPrimitive primitive) {
+                                    Object value;
+                                    if (primitive.isBoolean()) value = primitive.getAsBoolean();
+                                    else if (primitive.isNumber()) value = primitive.getAsInt();
+                                    else if (primitive.isString()) value = primitive.getAsString();
+                                    else continue;
+                                    metadata.put(entry.getKey(), value);
+                                }
+                        }
+                        stations.add(new RadioStation(name, frequency, mod, metadata));
                     } catch (Exception e) {
                         if (!dropInvalidEntries) throw e;
                         System.err.println("Dropped an entry: " + e.getMessage());

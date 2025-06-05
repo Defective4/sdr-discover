@@ -22,6 +22,7 @@ public class OneLineBookmarkWriter implements BookmarkWriter {
         for (RadioStation station : stations) output
                 .write(String
                         .format(format + "\n", station.getName(), (long) station.getFrequency(),
-                                station.getModulation(), station.getDescription()));
+                                station.getModulation(),
+                                station.getMetadataValue(RadioStation.METADATA_DESCRIPTION, "")));
     }
 }

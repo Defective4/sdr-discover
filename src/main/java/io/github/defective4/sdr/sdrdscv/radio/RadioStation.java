@@ -1,5 +1,9 @@
 package io.github.defective4.sdr.sdrdscv.radio;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class RadioStation {
     public static enum Modulation {
         WFM(160e3f, "WFM (mono)", 1, "wfm"), WFM_STEREO(160e3f, "WFM (stereo)", 1, "wfm");
@@ -34,23 +38,52 @@ public class RadioStation {
 
     }
 
-    private final float frequency;
-    private final Modulation modulation;
-    private final String name, description;
+    public static final String METADATA_DESCRIPTION = "description";
 
-    public RadioStation(String name, String description, float frequency, Modulation modulation) {
-        this.name = name;
-        this.description = description;
-        this.frequency = frequency;
-        this.modulation = modulation;
+    private final float frequency;
+    private final Map<String, Object> metadata = new HashMap<>();
+    private final Modulation modulation;
+    private final String name;
+
+    public RadioStation(String name, float frequency, Modulation modulation) {
+        this(name, frequency, modulation, null);
     }
 
-    public String getDescription() {
-        return description;
+    public RadioStation(String name, float frequency, Modulation modulation, Map<String, Object> metadata) {
+        this.name = name;
+        this.frequency = frequency;
+        this.modulation = modulation;
+        if (metadata != null) this.metadata.putAll(metadata);
     }
 
     public float getFrequency() {
         return frequency;
+    }
+
+    public Map<String, Object> getMetadata() {
+        return Collections.unmodifiableMap(metadata);
+    }
+
+    public Object getMetadataValue(String key) {
+        return metadata.get(key);
+    }
+
+    public <T> T getMetadataValue(String key, Class<?> type) {
+        Object val = metadata.get(key);
+        if (val == null) return null;
+        if (!type.isInstance(val)) throw new ClassCastException(val + " is not an instance of " + type);
+        return (T) val;
+    }
+
+    public <T> T getMetadataValue(String key, Class<?> type, T def) {
+        Object val = metadata.getOrDefault(key, def);
+        if (val == null) return null;
+        if (!type.isInstance(val)) throw new ClassCastException(val + " is not an instance of " + type);
+        return (T) val;
+    }
+
+    public Object getMetadataValue(String key, Object def) {
+        return metadata.getOrDefault(key, def);
     }
 
     public Modulation getModulation() {
@@ -63,8 +96,8 @@ public class RadioStation {
 
     @Override
     public String toString() {
-        return "RadioStation [name=" + name + ", description=" + description + ", frequency=" + frequency
-                + ", modulation=" + modulation + "]";
+        return "RadioStation [frequency=" + frequency + ", metadata=" + metadata + ", modulation=" + modulation
+                + ", name=" + name + "]";
     }
 
 }

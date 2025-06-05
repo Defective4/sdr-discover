@@ -22,7 +22,8 @@ public class CSVBookmarkWriter implements BookmarkWriter {
             output
                     .write(String
                             .format("%s, %s, %s, %s\n".replace(',', separator), station.getName(),
-                                    (int) station.getFrequency(), station.getModulation(), station.getDescription()));
+                                    (int) station.getFrequency(), station.getModulation(),
+                                    station.getMetadataValue(RadioStation.METADATA_DESCRIPTION, "")));
         }
     }
 

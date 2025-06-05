@@ -37,7 +37,9 @@ public class OpenWebRXBookmarkWriter implements BookmarkWriter {
             obj.addProperty("underlying", "");
             obj
                     .addProperty("description",
-                            includeDescription ? station.getDescription() == null ? "" : station.getDescription() : "");
+                            includeDescription
+                                    ? station.getMetadataValue(RadioStation.METADATA_DESCRIPTION, String.class, "")
+                                    : "");
             obj.addProperty("scannable", scannable);
             array.add(obj);
         }
