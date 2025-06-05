@@ -63,6 +63,13 @@ public class BookmarkWriterRegistry {
                                         "Outputs a JSON file compatible with SDR++'s frequency manager.")));
     }
 
+    public static Options constructOptions() {
+        Options ops = new Options();
+        for (Entry<String, WriterEntry> entry : WRITERS.entrySet())
+            ops.addOptions(constructOptions(entry.getKey(), entry.getValue()));
+        return ops;
+    }
+
     public static Options constructOptions(String id, WriterEntry entry) {
         Options ops = new Options();
         for (Entry<Parameter, WriterParam> e : entry.getParams().entrySet()) {
@@ -82,7 +89,7 @@ public class BookmarkWriterRegistry {
     }
 
     public static WriterEntry getWriterForID(String id) {
-        return WRITERS.get(id);
+        return WRITERS.get(id.toLowerCase());
     }
 
     public static Map<String, WriterEntry> getWriters() {

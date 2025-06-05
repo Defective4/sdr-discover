@@ -93,7 +93,7 @@ public class Main {
         if (cli.hasOption('S')) {
             List<RadioStation> stations = new ArrayList<>();
             for (String serviceName : cli.getOptionValues('S')) {
-                ServiceEntry service = ServiceManager.getServices().get(serviceName.toLowerCase());
+                ServiceEntry service = ServiceManager.getService(serviceName);
                 if (service == null) {
                     System.out.println("Service not found: " + serviceName);
                     return;
@@ -156,7 +156,7 @@ public class Main {
     private static void printOutputHelp(String output) {
         Options ops = new Options();
         if (output == null) {
-            // TODO
+            ops.addOptions(BookmarkWriterRegistry.constructOptions());
         } else {
             WriterEntry entry = BookmarkWriterRegistry.getWriterForID(output);
             if (entry == null) {
@@ -175,7 +175,7 @@ public class Main {
         if (service == null) {
             ops.addOptions(ServiceManager.getAllOptions());
         } else {
-            ServiceEntry svc = ServiceManager.getServices().get(service);
+            ServiceEntry svc = ServiceManager.getService(service);
             if (svc == null) {
                 System.err.println("Service not found: " + service);
                 return;

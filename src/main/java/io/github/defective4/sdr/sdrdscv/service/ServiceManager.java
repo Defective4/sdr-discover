@@ -41,6 +41,10 @@ public class ServiceManager {
         return ops;
     }
 
+    public static ServiceEntry getService(String service) {
+        return SERVICES.get(service.toLowerCase());
+    }
+
     public static Map<String, ServiceEntry> getServices() {
         return Collections.unmodifiableMap(SERVICES);
     }
