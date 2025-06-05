@@ -155,9 +155,12 @@ public class Main {
 
     private static void printOutputHelp(String output) {
         Options ops = new Options();
+        String footer;
         if (output == null) {
             ops.addOptions(BookmarkWriterRegistry.constructOptions());
+            footer = "\nAvailable output formats:\n" + createOutputsString();
         } else {
+            footer = null;
             WriterEntry entry = BookmarkWriterRegistry.getWriterForID(output);
             if (entry == null) {
                 System.err.println("Output format not found: " + output);
@@ -167,14 +170,17 @@ public class Main {
         }
         new HelpFormatter()
                 .printHelp(128, APP_NAME + " -O " + (output == null ? "<format>" : output) + " [output]", null, ops,
-                        null);
+                        footer);
     }
 
     private static void printServiceHelp(String service) {
         Options ops = new Options();
+        String footer;
         if (service == null) {
             ops.addOptions(ServiceManager.getAllOptions());
+            footer = "\nAvailable services:\n" + createServicesString();
         } else {
+            footer = null;
             ServiceEntry svc = ServiceManager.getService(service);
             if (svc == null) {
                 System.err.println("Service not found: " + service);
@@ -184,6 +190,6 @@ public class Main {
         }
         new HelpFormatter()
                 .printHelp(128, APP_NAME + " -S " + (service == null ? "<service>" : service) + " [options] [output]",
-                        null, ops, null);
+                        null, ops, footer);
     }
 }
