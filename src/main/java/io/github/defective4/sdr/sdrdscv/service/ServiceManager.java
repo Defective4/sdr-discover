@@ -15,7 +15,6 @@ import org.apache.commons.cli.Options;
 import io.github.defective4.sdr.sdrdscv.ParamConverters;
 import io.github.defective4.sdr.sdrdscv.service.impl.BcastFMDiscoveryService;
 import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryServiceBuilder;
-import io.github.defective4.sdr.sdrdscv.service.impl.JSONDiscoveryService;
 
 public class ServiceManager {
     private static final Map<String, ServiceEntry> SERVICES = new LinkedHashMap<>();
@@ -24,8 +23,6 @@ public class ServiceManager {
         try {
             putServiceEntry("bcastfm", BcastFMDiscoveryService.Builder.class,
                     "Discover Broadcast FM stations by scanning the band for RDS services.");
-            putServiceEntry("json-input", JSONDiscoveryService.Builder.class,
-                    "Read stored stations from a JSON file saved by json-output");
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(67);

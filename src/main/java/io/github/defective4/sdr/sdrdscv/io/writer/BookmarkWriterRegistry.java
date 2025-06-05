@@ -50,7 +50,7 @@ public class BookmarkWriterRegistry {
                 .putAll(Map
                         .of("csv", new WriterEntry(CSVBookmarkWriter.class, "Save stations to a CSV file."), "gqrx",
                                 new WriterEntry(GqrxBookmarkWriter.class, "GQRX compatible CSV bookmarks file."),
-                                "json-output",
+                                "json",
                                 new WriterEntry(JSONBookmarkWriter.class,
                                         "Files saved by this output can be loaded with json-input service."),
                                 "oneline",
