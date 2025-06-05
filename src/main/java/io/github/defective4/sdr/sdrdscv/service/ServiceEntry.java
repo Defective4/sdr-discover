@@ -30,5 +30,4 @@ public class ServiceEntry {
     public String getDescription() {
         return description;
     }
-
 }

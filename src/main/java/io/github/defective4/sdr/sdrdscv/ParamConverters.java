@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.cli.Converter;
+import org.apache.commons.cli.ParseException;
 
 import io.github.defective4.sdr.sdrdscv.service.impl.BcastFMDiscoveryService;
 
@@ -23,6 +24,14 @@ public class ParamConverters {
     }
 
     private ParamConverters() {}
+
+    public static Object convert(Converter<?, ?> conv, String val) throws ParseException {
+        try {
+            return conv.apply(val);
+        } catch (Throwable e) {
+            throw new ParseException(e);
+        }
+    }
 
     public static Converter<?, Throwable> getConverter(Class<?> paramType) {
         return CONVERTERS.get(paramType);

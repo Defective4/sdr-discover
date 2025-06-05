@@ -92,7 +92,9 @@ public class Main {
 
         if (cli.hasOption('S')) {
             List<RadioStation> stations = new ArrayList<>();
-            for (String serviceName : cli.getOptionValues('S')) {
+            String[] values = cli.getOptionValues('S');
+            for (int i = 0; i < values.length; i++) {
+                String serviceName = values[i];
                 ServiceEntry service = ServiceManager.getService(serviceName);
                 if (service == null) {
                     System.out.println("Service not found: " + serviceName);
@@ -106,7 +108,15 @@ public class Main {
                         Option key = entry.getKey();
                         if (cli.hasOption(key)) {
                             try {
-                                Object value = cli.getParsedOptionValue(key);
+                                String[] opVals = cli.getOptionValues(key);
+                                if (i >= opVals.length) continue;
+                                String rawVal = opVals[i];
+                                Object value;
+                                if (key.getConverter() != null) {
+                                    value = ParamConverters.convert(key.getConverter(), rawVal);
+                                } else {
+                                    value = rawVal;
+                                }
                                 if (value == null) entry.getValue().invoke(builder);
                                 else entry.getValue().invoke(builder, value);
                             } catch (ParseException e) {
