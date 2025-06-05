@@ -109,6 +109,12 @@ public class Main {
                         if (cli.hasOption(key)) {
                             try {
                                 String[] opVals = cli.getOptionValues(key);
+                                if (opVals == null) {
+                                    int numTimes = 0;
+                                    for (Option op : cli.getOptions()) if (op.getKey().equals(key.getKey())) numTimes++;
+                                    if (numTimes > i) entry.getValue().invoke(builder);
+                                    continue;
+                                }
                                 if (i >= opVals.length) continue;
                                 String rawVal = opVals[i];
                                 Object value;
@@ -117,8 +123,7 @@ public class Main {
                                 } else {
                                     value = rawVal;
                                 }
-                                if (value == null) entry.getValue().invoke(builder);
-                                else entry.getValue().invoke(builder, value);
+                                entry.getValue().invoke(builder, value);
                             } catch (ParseException e) {
                                 System.err
                                         .println(String
