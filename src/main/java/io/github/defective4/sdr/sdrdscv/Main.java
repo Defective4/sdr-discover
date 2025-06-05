@@ -1,21 +1,32 @@
 package io.github.defective4.sdr.sdrdscv;
 
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.Converter;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import io.github.defective4.sdr.sdrdscv.io.writer.BookmarkWriter;
 import io.github.defective4.sdr.sdrdscv.io.writer.BookmarkWriterRegistry;
 import io.github.defective4.sdr.sdrdscv.io.writer.BookmarkWriterRegistry.WriterEntry;
+import io.github.defective4.sdr.sdrdscv.io.writer.WriterParam;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 import io.github.defective4.sdr.sdrdscv.service.ServiceEntry;
 import io.github.defective4.sdr.sdrdscv.service.ServiceManager;
@@ -28,12 +39,25 @@ public class Main {
     static {
         rootOptions = new Options()
                 .addOption(Option
+                        .builder("O")
+                        .argName("output-file")
+                        .hasArgs()
+                        .desc("Specify where to write command's output. Use \"-\" for standard output.")
+                        .longOpt("output")
+                        .build())
+                .addOption(Option
+                        .builder("F")
+                        .argName("format")
+                        .hasArgs()
+                        .desc("Specify which output format to use.")
+                        .longOpt("output-format")
+                        .build())
+                .addOption(Option
                         .builder("S")
                         .argName("service")
                         .hasArg()
                         .desc("Add a discovery service.")
                         .longOpt("add-service")
-                        .valueSeparator(',')
                         .build())
                 .addOption(Option.builder("h").desc("Show this help.").longOpt("help").build())
                 .addOption(Option
@@ -63,12 +87,13 @@ public class Main {
         Options allOptions = new Options();
         allOptions.addOptions(rootOptions);
         allOptions.addOptions(ServiceManager.getAllOptions());
+        allOptions.addOptions(BookmarkWriterRegistry.constructOptions());
 
         CommandLineParser parser = new DefaultParser();
 
         CommandLine cli;
         try {
-            cli = parser.parse(allOptions, args);
+            cli = parser.parse(allOptions, args, false);
         } catch (ParseException e) {
             printHelp(e.getMessage());
             return;
@@ -91,53 +116,124 @@ public class Main {
         boolean verbose = cli.hasOption('v');
 
         if (cli.hasOption('S')) {
-            List<RadioStation> stations = new ArrayList<>();
-            String[] values = cli.getOptionValues('S');
-            for (int i = 0; i < values.length; i++) {
-                String serviceName = values[i];
-                ServiceEntry service = ServiceManager.getService(serviceName);
-                if (service == null) {
-                    System.out.println("Service not found: " + serviceName);
-                    return;
-                }
-
-                try {
-                    DiscoveryServiceBuilder<?> builder = service.getBuilderClass().getConstructor().newInstance();
-                    if (verbose) builder.verbose();
-                    for (Entry<Option, Method> entry : service.getArguments().entrySet()) {
-                        Option key = entry.getKey();
-                        if (cli.hasOption(key)) {
-                            try {
-                                String[] opVals = cli.getOptionValues(key);
-                                if (opVals == null) {
-                                    int numTimes = 0;
-                                    for (Option op : cli.getOptions()) if (op.getKey().equals(key.getKey())) numTimes++;
-                                    if (numTimes > i) entry.getValue().invoke(builder);
-                                    continue;
-                                }
-                                if (i >= opVals.length) continue;
-                                String rawVal = opVals[i];
-                                Object value;
-                                if (key.getConverter() != null) {
-                                    value = ParamConverters.convert(key.getConverter(), rawVal);
-                                } else {
-                                    value = rawVal;
-                                }
-                                entry.getValue().invoke(builder, value);
-                            } catch (ParseException e) {
-                                System.err
-                                        .println(String
-                                                .format("Invalid value \"%s\" for option %s", cli.getOptionValue(key),
-                                                        key.getKey()));
-                            }
+            if (!cli.hasOption('F')) {
+                printHelp("You must specify an output format");
+                return;
+            }
+            if (!cli.hasOption('O')) {
+                printHelp("Missing output file name");
+                return;
+            }
+            String oName = cli.getOptionValue('O');
+            String outputFormatName = cli.getOptionValue('F');
+            WriterEntry writerEntry = BookmarkWriterRegistry.getWriterForID(outputFormatName);
+            if (writerEntry == null) {
+                printHelp("Unknown output format: " + outputFormatName);
+                return;
+            }
+            Map<String, Object> writerParams = new HashMap<>();
+            for (Entry<Parameter, WriterParam> entry : writerEntry.getParams().entrySet()) {
+                WriterParam paramAnnotation = entry.getValue();
+                Parameter param = entry.getKey();
+                Object value;
+                String key = outputFormatName.toLowerCase() + "-" + paramAnnotation.argName();
+                if (param.getType() == boolean.class) {
+                    boolean defVal = "true".equalsIgnoreCase(paramAnnotation.defaultValue());
+                    if (cli.hasOption(key)) defVal = !defVal;
+                    value = defVal;
+                } else {
+                    Converter<?, ?> conv = ParamConverters.getConverter(param.getType());
+                    if (conv == null)
+                        throw new IllegalStateException("Couldn't find a param converter for type " + param.getType());
+                    try {
+                        value = ParamConverters.convert(conv, paramAnnotation.defaultValue());
+                    } catch (ParseException e) {
+                        throw new IllegalStateException(e);
+                    }
+                    if (cli.hasOption(key)) {
+                        try {
+                            value = ParamConverters.convert(conv, cli.getOptionValue(key));
+                        } catch (ParseException e) {
+                            System.err
+                                    .println(String
+                                            .format("Invalid value \"%s\" for option %s", cli.getOptionValue(key),
+                                                    key));
+                            return;
                         }
                     }
-                    stations.addAll(builder.build().discover());
-                } catch (Throwable e) {
-                    e.printStackTrace();
+
                 }
+
+                writerParams.put(param.getName(), value);
             }
-            System.out.println(stations);
+
+            BookmarkWriter writer;
+
+            try {
+                Class<? extends BookmarkWriter> writerClass = writerEntry.getWriterClass();
+                Constructor<?> constructor = writerClass.getConstructors()[0];
+                List<Object> params = new ArrayList<>();
+                for (Parameter param : constructor.getParameters()) params.add(writerParams.get(param.getName()));
+                writer = (BookmarkWriter) constructor.newInstance(params.toArray(new Object[0]));
+            } catch (Throwable e) {
+                throw new IllegalStateException(e);
+            }
+
+            try (Writer oWriter = new OutputStreamWriter(
+                    "-".equals(oName) ? System.out : Files.newOutputStream(Path.of(oName)))) {
+                List<RadioStation> stations = new ArrayList<>();
+                String[] values = cli.getOptionValues('S');
+                for (int i = 0; i < values.length; i++) {
+                    String serviceName = values[i];
+                    ServiceEntry service = ServiceManager.getService(serviceName);
+                    if (service == null) {
+                        System.out.println("Service not found: " + serviceName);
+                        return;
+                    }
+
+                    try {
+                        DiscoveryServiceBuilder<?> builder = service.getBuilderClass().getConstructor().newInstance();
+                        if (verbose) builder.verbose();
+                        for (Entry<Option, Method> entry : service.getArguments().entrySet()) {
+                            Option key = entry.getKey();
+                            if (cli.hasOption(key)) {
+                                try {
+                                    String[] opVals = cli.getOptionValues(key);
+                                    if (opVals == null) {
+                                        int numTimes = 0;
+                                        for (Option op : cli.getOptions())
+                                            if (op.getKey().equals(key.getKey())) numTimes++;
+                                        if (numTimes > i) entry.getValue().invoke(builder);
+                                        continue;
+                                    }
+                                    if (i >= opVals.length) continue;
+                                    String rawVal = opVals[i];
+                                    Object value;
+                                    if (key.getConverter() != null) {
+                                        value = ParamConverters.convert(key.getConverter(), rawVal);
+                                    } else {
+                                        value = rawVal;
+                                    }
+                                    entry.getValue().invoke(builder, value);
+                                } catch (ParseException e) {
+                                    System.err
+                                            .println(String
+                                                    .format("Invalid value \"%s\" for option %s",
+                                                            cli.getOptionValue(key), key.getKey()));
+                                    return;
+                                }
+                            }
+                        }
+                        stations.addAll(builder.build().discover());
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                writer.write(oWriter, stations);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             System.err.println("You must add at least one service");
         }
@@ -161,7 +257,7 @@ public class Main {
 
     private static void printHelp(String message) {
         new HelpFormatter()
-                .printHelp(APP_NAME + " [options] [output]", null, rootOptions,
+                .printHelp(APP_NAME + " [options] [-F format] [-O filename]", null, rootOptions,
                         message == null
                                 ? "\nAvailable services:\n" + createServicesString() + "\nAvailable outputs:\n"
                                         + createOutputsString()
