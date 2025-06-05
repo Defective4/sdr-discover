@@ -11,9 +11,9 @@ public class OneLineBookmarkWriter implements BookmarkWriter {
     private final String format;
 
     public OneLineBookmarkWriter(
-            @WriterParam(argName = "format", defaultValue = "%s1 %s2Hz %s3 (%s4)", description = "Format of each line.\n"
-                    + "$s1 - Station name\n" + "$s2 - Frequuuency\n" + "%s3 - Modulation\n"
-                    + "%s4 - Description\n") String format) {
+            @WriterParam(argName = "format", defaultValue = "%1s %2sHz %3s (%4s)", description = "Format of each line.\n"
+                    + "%1s - Station name\n" + "%2s - Frequency\n" + "%3s - Modulation\n"
+                    + "%4s - Description\n") String format) {
         this.format = format;
     }
 
