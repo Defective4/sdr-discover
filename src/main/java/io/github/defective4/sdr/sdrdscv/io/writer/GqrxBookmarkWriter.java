@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
+import io.github.defective4.sdr.sdrdscv.ParamConverters;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 
 public class GqrxBookmarkWriter implements BookmarkWriter {
@@ -22,9 +23,8 @@ public class GqrxBookmarkWriter implements BookmarkWriter {
     @Override
     public void write(Writer output, List<RadioStation> stations) throws IOException {
         output.write("# Tag name; color\n");
-        String color = Integer.toHexString(tagColor.getRGB() & 0xffffff);
-        while (color.length() < 6) color = "0" + color;
-        output.write(tagName + "; #" + color + "\n\n");
+        String color = ParamConverters.encodeColor(tagColor);
+        output.write(tagName + "; " + color + "\n\n");
         output.write("# Frequency; Name; Modulation; Bandwidth; Tags\n");
         for (RadioStation station : stations) {
             output

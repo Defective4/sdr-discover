@@ -36,9 +36,17 @@ public class RadioStation {
             return sdrppMod;
         }
 
+        public static Modulation fromGqrxMod(String modulationStr) {
+            for (Modulation mod : values()) if (mod.gqrxMod.equals(modulationStr)) return mod;
+            throw new IllegalArgumentException(modulationStr + " is not a valid gqrx modulation");
+        }
+
     }
 
+    public static final String METADATA_BANDWIDTH = "bandwidth";
     public static final String METADATA_DESCRIPTION = "description";
+    public static final String METADATA_GQRX_TAG_COLORS = "gqrx_tag_colors";
+    public static final String METADATA_GQRX_TAGS = "gqrx_tags";
 
     private final float frequency;
     private final Map<String, Object> metadata = new HashMap<>();

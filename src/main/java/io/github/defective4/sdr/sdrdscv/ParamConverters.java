@@ -33,6 +33,12 @@ public class ParamConverters {
         }
     }
 
+    public static String encodeColor(Color color) {
+        String encoded = Integer.toHexString(color.getRGB() & 0xffffff);
+        while (encoded.length() < 6) encoded = "0" + encoded;
+        return "#" + encoded;
+    }
+
     public static Converter<?, Throwable> getConverter(Class<?> paramType) {
         return CONVERTERS.get(paramType);
     }
