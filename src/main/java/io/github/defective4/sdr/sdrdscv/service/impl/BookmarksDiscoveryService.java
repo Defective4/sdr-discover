@@ -45,7 +45,18 @@ public class BookmarksDiscoveryService implements DiscoveryService {
     }
 
     public static enum ReaderId {
-        JSON;
+        JSON("Read stations stored in a JSON file output by the \"json\" writer.");
+
+        private final String description;
+
+        private ReaderId(String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
     }
 
     private final boolean lenient, verbose;

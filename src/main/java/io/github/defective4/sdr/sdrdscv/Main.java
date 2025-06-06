@@ -30,6 +30,7 @@ import io.github.defective4.sdr.sdrdscv.io.writer.WriterParam;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 import io.github.defective4.sdr.sdrdscv.service.ServiceEntry;
 import io.github.defective4.sdr.sdrdscv.service.ServiceManager;
+import io.github.defective4.sdr.sdrdscv.service.impl.BookmarksDiscoveryService.ReaderId;
 import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryService;
 import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryServiceBuilder;
 
@@ -248,6 +249,13 @@ public class Main {
         }
     }
 
+    private static String createBookmarkReadersString() {
+        StringBuilder builder = new StringBuilder();
+        for (ReaderId reader : ReaderId.values())
+            builder.append(" - " + reader.name().toLowerCase() + " - " + reader.getDescription() + "\n");
+        return builder.toString();
+    }
+
     private static String createOutputsString() {
         StringBuilder builder = new StringBuilder();
         for (Entry<String, WriterEntry> entry : BookmarkWriterRegistry.getWriters().entrySet()) {
@@ -269,7 +277,8 @@ public class Main {
                 .printHelp(APP_NAME + " [options] [-F format] [-O filename]", null, rootOptions,
                         message == null
                                 ? "\nAvailable services:\n" + createServicesString() + "\nAvailable outputs:\n"
-                                        + createOutputsString()
+                                        + createOutputsString() + "\nAvailable bookmark readers:\n"
+                                        + createBookmarkReadersString()
                                 : "\n" + message);
     }
 
