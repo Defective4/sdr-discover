@@ -244,6 +244,8 @@ public class BcastFMDiscoveryService implements DiscoveryService {
                 }
             }
             return Collections.unmodifiableList(stations);
+        } finally {
+            process.destroyForcibly();
         }
     }
 
