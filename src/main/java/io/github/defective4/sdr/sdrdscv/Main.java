@@ -30,6 +30,7 @@ import io.github.defective4.sdr.sdrdscv.io.writer.WriterParam;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 import io.github.defective4.sdr.sdrdscv.service.ServiceEntry;
 import io.github.defective4.sdr.sdrdscv.service.ServiceManager;
+import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryService;
 import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryServiceBuilder;
 
 public class Main {
@@ -224,7 +225,15 @@ public class Main {
                                 }
                             }
                         }
-                        stations.addAll(builder.build().discover());
+                        DiscoveryService svc;
+                        try {
+                            svc = builder.build();
+                        } catch (Exception e) {
+                            printServiceHelp(serviceName);
+                            System.err.println("Couldn't create service: " + e.getMessage());
+                            return;
+                        }
+                        stations.addAll(svc.discover());
                     } catch (Throwable e) {
                         e.printStackTrace();
                     }

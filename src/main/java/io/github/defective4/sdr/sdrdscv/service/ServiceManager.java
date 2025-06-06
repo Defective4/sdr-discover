@@ -14,6 +14,7 @@ import org.apache.commons.cli.Options;
 
 import io.github.defective4.sdr.sdrdscv.ParamConverters;
 import io.github.defective4.sdr.sdrdscv.service.impl.BcastFMDiscoveryService;
+import io.github.defective4.sdr.sdrdscv.service.impl.BookmarksDiscoveryService;
 import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryServiceBuilder;
 
 public class ServiceManager {
@@ -23,6 +24,7 @@ public class ServiceManager {
         try {
             putServiceEntry("bcastfm", BcastFMDiscoveryService.Builder.class,
                     "Discover Broadcast FM stations by scanning the band for RDS services.");
+            putServiceEntry("bookmarks", BookmarksDiscoveryService.Builder.class, "Read stations from a bookmark file");
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(67);
