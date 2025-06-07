@@ -18,13 +18,20 @@ public class BookmarksDiscoveryService implements DiscoveryService {
 
         private char gqrxSeparatorChar = ';';
         private String gqrxTagFilter;
+        private boolean jsonStripMetadata;
         private boolean lenient;
         private String readerId;
         private String source = "-";
 
         @Override
         public BookmarksDiscoveryService build() {
-            return new BookmarksDiscoveryService(lenient, readerId, source, verbose, gqrxSeparatorChar, gqrxTagFilter);
+            return new BookmarksDiscoveryService(lenient, readerId, source, verbose, gqrxSeparatorChar, gqrxTagFilter,
+                    jsonStripMetadata);
+        }
+
+        @ServiceArgument(argName = "json-strip-metadata", description = "Remove all metadata from station read from a json dump.")
+        public void jsonStripMetadata() {
+            jsonStripMetadata = true;
         }
 
         @ServiceArgument(argName = "lenient", description = "If enabled, invalid/malformed bookmark entries will be ignored instead of throwing an error")
@@ -33,15 +40,15 @@ public class BookmarksDiscoveryService implements DiscoveryService {
             return this;
         }
 
-        @ServiceArgument(argName = "gqrx-tag-filter", description = "Comma-separated list of gqrx bookmark tags. If specified, only bookmarks containing one of the defined tag are read. Tags are case-sensitive!")
-        public Builder setGqrxTagFilter(String gqrxTagFilter) {
-            this.gqrxTagFilter = gqrxTagFilter;
-            return this;
-        }
-
         @ServiceArgument(argName = "gqrx-separator", description = "Use a non-standard CSV separator character for gqrx bookmarks", defaultField = "gqrxSeparatorChar")
         public Builder withGqrxSeparatorChar(char gqrxSeparatorChar) {
             this.gqrxSeparatorChar = gqrxSeparatorChar;
+            return this;
+        }
+
+        @ServiceArgument(argName = "gqrx-tag-filter", description = "Comma-separated list of gqrx bookmark tags. If specified, only bookmarks containing one of the defined tag are read. Tags are case-sensitive!")
+        public Builder withGqrxTagFilter(String gqrxTagFilter) {
+            this.gqrxTagFilter = gqrxTagFilter;
             return this;
         }
 
@@ -77,19 +84,20 @@ public class BookmarksDiscoveryService implements DiscoveryService {
 
     private final char gqrxSeparatorChar;
     private final String gqrxTagFilter;
-    private final boolean lenient, verbose;
+    private final boolean lenient, verbose, jsonStripMetadata;
 
     private final ReaderId readerId;
     private final String source;
 
     private BookmarksDiscoveryService(boolean lenient, String readerId, String source, boolean verbose,
-            char gqrxSeparatorChar, String gqrxTagFilter) {
+            char gqrxSeparatorChar, String gqrxTagFilter, boolean jsonStripMetadata) {
         if (readerId == null) throw new IllegalArgumentException("Option \"bookmarks-reader\" is required.");
         try {
             this.readerId = ReaderId.valueOf(readerId.toUpperCase());
         } catch (Exception e) {
             throw new IllegalArgumentException("Reader not found: " + readerId);
         }
+        this.jsonStripMetadata = jsonStripMetadata;
         this.gqrxSeparatorChar = gqrxSeparatorChar;
         this.lenient = lenient;
         this.verbose = verbose;
@@ -104,7 +112,7 @@ public class BookmarksDiscoveryService implements DiscoveryService {
             reader = "-".equals(source) ? new InputStreamReader(System.in)
                     : new FileReader(source, StandardCharsets.UTF_8);
             BookmarkReader br = switch (readerId) {
-                case JSON -> new JSONBookmarkReader(lenient, verbose);
+                case JSON -> new JSONBookmarkReader(lenient, verbose, jsonStripMetadata);
                 case GQRX -> new GqrxBookmarkReader(lenient, verbose, gqrxSeparatorChar,
                         gqrxTagFilter == null ? null : gqrxTagFilter.split(","));
             };
