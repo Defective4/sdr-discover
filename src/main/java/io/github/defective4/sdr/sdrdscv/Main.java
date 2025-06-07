@@ -183,10 +183,37 @@ public class Main {
 
             try (Writer oWriter = new OutputStreamWriter(
                     "-".equals(oName) ? System.out : Files.newOutputStream(Path.of(oName)))) {
+
+                Map<Integer, Map<Option, String>> serviceOptions = new HashMap<>();
+                Map<Option, Integer> opTrack = new HashMap<>();
+                Map<Option, Method> lastService = new HashMap<>();
+                int svcId = -1;
+
+                for (Option op : cli.getOptions()) {
+                    int opNum = opTrack.getOrDefault(op, 0);
+                    if ("S".equals(op.getKey())) {
+                        ServiceEntry service = ServiceManager.getService(cli.getOptionValues(op)[opNum]);
+                        lastService.clear();
+                        if (service != null) lastService.putAll(service.getArguments());
+                        svcId++;
+                    } else {
+                        String val = null;
+                        String[] vals = cli.getOptionValues(op);
+                        if (vals != null) {
+                            val = vals[opNum];
+                        }
+                        serviceOptions.computeIfAbsent(svcId, e -> new HashMap<>()).put(op, val);
+                    }
+                    opTrack.compute(op, (o, e) -> e == null ? 1 : e + 1);
+                }
+
+                opTrack.clear();
+                lastService.clear();
+
                 List<RadioStation> stations = new ArrayList<>();
                 String[] values = cli.getOptionValues('S');
-                for (int i = 0; i < values.length; i++) {
-                    String serviceName = values[i];
+                for (int sid = 0; sid < values.length; sid++) {
+                    String serviceName = values[sid];
                     ServiceEntry service = ServiceManager.getService(serviceName);
                     if (service == null) {
                         System.out.println("Service not found: " + serviceName);
@@ -196,20 +223,16 @@ public class Main {
                     try {
                         DiscoveryServiceBuilder<?> builder = service.getBuilderClass().getConstructor().newInstance();
                         if (verbose) builder.verbose();
+                        Map<Option, String> sOps = serviceOptions.getOrDefault(sid, new HashMap<>());
                         for (Entry<Option, Method> entry : service.getArguments().entrySet()) {
                             Option key = entry.getKey();
-                            if (cli.hasOption(key)) {
+                            if (cli.hasOption(key) && sOps.containsKey(key)) {
                                 try {
-                                    String[] opVals = cli.getOptionValues(key);
-                                    if (opVals == null) {
-                                        int numTimes = 0;
-                                        for (Option op : cli.getOptions())
-                                            if (op.getKey().equals(key.getKey())) numTimes++;
-                                        if (numTimes > i) entry.getValue().invoke(builder);
+                                    String rawVal = sOps.get(key);
+                                    if (rawVal == null) {
+                                        entry.getValue().invoke(builder);
                                         continue;
                                     }
-                                    if (i >= opVals.length) continue;
-                                    String rawVal = opVals[i];
                                     Object value;
                                     if (key.getConverter() != null) {
                                         value = ParamConverters.convert(key.getConverter(), rawVal);
