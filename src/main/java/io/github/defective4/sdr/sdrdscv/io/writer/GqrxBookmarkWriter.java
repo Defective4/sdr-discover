@@ -20,9 +20,9 @@ public class GqrxBookmarkWriter implements BookmarkWriter {
     public void write(Writer output, List<RadioStation> stations) throws IOException {
         Map<String, Color> tags = new HashMap<>();
         for (RadioStation station : stations) {
-            String metaTags = station.getMetadataValue(RadioStation.METADATA_GQRX_TAGS, String.class);
+            String metaTags = station.getMetadataValue(RadioStation.METADATA_TAGS, String.class);
             if (metaTags != null) {
-                String metaColors = station.getMetadataValue(RadioStation.METADATA_GQRX_TAG_COLORS, String.class);
+                String metaColors = station.getMetadataValue(RadioStation.METADATA_TAG_COLORS, String.class);
                 List<Color> colors = new ArrayList<>();
                 for (String colorCode : metaColors == null ? new String[0] : metaColors.split(",")) {
                     Color color;

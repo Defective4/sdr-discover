@@ -108,8 +108,8 @@ public class GqrxBookmarkReader extends BookmarkReader {
                     for (int i = 0; i < tagNames.length; i++) {
                         tagColors[i] = ParamConverters.encodeColor(tags.getOrDefault(tagNames[i], Color.white));
                     }
-                    metadata.put(RadioStation.METADATA_GQRX_TAGS, String.join(",", tagNames));
-                    metadata.put(RadioStation.METADATA_GQRX_TAG_COLORS, String.join(",", tagColors));
+                    metadata.put(RadioStation.METADATA_TAGS, String.join(",", tagNames));
+                    metadata.put(RadioStation.METADATA_TAG_COLORS, String.join(",", tagColors));
                 }
                 metadata.put(RadioStation.METADATA_BANDWIDTH, bandwidth);
 

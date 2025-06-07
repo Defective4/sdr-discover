@@ -45,8 +45,8 @@ public class RadioStation {
 
     public static final String METADATA_BANDWIDTH = "bandwidth";
     public static final String METADATA_DESCRIPTION = "description";
-    public static final String METADATA_GQRX_TAG_COLORS = "gqrx_tag_colors";
-    public static final String METADATA_GQRX_TAGS = "gqrx_tags";
+    public static final String METADATA_TAG_COLORS = "tag_colors";
+    public static final String METADATA_TAGS = "tags";
 
     private final float frequency;
     private final Map<String, Object> metadata = new HashMap<>();
