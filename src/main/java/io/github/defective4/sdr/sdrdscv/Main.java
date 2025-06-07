@@ -89,7 +89,7 @@ public class Main {
                         .build())
                 .addOption(Option
                         .builder()
-                        .desc("Show help about an output format, or don't probide an argument to show help for all output formats")
+                        .desc("Show help about an output format, or don't probide an argument to show help for all output formats.")
                         .longOpt("help-output")
                         .hasArg()
                         .argName("output")
