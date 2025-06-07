@@ -297,7 +297,7 @@ public class Main {
 
     private static void printHelp(String message) {
         new HelpFormatter()
-                .printHelp(APP_NAME + " [options] [-F format] [-O filename]", null, rootOptions,
+                .printHelp(APP_NAME + " [-S service] [options] [-F format] [-O filename]", null, rootOptions,
                         message == null
                                 ? "\nAvailable services:\n" + createServicesString() + "\nAvailable outputs:\n"
                                         + createOutputsString() + "\nAvailable bookmark readers:\n"
