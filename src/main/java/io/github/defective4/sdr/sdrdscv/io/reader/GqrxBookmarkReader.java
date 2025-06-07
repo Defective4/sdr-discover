@@ -21,10 +21,12 @@ import io.github.defective4.sdr.sdrdscv.radio.RadioStation.Modulation;
 public class GqrxBookmarkReader extends BookmarkReader {
 
     private final CSVParser parser;
+    private final String[] tagFilter;
 
-    public GqrxBookmarkReader(boolean lenient, boolean verbose, char sep) {
+    public GqrxBookmarkReader(boolean lenient, boolean verbose, char sep, String[] tagFilter) {
         super(lenient, verbose);
         parser = new CSVParserBuilder().withSeparator(sep).withIgnoreLeadingWhiteSpace(true).build();
+        this.tagFilter = tagFilter;
     }
 
     @Override
@@ -64,6 +66,24 @@ public class GqrxBookmarkReader extends BookmarkReader {
                 String bandwidthStr = next[3].trim();
                 String[] tagNames = next[4].trim().split(",");
                 for (int i = 0; i < tagNames.length; i++) tagNames[i] = tagNames[i].trim();
+
+                if (tagFilter != null) {
+                    boolean matches = false;
+                    if (tagNames.length > 0) {
+                        for (String tag : tagNames) {
+                            if (matches) break;
+                            for (String compare : tagFilter) if (tag.equals(compare)) {
+                                matches = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!matches) {
+                        if (verbose) System.err
+                                .println("Ignored bookmark " + name + " because it doesn't match the tag filter.");
+                        continue;
+                    }
+                }
 
                 float freq;
                 Modulation mod;
