@@ -23,10 +23,10 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import io.github.defective4.sdr.sdrdscv.annotation.ConstructorParam;
 import io.github.defective4.sdr.sdrdscv.io.writer.BookmarkWriter;
 import io.github.defective4.sdr.sdrdscv.io.writer.BookmarkWriterRegistry;
 import io.github.defective4.sdr.sdrdscv.io.writer.BookmarkWriterRegistry.WriterEntry;
-import io.github.defective4.sdr.sdrdscv.io.writer.WriterParam;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 import io.github.defective4.sdr.sdrdscv.service.ServiceEntry;
 import io.github.defective4.sdr.sdrdscv.service.ServiceManager;
@@ -134,8 +134,8 @@ public class Main {
                 return;
             }
             Map<String, Object> writerParams = new HashMap<>();
-            for (Entry<Parameter, WriterParam> entry : writerEntry.getParams().entrySet()) {
-                WriterParam paramAnnotation = entry.getValue();
+            for (Entry<Parameter, ConstructorParam> entry : writerEntry.getParams().entrySet()) {
+                ConstructorParam paramAnnotation = entry.getValue();
                 Parameter param = entry.getKey();
                 Object value;
                 String key = outputFormatName.toLowerCase() + "-" + paramAnnotation.argName();

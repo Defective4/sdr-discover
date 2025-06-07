@@ -13,6 +13,7 @@ import org.apache.commons.cli.Option.Builder;
 import org.apache.commons.cli.Options;
 
 import io.github.defective4.sdr.sdrdscv.ParamConverters;
+import io.github.defective4.sdr.sdrdscv.annotation.BuilderParam;
 import io.github.defective4.sdr.sdrdscv.service.impl.BcastFMDiscoveryService;
 import io.github.defective4.sdr.sdrdscv.service.impl.BookmarksDiscoveryService;
 import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryServiceBuilder;
@@ -64,10 +65,10 @@ public class ServiceManager {
         try {
             builderInstance = clazz.getConstructor().newInstance();
         } catch (Throwable e) {}
-        for (Method method : clazz.getMethods()) if (method.isAnnotationPresent(ServiceArgument.class)) {
+        for (Method method : clazz.getMethods()) if (method.isAnnotationPresent(BuilderParam.class)) {
             if (method.getParameterCount() > 1)
                 throw new IllegalStateException("Method " + method.getName() + " has more than one parameter.");
-            ServiceArgument arg = method.getAnnotation(ServiceArgument.class);
+            BuilderParam arg = method.getAnnotation(BuilderParam.class);
             String desc = arg.description();
             if (!desc.endsWith(".")) desc = desc + ".";
             if (!arg.defaultField().isEmpty() && builderInstance != null) try {

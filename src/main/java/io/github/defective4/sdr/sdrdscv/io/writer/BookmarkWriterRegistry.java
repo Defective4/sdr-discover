@@ -11,11 +11,12 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
 import io.github.defective4.sdr.sdrdscv.ParamConverters;
+import io.github.defective4.sdr.sdrdscv.annotation.ConstructorParam;
 
 public class BookmarkWriterRegistry {
     public static class WriterEntry {
         private final String description;
-        private final Map<Parameter, WriterParam> params = new HashMap<>();
+        private final Map<Parameter, ConstructorParam> params = new HashMap<>();
         private final Class<? extends BookmarkWriter> writerClass;
 
         public WriterEntry(Class<? extends BookmarkWriter> writerClass, String description) {
@@ -23,9 +24,9 @@ public class BookmarkWriterRegistry {
             this.description = description;
             Constructor<?> constructor = writerClass.getConstructors()[0];
             for (Parameter param : constructor.getParameters()) {
-                if (!param.isAnnotationPresent(WriterParam.class)) throw new IllegalArgumentException(
+                if (!param.isAnnotationPresent(ConstructorParam.class)) throw new IllegalArgumentException(
                         writerClass + " does not have all constructor parameters annotated.");
-                WriterParam wp = param.getAnnotation(WriterParam.class);
+                ConstructorParam wp = param.getAnnotation(ConstructorParam.class);
                 params.put(param, wp);
             }
         }
@@ -34,7 +35,7 @@ public class BookmarkWriterRegistry {
             return description;
         }
 
-        public Map<Parameter, WriterParam> getParams() {
+        public Map<Parameter, ConstructorParam> getParams() {
             return Collections.unmodifiableMap(params);
         }
 
@@ -72,9 +73,9 @@ public class BookmarkWriterRegistry {
 
     public static Options constructOptions(String id, WriterEntry entry) {
         Options ops = new Options();
-        for (Entry<Parameter, WriterParam> e : entry.getParams().entrySet()) {
+        for (Entry<Parameter, ConstructorParam> e : entry.getParams().entrySet()) {
             Parameter param = e.getKey();
-            WriterParam wp = e.getValue();
+            ConstructorParam wp = e.getValue();
             String def = wp.defaultValue();
             Option.Builder builder = Option.builder().longOpt(id.toLowerCase() + "-" + wp.argName());
             if (!def.isEmpty() && param.getType() != boolean.class)

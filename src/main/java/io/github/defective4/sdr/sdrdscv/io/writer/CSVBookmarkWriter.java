@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
+import io.github.defective4.sdr.sdrdscv.annotation.ConstructorParam;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 
 public class CSVBookmarkWriter implements BookmarkWriter {
@@ -11,7 +12,7 @@ public class CSVBookmarkWriter implements BookmarkWriter {
     private final char separator;
 
     public CSVBookmarkWriter(
-            @WriterParam(argName = "separator", defaultValue = ",", description = "A character used to separate values in the resulting CSV file.") char separator) {
+            @ConstructorParam(argName = "separator", defaultValue = ",", description = "A character used to separate values in the resulting CSV file.") char separator) {
         this.separator = separator;
     }
 

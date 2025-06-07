@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import io.github.defective4.sdr.sdrdscv.annotation.ConstructorParam;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 
 public class OpenWebRXBookmarkWriter implements BookmarkWriter {
@@ -16,9 +17,9 @@ public class OpenWebRXBookmarkWriter implements BookmarkWriter {
     private final boolean includeDescription, scannable;
 
     public OpenWebRXBookmarkWriter(
-            @WriterParam(argName = "include-description", defaultValue = "false", description = "If enabled, includes additional received info (for example radiotext) as stations' descriptions.") boolean includeDescription,
-            @WriterParam(argName = "scannable", defaultValue = "false", description = "Marks all detected stations as scannable.") boolean scannable,
-            @WriterParam(argName = "disable-pretty-print", defaultValue = "true", description = "Disables pretty printing of the resulting JSON, saving space.") boolean prettyPrint) {
+            @ConstructorParam(argName = "include-description", defaultValue = "false", description = "If enabled, includes additional received info (for example radiotext) as stations' descriptions.") boolean includeDescription,
+            @ConstructorParam(argName = "scannable", defaultValue = "false", description = "Marks all detected stations as scannable.") boolean scannable,
+            @ConstructorParam(argName = "disable-pretty-print", defaultValue = "true", description = "Disables pretty printing of the resulting JSON, saving space.") boolean prettyPrint) {
         this.includeDescription = includeDescription;
         this.scannable = scannable;
         GsonBuilder builder = new GsonBuilder();

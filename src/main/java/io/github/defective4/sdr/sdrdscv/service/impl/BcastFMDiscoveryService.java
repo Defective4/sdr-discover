@@ -18,10 +18,10 @@ import io.github.defective4.sdr.rds.RDSAdapter;
 import io.github.defective4.sdr.rds.RDSFlags;
 import io.github.defective4.sdr.rds.RDSListener;
 import io.github.defective4.sdr.rds.RDSReceiver;
+import io.github.defective4.sdr.sdrdscv.annotation.BuilderParam;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation.Modulation;
 import io.github.defective4.sdr.sdrdscv.radio.tuner.Tuner;
-import io.github.defective4.sdr.sdrdscv.service.ServiceArgument;
 import io.github.defective4.sdr.sdrdscv.tool.GRScriptRunner;
 
 public class BcastFMDiscoveryService implements DiscoveryService {
@@ -47,103 +47,103 @@ public class BcastFMDiscoveryService implements DiscoveryService {
                     stationNameConflictMode, automaticStep, detectStereo, offsetTuning, verbose, tuningDelay);
         }
 
-        @ServiceArgument(argName = "disable-offset-tuning", description = "Disable offset tuning - always tune to the center of the signal")
+        @BuilderParam(argName = "disable-offset-tuning", description = "Disable offset tuning - always tune to the center of the signal")
         public Builder disableOffsetTuning() {
             offsetTuning = false;
             return this;
         }
 
-        @ServiceArgument(argName = "control-port", description = "Control port for GNU Radio communication", defaultField = "ctlPort")
+        @BuilderParam(argName = "control-port", description = "Control port for GNU Radio communication", defaultField = "ctlPort")
         public Builder withControlPort(int ctlPort) {
             this.ctlPort = ctlPort;
             return this;
         }
 
-        @ServiceArgument(defaultField = "controlProbeLength", argName = "control-probe-duration", description = "How long (ms) should a control probe last? Only used if control-probe-freq is set")
+        @BuilderParam(defaultField = "controlProbeLength", argName = "control-probe-duration", description = "How long (ms) should a control probe last? Only used if control-probe-freq is set")
         public Builder withControlProbeDuration(long controlProbeDuration) {
             controlProbeLength = controlProbeDuration;
             return this;
         }
 
-        @ServiceArgument(argName = "control-probe-frequency", description = "Control probe frequency (Hz). If this option is enabled, the discovery service will first probe signal on the specified frequency, then use it as a reference point to detect other stations. It's recommended to set this option to frequency of the weakest radio station in your area")
+        @BuilderParam(argName = "control-probe-frequency", description = "Control probe frequency (Hz). If this option is enabled, the discovery service will first probe signal on the specified frequency, then use it as a reference point to detect other stations. It's recommended to set this option to frequency of the weakest radio station in your area")
         public Builder withControlProbeFrequency(float controlProbeFrequency) {
             this.controlProbeFrequency = controlProbeFrequency;
             return this;
         }
 
-        @ServiceArgument(defaultField = "endFreq", argName = "end-frequency", description = "Maximum scanning frequency")
+        @BuilderParam(defaultField = "endFreq", argName = "end-frequency", description = "Maximum scanning frequency")
         public Builder withEndFrequency(float endFreq) {
             this.endFreq = endFreq;
             return this;
         }
 
-        @ServiceArgument(defaultField = "gain", argName = "gain", description = "RF Gain")
+        @BuilderParam(defaultField = "gain", argName = "gain", description = "RF Gain")
         public Builder withGain(int gain) {
             this.gain = gain;
             return this;
         }
 
-        @ServiceArgument(argName = "no-automatic-step", description = "Disable automatic step correction after detecting a station. Disabling this setting might cause some stations to get detected twice.")
+        @BuilderParam(argName = "no-automatic-step", description = "Disable automatic step correction after detecting a station. Disabling this setting might cause some stations to get detected twice.")
         public Builder withNoAutomaticStep() {
             automaticStep = false;
             return this;
         }
 
-        @ServiceArgument(argName = "disable-stereo", description = "Disable stereo detection. All detected radio station will be marked as mono")
+        @BuilderParam(argName = "disable-stereo", description = "Disable stereo detection. All detected radio station will be marked as mono")
         public Builder withNoDetectStereo() {
             detectStereo = false;
             return this;
         }
 
-        @ServiceArgument(defaultField = "probePort", argName = "probe-port", description = "Probe port for GNU Radio communication")
+        @BuilderParam(defaultField = "probePort", argName = "probe-port", description = "Probe port for GNU Radio communication")
         public Builder withProbePort(int probePort) {
             this.probePort = probePort;
             return this;
         }
 
-        @ServiceArgument(defaultField = "probeInterval", argName = "probe-timeout", description = "How long (ms) should we wait for a signal probe?")
+        @BuilderParam(defaultField = "probeInterval", argName = "probe-timeout", description = "How long (ms) should we wait for a signal probe?")
         public Builder withProbeTimeout(long probeTimeout) {
             this.probeTimeout = probeTimeout;
             return this;
         }
 
-        @ServiceArgument(defaultField = "rdsPort", argName = "rds-port", description = "RDS port for GNU Radio communication")
+        @BuilderParam(defaultField = "rdsPort", argName = "rds-port", description = "RDS port for GNU Radio communication")
         public Builder withRDSPort(int rdsPort) {
             this.rdsPort = rdsPort;
             return this;
         }
 
-        @ServiceArgument(defaultField = "rdsRecvTime", argName = "rds-receive-time", description = "How long (ms) should we wait for RDS data. Longer values may improve the quality of detected data, but will make discovery take a significantly longer amount of time")
+        @BuilderParam(defaultField = "rdsRecvTime", argName = "rds-receive-time", description = "How long (ms) should we wait for RDS data. Longer values may improve the quality of detected data, but will make discovery take a significantly longer amount of time")
         public Builder withRDSReceiveTime(long rdsRecvTime) {
             this.rdsRecvTime = rdsRecvTime;
             return this;
         }
 
-        @ServiceArgument(argName = "sdr-params", description = "Params to pass to the SDR driver")
+        @BuilderParam(argName = "sdr-params", description = "Params to pass to the SDR driver")
         public Builder withSDRParams(String sdrParams) {
             this.sdrParams = sdrParams;
             return this;
         }
 
-        @ServiceArgument(defaultField = "sensitivty", argName = "sensitivity", description = "Manually specify receiver sensitivity. Values between 0 - 10 are recommended. Higher values mean lower sensitivity, and values > 10 turn the receiver practically deaf.")
+        @BuilderParam(defaultField = "sensitivty", argName = "sensitivity", description = "Manually specify receiver sensitivity. Values between 0 - 10 are recommended. Higher values mean lower sensitivity, and values > 10 turn the receiver practically deaf.")
         public Builder withSensitivity(double sensitivity) {
             this.sensitivity = sensitivity;
             return this;
         }
 
-        @ServiceArgument(defaultField = "startFreq", argName = "start-frequency", description = "Scan start frequency")
+        @BuilderParam(defaultField = "startFreq", argName = "start-frequency", description = "Scan start frequency")
         public Builder withStartFrequency(float startFreq) {
             this.startFreq = startFreq;
             return this;
         }
 
-        @ServiceArgument(defaultField = "stationNameConflictMode", argName = "station-name-conflict-mode", description = "How to resolve name conflicts? \"Smart\" will try to detect the most commonly transmitted station name. \"Merge\" will remove duplicates and merge all received station names into one.")
+        @BuilderParam(defaultField = "stationNameConflictMode", argName = "station-name-conflict-mode", description = "How to resolve name conflicts? \"Smart\" will try to detect the most commonly transmitted station name. \"Merge\" will remove duplicates and merge all received station names into one.")
         public Builder withStationNameConflictMode(StationNameConflictMode stationNameConflictMode) {
             this.stationNameConflictMode = stationNameConflictMode;
             return this;
         }
 
-        @ServiceArgument(argName = "tuning-delay", description = "A delay (ms) between each tuning attempt. Higher values might help with detecting new stations, but they will make the scan take longer time", defaultField = "tuningDelay")
+        @BuilderParam(argName = "tuning-delay", description = "A delay (ms) between each tuning attempt. Higher values might help with detecting new stations, but they will make the scan take longer time", defaultField = "tuningDelay")
         public Builder withTuningDelay(long delay) {
             tuningDelay = delay;
             return this;

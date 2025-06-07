@@ -6,11 +6,11 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import io.github.defective4.sdr.sdrdscv.annotation.BuilderParam;
 import io.github.defective4.sdr.sdrdscv.io.reader.BookmarkReader;
 import io.github.defective4.sdr.sdrdscv.io.reader.GqrxBookmarkReader;
 import io.github.defective4.sdr.sdrdscv.io.reader.JSONBookmarkReader;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
-import io.github.defective4.sdr.sdrdscv.service.ServiceArgument;
 
 public class BookmarksDiscoveryService implements DiscoveryService {
 
@@ -29,36 +29,36 @@ public class BookmarksDiscoveryService implements DiscoveryService {
                     jsonStripMetadata);
         }
 
-        @ServiceArgument(argName = "json-strip-metadata", description = "Remove all metadata from station read from a json dump.")
+        @BuilderParam(argName = "json-strip-metadata", description = "Remove all metadata from station read from a json dump.")
         public void jsonStripMetadata() {
             jsonStripMetadata = true;
         }
 
-        @ServiceArgument(argName = "lenient", description = "If enabled, invalid/malformed bookmark entries will be ignored instead of throwing an error")
+        @BuilderParam(argName = "lenient", description = "If enabled, invalid/malformed bookmark entries will be ignored instead of throwing an error")
         public Builder lenient() {
             lenient = true;
             return this;
         }
 
-        @ServiceArgument(argName = "gqrx-separator", description = "Use a non-standard CSV separator character for gqrx bookmarks", defaultField = "gqrxSeparatorChar")
+        @BuilderParam(argName = "gqrx-separator", description = "Use a non-standard CSV separator character for gqrx bookmarks", defaultField = "gqrxSeparatorChar")
         public Builder withGqrxSeparatorChar(char gqrxSeparatorChar) {
             this.gqrxSeparatorChar = gqrxSeparatorChar;
             return this;
         }
 
-        @ServiceArgument(argName = "gqrx-tag-filter", description = "Comma-separated list of gqrx bookmark tags. If specified, only bookmarks containing one of the defined tag are read. Tags are case-sensitive!")
+        @BuilderParam(argName = "gqrx-tag-filter", description = "Comma-separated list of gqrx bookmark tags. If specified, only bookmarks containing one of the defined tag are read. Tags are case-sensitive!")
         public Builder withGqrxTagFilter(String gqrxTagFilter) {
             this.gqrxTagFilter = gqrxTagFilter;
             return this;
         }
 
-        @ServiceArgument(argName = "reader", description = "Bookmark reader to use")
+        @BuilderParam(argName = "reader", description = "Bookmark reader to use")
         public Builder withReaderId(String readerId) {
             this.readerId = readerId;
             return this;
         }
 
-        @ServiceArgument(argName = "source", description = "Bookmark file source. Use \"-\" for standard input.", defaultField = "source")
+        @BuilderParam(argName = "source", description = "Bookmark file source. Use \"-\" for standard input.", defaultField = "source")
         public Builder withSource(String source) {
             this.source = source;
             return this;

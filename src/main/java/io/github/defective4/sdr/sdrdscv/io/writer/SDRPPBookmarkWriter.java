@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+import io.github.defective4.sdr.sdrdscv.annotation.ConstructorParam;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 
 public class SDRPPBookmarkWriter implements BookmarkWriter {
@@ -15,8 +16,8 @@ public class SDRPPBookmarkWriter implements BookmarkWriter {
     private final String listName;
 
     public SDRPPBookmarkWriter(
-            @WriterParam(argName = "list-name", defaultValue = "Discovered", description = "Sets name of the list containing detected stations.") String listName,
-            @WriterParam(argName = "disable-pretty-print", defaultValue = "true", description = "Disables pretty printing of the resulting JSON, saving space.") boolean prettyPrint) {
+            @ConstructorParam(argName = "list-name", defaultValue = "Discovered", description = "Sets name of the list containing detected stations.") String listName,
+            @ConstructorParam(argName = "disable-pretty-print", defaultValue = "true", description = "Disables pretty printing of the resulting JSON, saving space.") boolean prettyPrint) {
         this.listName = listName;
         GsonBuilder builder = new GsonBuilder();
         if (prettyPrint) builder = builder.setPrettyPrinting();
