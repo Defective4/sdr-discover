@@ -31,7 +31,7 @@ public class ServiceManager {
             putServiceEntry("bookmarks", BookmarksDiscoveryService.Builder.class, "Read stations from a bookmark file");
 
             putDecoratorEntry("tag", TagServiceDecorator.Builder.class,
-                    "Decorates detected stations with colored tags. The tags are comparible with Gqrx.");
+                    "Decorates detected stations with colored tags. The tags are compatible with Gqrx.");
             putDecoratorEntry("strip", StripServiceDecorator.Builder.class,
                     "Strips metadata from discovered stations. Unless specified otherwise, this decorator will remove ALL metadata values.");
         } catch (Exception e) {
