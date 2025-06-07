@@ -347,14 +347,17 @@ public class Main {
                         List<RadioStation> discovered = svc.discover();
                         if (verbose) {
                             System.err
-                                    .println("Service " + serviceName + " discovered " + discovered.size()
+                                    .println("Service \"" + serviceName + "\" discovered " + discovered.size()
                                             + " stations.");
                             if (decorators.size() > 0) {
                                 System.err.println("Running the result through " + decorators.size() + " decorators.");
                             }
                         }
+                        int prev = discovered.size();
                         for (ServiceDecorator decorator : decorators) {
                             discovered = decorator.decorate(discovered);
+                            if (discovered.size() != prev) throw new IllegalStateException(
+                                    "One of decorators returned an invalid amount of stations.");
                         }
                         stations.addAll(discovered);
                     } catch (Throwable e) {

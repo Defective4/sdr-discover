@@ -15,6 +15,7 @@ import org.apache.commons.cli.Options;
 import io.github.defective4.sdr.sdrdscv.ParamConverters;
 import io.github.defective4.sdr.sdrdscv.annotation.BuilderParam;
 import io.github.defective4.sdr.sdrdscv.service.decorator.ServiceDecoratorBuilder;
+import io.github.defective4.sdr.sdrdscv.service.decorator.impl.TagServiceDecorator;
 import io.github.defective4.sdr.sdrdscv.service.impl.BcastFMDiscoveryService;
 import io.github.defective4.sdr.sdrdscv.service.impl.BookmarksDiscoveryService;
 
@@ -27,6 +28,9 @@ public class ServiceManager {
             putServiceEntry("bcastfm", BcastFMDiscoveryService.Builder.class,
                     "Discover Broadcast FM stations by scanning the band for RDS services.");
             putServiceEntry("bookmarks", BookmarksDiscoveryService.Builder.class, "Read stations from a bookmark file");
+
+            putDecoratorEntry("tag", TagServiceDecorator.Builder.class,
+                    "Decorates detected stations with colored tags. The tags are comparible with Gqrx.");
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(67);
