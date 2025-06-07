@@ -50,6 +50,8 @@ public class GqrxBookmarkWriter implements BookmarkWriter {
         output.write("\n");
         output.write("# Frequency; Name; Modulation; Bandwidth; Tags\n");
         for (RadioStation station : stations) {
+            String stTagsStr = station.getMetadataValue(RadioStation.METADATA_TAGS, String.class);
+            String[] stTags = stTagsStr == null ? new String[0] : stTagsStr.split(",");
             output
                     .write(String
                             .format("    %s; %s; %s; %s; %s\n", (long) station.getFrequency(), station.getName(),
@@ -57,7 +59,7 @@ public class GqrxBookmarkWriter implements BookmarkWriter {
                                     station
                                             .getMetadataValue(RadioStation.METADATA_BANDWIDTH, Integer.class,
                                                     (int) station.getModulation().getBandwidth()),
-                                    String.join(",", tags.keySet().toArray(new String[0]))));
+                                    String.join(",", stTags)));
         }
     }
 }
