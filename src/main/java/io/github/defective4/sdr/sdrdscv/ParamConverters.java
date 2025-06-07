@@ -16,9 +16,10 @@ public class ParamConverters {
     static {
         CONVERTERS
                 .putAll(Map
-                        .of(Color.class, Color::decode, char.class, str -> str.charAt(0), int.class, Integer::parseInt,
-                                long.class, Long::parseLong, float.class, Float::parseFloat, boolean.class,
-                                Boolean::parseBoolean, String.class, str -> str, double.class, Double::parseDouble,
+                        .of(String[].class, e -> e.split(","), Color.class, Color::decode, char.class,
+                                str -> str.charAt(0), int.class, Integer::parseInt, long.class, Long::parseLong,
+                                float.class, Float::parseFloat, boolean.class, Boolean::parseBoolean, String.class,
+                                str -> str, double.class, Double::parseDouble,
                                 BcastFMDiscoveryService.StationNameConflictMode.class,
                                 str -> BcastFMDiscoveryService.StationNameConflictMode.valueOf(str.toUpperCase())));
     }
