@@ -18,20 +18,13 @@ public class BookmarksDiscoveryService implements DiscoveryService {
 
         private char gqrxSeparatorChar = ';';
         private String gqrxTagFilter;
-        private boolean jsonStripMetadata;
         private boolean lenient;
         private String readerId;
         private String source = "-";
 
         @Override
         public BookmarksDiscoveryService build() {
-            return new BookmarksDiscoveryService(lenient, readerId, source, verbose, gqrxSeparatorChar, gqrxTagFilter,
-                    jsonStripMetadata);
-        }
-
-        @BuilderParam(argName = "json-strip-metadata", description = "Remove all metadata from station read from a json dump.")
-        public void jsonStripMetadata() {
-            jsonStripMetadata = true;
+            return new BookmarksDiscoveryService(lenient, readerId, source, verbose, gqrxSeparatorChar, gqrxTagFilter);
         }
 
         @BuilderParam(argName = "lenient", description = "If enabled, invalid/malformed bookmark entries will be ignored instead of throwing an error")
@@ -84,20 +77,19 @@ public class BookmarksDiscoveryService implements DiscoveryService {
 
     private final char gqrxSeparatorChar;
     private final String gqrxTagFilter;
-    private final boolean lenient, verbose, jsonStripMetadata;
+    private final boolean lenient, verbose;
 
     private final ReaderId readerId;
     private final String source;
 
     private BookmarksDiscoveryService(boolean lenient, String readerId, String source, boolean verbose,
-            char gqrxSeparatorChar, String gqrxTagFilter, boolean jsonStripMetadata) {
+            char gqrxSeparatorChar, String gqrxTagFilter) {
         if (readerId == null) throw new IllegalArgumentException("Option \"bookmarks-reader\" is required.");
         try {
             this.readerId = ReaderId.valueOf(readerId.toUpperCase());
         } catch (Exception e) {
             throw new IllegalArgumentException("Reader not found: " + readerId);
         }
-        this.jsonStripMetadata = jsonStripMetadata;
         this.gqrxSeparatorChar = gqrxSeparatorChar;
         this.lenient = lenient;
         this.verbose = verbose;
@@ -112,7 +104,7 @@ public class BookmarksDiscoveryService implements DiscoveryService {
             reader = "-".equals(source) ? new InputStreamReader(System.in)
                     : new FileReader(source, StandardCharsets.UTF_8);
             BookmarkReader br = switch (readerId) {
-                case JSON -> new JSONBookmarkReader(lenient, verbose, jsonStripMetadata);
+                case JSON -> new JSONBookmarkReader(lenient, verbose);
                 case GQRX -> new GqrxBookmarkReader(lenient, verbose, gqrxSeparatorChar,
                         gqrxTagFilter == null ? null : gqrxTagFilter.split(","));
             };

@@ -20,11 +20,8 @@ import io.github.defective4.sdr.sdrdscv.radio.RadioStation.Modulation;
 
 public class JSONBookmarkReader extends BookmarkReader {
 
-    private final boolean stripMetadata;
-
-    public JSONBookmarkReader(boolean lenient, boolean verbose, boolean stripMetadata) {
+    public JSONBookmarkReader(boolean lenient, boolean verbose) {
         super(lenient, verbose);
-        this.stripMetadata = stripMetadata;
     }
 
     @Override
@@ -41,7 +38,7 @@ public class JSONBookmarkReader extends BookmarkReader {
                 name = child.get("name").getAsString();
                 JsonElement metaElement = child.get("metadata");
                 Map<String, Object> metadata = new HashMap<>();
-                if (!stripMetadata && metaElement instanceof JsonObject metaObj) {
+                if (metaElement instanceof JsonObject metaObj) {
                     for (Entry<String, JsonElement> entry : metaObj.entrySet())
                         if (entry.getValue() instanceof JsonPrimitive primitive) {
                             Object value;
