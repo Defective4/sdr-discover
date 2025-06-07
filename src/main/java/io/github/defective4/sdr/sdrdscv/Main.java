@@ -72,11 +72,19 @@ public class Main {
                         .build())
                 .addOption(Option.builder("h").desc("Show this help.").longOpt("help").build())
                 .addOption(Option
-                        .builder("H")
+                        .builder()
                         .desc("Show help about a service, or don't provide an argument to show help for all services.")
                         .longOpt("help-service")
                         .hasArg()
                         .argName("service")
+                        .optionalArg(true)
+                        .build())
+                .addOption(Option
+                        .builder()
+                        .desc("Show help about a decorator, or don't provide an argument to show help for all decorators.")
+                        .longOpt("help-decorator")
+                        .hasArg()
+                        .argName("decorator")
                         .optionalArg(true)
                         .build())
                 .addOption(Option
@@ -113,14 +121,19 @@ public class Main {
             printHelp(null);
             return;
         }
-        if (cli.hasOption('H')) {
-            String val = cli.getOptionValue('H');
+        if (cli.hasOption("--help-service")) {
+            String val = cli.getOptionValue("--help-service");
             printServiceHelp(val);
             return;
         }
         if (cli.hasOption("--help-output")) {
             String val = cli.getOptionValue("--help-output");
             printOutputHelp(val);
+            return;
+        }
+        if (cli.hasOption("--help-decorator")) {
+            String val = cli.getOptionValue("--help-decorator");
+            printDecoratorHelp(val);
             return;
         }
 
@@ -291,8 +304,8 @@ public class Main {
                                 try {
                                     decorators.add(decBuilder.build());
                                 } catch (Exception e) {
-                                    // TODO
-                                    System.err.println("Couldn't create service: " + e.getMessage());
+                                    printDecoratorHelp(id);
+                                    System.err.println("Couldn't create decorator: " + e.getMessage());
                                     return;
                                 }
                             }
@@ -365,6 +378,16 @@ public class Main {
         return builder.toString();
     }
 
+    private static String createDecoratorsString() {
+        StringBuilder builder = new StringBuilder();
+        for (Entry<String, BuilderEntry<? extends ServiceDecoratorBuilder<?>>> entry : ServiceManager
+                .getDecorators()
+                .entrySet()) {
+            builder.append(String.format(" - %s - %s\n", entry.getKey(), entry.getValue().getDescription()));
+        }
+        return builder.toString();
+    }
+
     private static String createOutputsString() {
         StringBuilder builder = new StringBuilder();
         for (Entry<String, WriterEntry> entry : BookmarkWriterRegistry.getWriters().entrySet()) {
@@ -383,13 +406,32 @@ public class Main {
         return builder.toString();
     }
 
+    private static void printDecoratorHelp(String decorator) {
+        Options ops = new Options();
+        String footer;
+        if (decorator == null) {
+            ops.addOptions(ServiceManager.getDecoratorOptions());
+            footer = "\nAvailable decorators:\n" + createDecoratorsString();
+        } else {
+            footer = null;
+            BuilderEntry<? extends ServiceDecoratorBuilder<?>> svc = ServiceManager.getDecorator(decorator);
+            if (svc == null) {
+                System.err.println("Decorator not found: " + decorator);
+                return;
+            }
+            for (Option op : svc.getArguments().keySet()) ops.addOption(op);
+        }
+        new HelpFormatter()
+                .printHelp(128, APP_NAME + " -S <service> <options> -D "
+                        + (decorator == null ? "<decorator>" : decorator) + " [options] [output]", null, ops, footer);
+    }
+
     private static void printHelp(String message) {
         new HelpFormatter()
                 .printHelp(APP_NAME + " [-S service] [options] [-F format] [-O filename]", null, rootOptions,
-                        message == null
-                                ? "\nAvailable services:\n" + createServicesString() + "\nAvailable outputs:\n"
-                                        + createOutputsString() + "\nAvailable bookmark readers:\n"
-                                        + createBookmarkReadersString()
+                        message == null ? "\nAvailable services:\n" + createServicesString() + "\nAvailable outputs:\n"
+                                + createOutputsString() + "\nAvailable bookmark readers:\n"
+                                + createBookmarkReadersString() + "\nAvailable decorators:\n" + createDecoratorsString()
                                 : "\n" + message);
     }
 
