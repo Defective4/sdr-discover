@@ -14,12 +14,13 @@ import org.apache.commons.cli.Options;
 
 import io.github.defective4.sdr.sdrdscv.ParamConverters;
 import io.github.defective4.sdr.sdrdscv.annotation.BuilderParam;
+import io.github.defective4.sdr.sdrdscv.service.decorator.ServiceDecoratorBuilder;
 import io.github.defective4.sdr.sdrdscv.service.impl.BcastFMDiscoveryService;
 import io.github.defective4.sdr.sdrdscv.service.impl.BookmarksDiscoveryService;
-import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryServiceBuilder;
 
 public class ServiceManager {
-    private static final Map<String, ServiceEntry> SERVICES = new LinkedHashMap<>();
+    private static final Map<String, BuilderEntry<? extends ServiceDecoratorBuilder<?>>> DECORATORS = new LinkedHashMap<>();
+    private static final Map<String, BuilderEntry<? extends DiscoveryServiceBuilder<?>>> SERVICES = new LinkedHashMap<>();
 
     static {
         try {
@@ -34,24 +35,58 @@ public class ServiceManager {
 
     public static Options getAllOptions() {
         Options ops = new Options();
-        for (String mod : SERVICES.keySet()) {
-            Options sub = makeOptionsFor(mod);
+        ops.addOptions(getServiceOptions());
+        ops.addOptions(getDecoratorOptions());
+        return ops;
+    }
+
+    public static BuilderEntry<? extends ServiceDecoratorBuilder<?>> getDecorator(String service) {
+        return DECORATORS.get(service.toLowerCase());
+    }
+
+    public static Options getDecoratorOptions() {
+        Options ops = new Options();
+        for (String mod : DECORATORS.keySet()) {
+            Options sub = makeOptionsForDecorator(mod);
             ops.addOptions(sub);
         }
         return ops;
     }
 
-    public static ServiceEntry getService(String service) {
+    public static Map<String, BuilderEntry<? extends ServiceDecoratorBuilder<?>>> getDecorators() {
+        return Collections.unmodifiableMap(DECORATORS);
+    }
+
+    public static BuilderEntry<? extends DiscoveryServiceBuilder<?>> getService(String service) {
         return SERVICES.get(service.toLowerCase());
     }
 
-    public static Map<String, ServiceEntry> getServices() {
+    public static Options getServiceOptions() {
+        Options ops = new Options();
+        for (String mod : SERVICES.keySet()) {
+            Options sub = makeOptionsForService(mod);
+            ops.addOptions(sub);
+        }
+        return ops;
+    }
+
+    public static Map<String, BuilderEntry<? extends DiscoveryServiceBuilder<?>>> getServices() {
         return Collections.unmodifiableMap(SERVICES);
     }
 
-    public static Options makeOptionsFor(String service) {
+    public static Options makeOptionsForDecorator(String decorator) {
+        if (!DECORATORS.containsKey(decorator)) return null;
+        BuilderEntry<? extends ServiceDecoratorBuilder<?>> mod = DECORATORS.get(decorator);
+        Options ops = new Options();
+        for (Option op : mod.getArguments().keySet()) {
+            ops.addOption(op);
+        }
+        return ops;
+    }
+
+    public static Options makeOptionsForService(String service) {
         if (!SERVICES.containsKey(service)) return null;
-        ServiceEntry mod = SERVICES.get(service);
+        BuilderEntry<? extends DiscoveryServiceBuilder<?>> mod = SERVICES.get(service);
         Options ops = new Options();
         for (Option op : mod.getArguments().keySet()) {
             ops.addOption(op);
@@ -92,9 +127,15 @@ public class ServiceManager {
         return Collections.unmodifiableMap(ops);
     }
 
+    private static void putDecoratorEntry(String id, Class<? extends ServiceDecoratorBuilder<?>> builderClass,
+            String description) {
+        Map<Option, Method> options = makeOptionMap(builderClass, id);
+        DECORATORS.put(id, new BuilderEntry<>(builderClass, options, description));
+    }
+
     private static void putServiceEntry(String id, Class<? extends DiscoveryServiceBuilder<?>> builderClass,
             String description) {
         Map<Option, Method> options = makeOptionMap(builderClass, id);
-        SERVICES.put(id, new ServiceEntry(builderClass, options, description));
+        SERVICES.put(id, new BuilderEntry<>(builderClass, options, description));
     }
 }

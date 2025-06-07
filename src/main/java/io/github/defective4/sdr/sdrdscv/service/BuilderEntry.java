@@ -5,15 +5,12 @@ import java.util.Map;
 
 import org.apache.commons.cli.Option;
 
-import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryServiceBuilder;
-
-public class ServiceEntry {
+public class BuilderEntry<T> {
     private final Map<Option, Method> arguments;
-    private final Class<? extends DiscoveryServiceBuilder<?>> builderClass;
+    private final Class<T> builderClass;
     private final String description;
 
-    public ServiceEntry(Class<? extends DiscoveryServiceBuilder<?>> builderClass, Map<Option, Method> arguments,
-            String description) {
+    public BuilderEntry(Class<T> builderClass, Map<Option, Method> arguments, String description) {
         this.builderClass = builderClass;
         this.arguments = arguments;
         this.description = description;
@@ -23,7 +20,7 @@ public class ServiceEntry {
         return arguments;
     }
 
-    public Class<? extends DiscoveryServiceBuilder<?>> getBuilderClass() {
+    public Class<T> getBuilderClass() {
         return builderClass;
     }
 

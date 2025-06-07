@@ -1,4 +1,4 @@
-package io.github.defective4.sdr.sdrdscv.service.impl;
+package io.github.defective4.sdr.sdrdscv.service;
 
 import java.util.List;
 

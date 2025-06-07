@@ -11,6 +11,8 @@ import io.github.defective4.sdr.sdrdscv.io.reader.BookmarkReader;
 import io.github.defective4.sdr.sdrdscv.io.reader.GqrxBookmarkReader;
 import io.github.defective4.sdr.sdrdscv.io.reader.JSONBookmarkReader;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
+import io.github.defective4.sdr.sdrdscv.service.DiscoveryService;
+import io.github.defective4.sdr.sdrdscv.service.DiscoveryServiceBuilder;
 
 public class BookmarksDiscoveryService implements DiscoveryService {
 

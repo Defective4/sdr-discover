@@ -28,11 +28,13 @@ import io.github.defective4.sdr.sdrdscv.io.writer.BookmarkWriter;
 import io.github.defective4.sdr.sdrdscv.io.writer.BookmarkWriterRegistry;
 import io.github.defective4.sdr.sdrdscv.io.writer.BookmarkWriterRegistry.WriterEntry;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
-import io.github.defective4.sdr.sdrdscv.service.ServiceEntry;
+import io.github.defective4.sdr.sdrdscv.service.BuilderEntry;
+import io.github.defective4.sdr.sdrdscv.service.DiscoveryService;
+import io.github.defective4.sdr.sdrdscv.service.DiscoveryServiceBuilder;
 import io.github.defective4.sdr.sdrdscv.service.ServiceManager;
+import io.github.defective4.sdr.sdrdscv.service.decorator.ServiceDecorator;
+import io.github.defective4.sdr.sdrdscv.service.decorator.ServiceDecoratorBuilder;
 import io.github.defective4.sdr.sdrdscv.service.impl.BookmarksDiscoveryService.ReaderId;
-import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryService;
-import io.github.defective4.sdr.sdrdscv.service.impl.DiscoveryServiceBuilder;
 
 public class Main {
     public static final String APP_NAME = "sdr-discover";
@@ -41,16 +43,23 @@ public class Main {
     static {
         rootOptions = new Options()
                 .addOption(Option
+                        .builder("D")
+                        .argName("decorator")
+                        .hasArg()
+                        .desc("Attach a decorator to current service.")
+                        .longOpt("decorator")
+                        .build())
+                .addOption(Option
                         .builder("O")
                         .argName("output-file")
-                        .hasArgs()
+                        .hasArg()
                         .desc("Specify where to write command's output. Use \"-\" for standard output.")
                         .longOpt("output")
                         .build())
                 .addOption(Option
                         .builder("F")
                         .argName("format")
-                        .hasArgs()
+                        .hasArg()
                         .desc("Specify which output format to use.")
                         .longOpt("output-format")
                         .build())
@@ -185,24 +194,39 @@ public class Main {
                     "-".equals(oName) ? System.out : Files.newOutputStream(Path.of(oName)))) {
 
                 Map<Integer, Map<Option, String>> serviceOptions = new HashMap<>();
+                Map<Integer, String[]> serviceDecorators = new HashMap<>();
                 Map<Option, Integer> opTrack = new HashMap<>();
                 Map<Option, Method> lastService = new HashMap<>();
                 int svcId = -1;
 
                 for (Option op : cli.getOptions()) {
                     int opNum = opTrack.getOrDefault(op, 0);
-                    if ("S".equals(op.getKey())) {
-                        ServiceEntry service = ServiceManager.getService(cli.getOptionValues(op)[opNum]);
-                        lastService.clear();
-                        if (service != null) lastService.putAll(service.getArguments());
-                        svcId++;
-                    } else {
-                        String val = null;
-                        String[] vals = cli.getOptionValues(op);
-                        if (vals != null) {
-                            val = vals[opNum];
+                    switch (op.getKey()) {
+                        case "S": {
+                            BuilderEntry<? extends DiscoveryServiceBuilder<?>> service = ServiceManager
+                                    .getService(cli.getOptionValues(op)[opNum]);
+                            lastService.clear();
+                            if (service != null) lastService.putAll(service.getArguments());
+                            svcId++;
+                            break;
                         }
-                        serviceOptions.computeIfAbsent(svcId, e -> new HashMap<>()).put(op, val);
+                        case "D": {
+                            if (svcId < 0) break;
+                            String[] decorators = cli.getOptionValues(op)[opNum].split(",");
+                            for (int i = 0; i < decorators.length; i++) decorators[i] = decorators[i].trim();
+                            serviceDecorators.put(svcId, decorators);
+                            break;
+                        }
+                        default: {
+                            if (svcId < 0) break;
+                            String val = null;
+                            String[] vals = cli.getOptionValues(op);
+                            if (vals != null) {
+                                val = vals[opNum];
+                            }
+                            serviceOptions.computeIfAbsent(svcId, e -> new HashMap<>()).put(op, val);
+                            break;
+                        }
                     }
                     opTrack.compute(op, (o, e) -> e == null ? 1 : e + 1);
                 }
@@ -214,7 +238,7 @@ public class Main {
                 String[] values = cli.getOptionValues('S');
                 for (int sid = 0; sid < values.length; sid++) {
                     String serviceName = values[sid];
-                    ServiceEntry service = ServiceManager.getService(serviceName);
+                    BuilderEntry<? extends DiscoveryServiceBuilder<?>> service = ServiceManager.getService(serviceName);
                     if (service == null) {
                         System.out.println("Service not found: " + serviceName);
                         return;
@@ -224,6 +248,56 @@ public class Main {
                         DiscoveryServiceBuilder<?> builder = service.getBuilderClass().getConstructor().newInstance();
                         if (verbose) builder.verbose();
                         Map<Option, String> sOps = serviceOptions.getOrDefault(sid, new HashMap<>());
+                        String[] decoratorIds = serviceDecorators.get(sid);
+                        List<ServiceDecorator> decorators = new ArrayList<>();
+
+                        if (decoratorIds != null) {
+                            for (String id : decoratorIds) {
+                                BuilderEntry<? extends ServiceDecoratorBuilder<?>> decoratorEntry = ServiceManager
+                                        .getDecorator(id);
+                                if (decoratorEntry == null) {
+                                    printHelp("Unknown decorator: " + id);
+                                    return;
+                                }
+                                ServiceDecoratorBuilder<?> decBuilder = decoratorEntry
+                                        .getBuilderClass()
+                                        .getConstructor()
+                                        .newInstance();
+                                for (Entry<Option, Method> entry : decoratorEntry.getArguments().entrySet()) {
+                                    Option key = entry.getKey();
+                                    if (cli.hasOption(key) && sOps.containsKey(key)) {
+                                        try {
+                                            String rawVal = sOps.get(key);
+                                            if (rawVal == null) {
+                                                entry.getValue().invoke(decBuilder);
+                                                continue;
+                                            }
+                                            Object value;
+                                            if (key.getConverter() != null) {
+                                                value = ParamConverters.convert(key.getConverter(), rawVal);
+                                            } else {
+                                                value = rawVal;
+                                            }
+                                            entry.getValue().invoke(decBuilder, value);
+                                        } catch (ParseException e) {
+                                            System.err
+                                                    .println(String
+                                                            .format("Invalid value \"%s\" for option %s",
+                                                                    cli.getOptionValue(key), key.getKey()));
+                                            return;
+                                        }
+                                    }
+                                }
+                                try {
+                                    decorators.add(decBuilder.build());
+                                } catch (Exception e) {
+                                    // TODO
+                                    System.err.println("Couldn't create service: " + e.getMessage());
+                                    return;
+                                }
+                            }
+                        }
+
                         for (Entry<Option, Method> entry : service.getArguments().entrySet()) {
                             Option key = entry.getKey();
                             if (cli.hasOption(key) && sOps.containsKey(key)) {
@@ -257,7 +331,19 @@ public class Main {
                             System.err.println("Couldn't create service: " + e.getMessage());
                             return;
                         }
-                        stations.addAll(svc.discover());
+                        List<RadioStation> discovered = svc.discover();
+                        if (verbose) {
+                            System.err
+                                    .println("Service " + serviceName + " discovered " + discovered.size()
+                                            + " stations.");
+                            if (decorators.size() > 0) {
+                                System.err.println("Running the result through " + decorators.size() + " decorators.");
+                            }
+                        }
+                        for (ServiceDecorator decorator : decorators) {
+                            discovered = decorator.decorate(discovered);
+                        }
+                        stations.addAll(discovered);
                     } catch (Throwable e) {
                         e.printStackTrace();
                     }
@@ -289,7 +375,9 @@ public class Main {
 
     private static String createServicesString() {
         StringBuilder builder = new StringBuilder();
-        for (Entry<String, ServiceEntry> entry : ServiceManager.getServices().entrySet()) {
+        for (Entry<String, BuilderEntry<? extends DiscoveryServiceBuilder<?>>> entry : ServiceManager
+                .getServices()
+                .entrySet()) {
             builder.append(String.format(" - %s - %s\n", entry.getKey(), entry.getValue().getDescription()));
         }
         return builder.toString();
@@ -329,11 +417,11 @@ public class Main {
         Options ops = new Options();
         String footer;
         if (service == null) {
-            ops.addOptions(ServiceManager.getAllOptions());
+            ops.addOptions(ServiceManager.getServiceOptions());
             footer = "\nAvailable services:\n" + createServicesString();
         } else {
             footer = null;
-            ServiceEntry svc = ServiceManager.getService(service);
+            BuilderEntry<? extends DiscoveryServiceBuilder<?>> svc = ServiceManager.getService(service);
             if (svc == null) {
                 System.err.println("Service not found: " + service);
                 return;
