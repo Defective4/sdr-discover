@@ -14,20 +14,11 @@ import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 
 public class GqrxBookmarkWriter implements BookmarkWriter {
 
-    private final Color tagColor;
-    private final String tagName;
-
-    public GqrxBookmarkWriter(
-            @WriterParam(argName = "tag-name", defaultValue = "Discovered", description = "Assigns a tag name to all detected stations.") String tagName,
-            @WriterParam(argName = "tag-color", defaultValue = "#ffffff", description = "Defines the color used for all detected stations.") Color tagColor) {
-        this.tagName = tagName;
-        this.tagColor = tagColor;
-    }
+    public GqrxBookmarkWriter() {}
 
     @Override
     public void write(Writer output, List<RadioStation> stations) throws IOException {
         Map<String, Color> tags = new HashMap<>();
-        tags.put(tagName, tagColor);
         for (RadioStation station : stations) {
             String metaTags = station.getMetadataValue(RadioStation.METADATA_GQRX_TAGS, String.class);
             if (metaTags != null) {
@@ -59,11 +50,6 @@ public class GqrxBookmarkWriter implements BookmarkWriter {
         output.write("\n");
         output.write("# Frequency; Name; Modulation; Bandwidth; Tags\n");
         for (RadioStation station : stations) {
-            String metaTags = station.getMetadataValue(RadioStation.METADATA_GQRX_TAGS, String.class);
-            String[] tagsArray;
-            tagsArray = metaTags == null ? new String[] {
-                    tagName
-            } : metaTags.split(",");
             output
                     .write(String
                             .format("    %s; %s; %s; %s; %s\n", (long) station.getFrequency(), station.getName(),
@@ -71,7 +57,7 @@ public class GqrxBookmarkWriter implements BookmarkWriter {
                                     station
                                             .getMetadataValue(RadioStation.METADATA_BANDWIDTH, Integer.class,
                                                     (int) station.getModulation().getBandwidth()),
-                                    String.join(",", tagsArray)));
+                                    String.join(",", tags.keySet().toArray(new String[0]))));
         }
     }
 }
