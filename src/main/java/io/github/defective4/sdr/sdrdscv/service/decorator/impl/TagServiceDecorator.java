@@ -17,19 +17,18 @@ public class TagServiceDecorator implements ServiceDecorator {
 
     public static class Builder implements ServiceDecoratorBuilder<TagServiceDecorator> {
 
-        private String tagName = "Discovered";
-        private Color tagColor = Color.white;
         private boolean append = true;
+        private Color tagColor = Color.white;
+        private String tagName = "Discovered";
+
+        @Override
+        public TagServiceDecorator build() {
+            return new TagServiceDecorator(tagName, tagColor, append);
+        }
 
         @BuilderParam(argName = "no-append", description = "Disables appending of tags when a station is already tagged. The tags are replaced instead.")
         public Builder noAppend() {
-            this.append = false;
-            return this;
-        }
-
-        @BuilderParam(argName = "name", defaultField = "tagName", description = "This tag name will be added to all decorated stations")
-        public Builder withTagName(String tagName) {
-            this.tagName = tagName;
+            append = false;
             return this;
         }
 
@@ -39,16 +38,17 @@ public class TagServiceDecorator implements ServiceDecorator {
             return this;
         }
 
-        @Override
-        public TagServiceDecorator build() {
-            return new TagServiceDecorator(tagName, tagColor, append);
+        @BuilderParam(argName = "name", defaultField = "tagName", description = "This tag name will be added to all decorated stations")
+        public Builder withTagName(String tagName) {
+            this.tagName = tagName;
+            return this;
         }
 
     }
 
-    private final String tagName;
-    private final Color tagColor;
     private final boolean append;
+    private final Color tagColor;
+    private final String tagName;
 
     private TagServiceDecorator(String tagName, Color tagColor, boolean append) {
         this.tagName = tagName;
