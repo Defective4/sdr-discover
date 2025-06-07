@@ -68,9 +68,9 @@ public class TagServiceDecorator implements ServiceDecorator {
                 String oldColors = station.getMetadataValue(RadioStation.METADATA_TAG_COLORS, String.class);
                 if (oldTags != null) Collections.addAll(tags, oldTags.split(","));
                 if (oldColors != null) Collections.addAll(colors, oldColors.split(","));
-                tags.add(tagName);
-                colors.add(ParamConverters.encodeColor(tagColor));
             }
+            tags.add(tagName);
+            colors.add(ParamConverters.encodeColor(tagColor));
             metadata.put(RadioStation.METADATA_TAGS, String.join(",", tags.toArray(new String[0])));
             metadata.put(RadioStation.METADATA_TAG_COLORS, String.join(",", colors.toArray(new String[0])));
             decorated
