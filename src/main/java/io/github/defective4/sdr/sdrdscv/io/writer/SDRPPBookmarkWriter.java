@@ -32,7 +32,11 @@ public class SDRPPBookmarkWriter implements BookmarkWriter {
 
         for (RadioStation station : stations) {
             JsonObject bookmark = new JsonObject();
-            bookmark.addProperty("bandwidth", station.getModulation().getBandwidth());
+            bookmark
+                    .addProperty("bandwidth",
+                            (float) station
+                                    .getMetadataValue(RadioStation.METADATA_BANDWIDTH, Integer.class,
+                                            (int) station.getModulation().getBandwidth()));
             bookmark.addProperty("frequency", station.getFrequency());
             bookmark.addProperty("mode", station.getModulation().getSdrppMod());
             bookmarks.add(station.getName(), bookmark);

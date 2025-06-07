@@ -30,7 +30,10 @@ public class GqrxBookmarkWriter implements BookmarkWriter {
             output
                     .write(String
                             .format("    %s; %s; %s; %s; %s\n", (long) station.getFrequency(), station.getName(),
-                                    station.getModulation().getGqrxMod(), (int) station.getModulation().getBandwidth(),
+                                    station.getModulation().getGqrxMod(),
+                                    station
+                                            .getMetadataValue(RadioStation.METADATA_BANDWIDTH, Integer.class,
+                                                    (int) station.getModulation().getBandwidth()),
                                     tagName));
         }
     }
