@@ -44,7 +44,7 @@ public class Main {
         rootOptions = new Options()
                 .addOption(Option
                         .builder("D")
-                        .argName("decorator")
+                        .argName("decorate")
                         .hasArg()
                         .desc("Attach a decorator to current service.")
                         .longOpt("decorator")
