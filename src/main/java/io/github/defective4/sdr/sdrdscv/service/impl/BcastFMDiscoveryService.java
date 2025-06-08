@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -200,15 +201,26 @@ public class BcastFMDiscoveryService implements DiscoveryService {
 
     @Override
     public List<RadioStation> decorate(List<RadioStation> decorate, ChainServiceDecorator decorator) throws Exception {
-        return null;
+        return discover(decorate, decorator);
     }
 
     @Override
     public List<RadioStation> discover() throws Exception {
+        return discover(null, null);
+    }
+
+    @Override
+    public boolean isDecoratingSupported() {
+        return true;
+    }
+
+    private List<RadioStation> discover(List<RadioStation> decorate, ChainServiceDecorator decorator) throws Exception {
+        if (controlProbeFrequency != -1 && decorate != null)
+            throw new IOException("Control probe is not allowed in decorator mode.");
         process = GRScriptRunner
                 .run("rds_rx.py", Collections.singleton("rds_rx_epy_block_0.py"), "--params", sdrParams, "--gain", gain,
                         "--rdsPort", rdsPort, "--probePort", probePort, "--ctlPort", ctlPort);
-        
+
         try (RawMessageReceiver signalProbe = new RawMessageReceiver("tcp://localhost:" + probePort, false);
                 RawMessageSender controller = new RawMessageSender("tcp://localhost:" + ctlPort, false);
                 RDSReceiver rdsReceiver = new RDSReceiver("tcp://localhost:" + rdsPort, false)) {
@@ -263,7 +275,28 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             } else average = sensitivity / 100d;
 
             List<RadioStation> stations = new ArrayList<>();
-            for (float freq = startFreq; freq <= endFreq; freq += 100e3f) {
+            if (decorate != null && decorator != null) {
+                for (RadioStation prev : decorate) {
+                    float freq = prev.getFrequency();
+                    if (verbose) System.err.println("Trying " + freq + "Hz...");
+                    RadioStation detected = tryFrequency(freq, signalProbe, rdsReceiver, average);
+                    Map<String, Object> metadata;
+                    if (decorator.isIgnoreMeta()) {
+                        metadata = prev.getMetadata();
+                    } else {
+                        metadata = new HashMap<>(detected.getMetadata());
+                        if (!decorator.isReplaceMeta()) {
+                            for (Entry<String, Object> entry : prev.getMetadata().entrySet()) {
+                                metadata.put(entry.getKey(), entry.getValue());
+                            }
+                        }
+                    }
+                    System.err.println("Decorated station \"" + prev.getName() + "\"");
+                    stations
+                            .add(new RadioStation((decorator.isReplaceNames() ? detected : prev).getName(), freq,
+                                    (decorator.isReplaceModulation() ? detected : prev).getModulation(), metadata));
+                }
+            } else for (float freq = startFreq; freq <= endFreq; freq += 100e3f) {
                 if (verbose) System.err.println("Trying " + freq + "Hz...");
                 RadioStation station = tryFrequency(freq, signalProbe, rdsReceiver, average);
                 if (station != null) {
@@ -276,11 +309,6 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         } finally {
             process.destroyForcibly();
         }
-    }
-
-    @Override
-    public boolean isDecoratingSupported() {
-        return false;
     }
 
     private Collection<Double> measureAverageSignalStrength(RawMessageReceiver probe)

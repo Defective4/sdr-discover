@@ -12,16 +12,28 @@ public class ChainServiceDecorator implements ServiceDecorator {
     public static class Builder implements ServiceDecoratorBuilder<ChainServiceDecorator> {
 
         private boolean replaceMeta, ignoreMeta;
+        private boolean replaceModulation = true;
         private boolean replaceNames = true;
 
         @Override
         public ChainServiceDecorator build() {
-            return new ChainServiceDecorator(replaceMeta, ignoreMeta, replaceNames);
+            return new ChainServiceDecorator(replaceMeta, ignoreMeta, replaceNames, replaceModulation);
         }
 
         @BuilderParam(argName = "ignore-meta", description = "Keep all previous metadata intact.")
         public void ignoreMeta() {
             ignoreMeta = true;
+        }
+
+        @BuilderParam(argName = "keep-modulation", description = "Doen't replace modulation with this decorator's results.")
+        public void keepModulation() {
+            replaceModulation = false;
+        }
+
+        @BuilderParam(argName = "keep-names", description = "If enabled, this decorator won't replace station names.")
+        public Builder keepNames() {
+            replaceNames = false;
+            return this;
         }
 
         @BuilderParam(argName = "replace-meta", description = "If enabled, all metadata will be replaced by the decorator, instead of merging.")
@@ -30,20 +42,16 @@ public class ChainServiceDecorator implements ServiceDecorator {
             return this;
         }
 
-        @BuilderParam(argName = "keep-names", description = "If enabled, this decorator won't replace station names.")
-        public Builder replaceNames() {
-            replaceNames = true;
-            return this;
-        }
-
     }
 
-    private final boolean replaceMeta, ignoreMeta, replaceNames;
+    private final boolean replaceMeta, ignoreMeta, replaceNames, replaceModulation;
 
-    private ChainServiceDecorator(boolean replaceMeta, boolean ignoreMeta, boolean replaceNames) {
+    private ChainServiceDecorator(boolean replaceMeta, boolean ignoreMeta, boolean replaceNames,
+            boolean replaceModulation) {
         this.replaceMeta = replaceMeta;
         this.ignoreMeta = ignoreMeta;
         this.replaceNames = replaceNames;
+        this.replaceModulation = replaceModulation;
     }
 
     @Override
@@ -57,6 +65,10 @@ public class ChainServiceDecorator implements ServiceDecorator {
 
     public boolean isReplaceMeta() {
         return replaceMeta;
+    }
+
+    public boolean isReplaceModulation() {
+        return replaceModulation;
     }
 
     public boolean isReplaceNames() {

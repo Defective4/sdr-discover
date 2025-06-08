@@ -251,6 +251,7 @@ public class Main {
                 List<RadioStation> stations = new ArrayList<>();
                 String[] values = cli.getOptionValues('S');
                 List<RadioStation> lastToDecorate = null;
+                ChainServiceDecorator lastChainDecorator = null;
 
                 for (int sid = 0; sid < values.length; sid++) {
                     String serviceName = values[sid];
@@ -266,7 +267,6 @@ public class Main {
                         Map<Option, String> sOps = serviceOptions.getOrDefault(sid, new HashMap<>());
                         String[] decoratorIds = serviceDecorators.get(sid);
                         List<ServiceDecorator> decorators = new ArrayList<>();
-                        ChainServiceDecorator lastChainDecorator = null;
 
                         if (decoratorIds != null) {
                             for (String id : decoratorIds) {
@@ -376,12 +376,6 @@ public class Main {
                                     "One of decorators returned an invalid amount of stations.");
                         }
                         if (decorateMode) {
-                            if (sid >= values.length - 1) {
-                                System.err
-                                        .println(
-                                                "When using chain decorator, you also have to add another service to chain it with.");
-                                return;
-                            }
                             lastToDecorate = discovered;
                         } else stations.addAll(discovered);
                     } catch (Throwable e) {
