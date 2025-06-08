@@ -1,5 +1,7 @@
 package io.github.defective4.sdr.sdrdscv.io.writer;
 
+import static io.github.defective4.sdr.sdrdscv.radio.RadioStation.*;
+
 import java.io.Writer;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import io.github.defective4.sdr.sdrdscv.annotation.ConstructorParam;
+import io.github.defective4.sdr.sdrdscv.radio.Modulation;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 
 public class OpenWebRXBookmarkWriter implements BookmarkWriter {
@@ -34,14 +37,24 @@ public class OpenWebRXBookmarkWriter implements BookmarkWriter {
             JsonObject obj = new JsonObject();
             obj.addProperty("name", station.getName());
             obj.addProperty("frequency", (int) station.getFrequency());
-            obj.addProperty("modulation", station.getModulation().getOwrxMod());
-            obj.addProperty("underlying", "");
+            Modulation modulation = station.getModulation();
+            obj
+                    .addProperty("modulation",
+                            modulation == Modulation.CUSTOM
+                                    && station.getMetadata().containsKey(METADATA_CUSTOM_MODULATION)
+                                            ? station
+                                                    .getMetadataValue(METADATA_CUSTOM_MODULATION, String.class,
+                                                            Modulation.RAW.getOwrxMod())
+                                            : modulation.getOwrxMod());
+            obj.addProperty("underlying", station.getMetadataValue(METADATA_SECONDARY_MODULATION, String.class, ""));
             obj
                     .addProperty("description",
-                            includeDescription
-                                    ? station.getMetadataValue(RadioStation.METADATA_DESCRIPTION, String.class, "")
-                                    : "");
-            obj.addProperty("scannable", scannable);
+                            includeDescription ? station.getMetadataValue(METADATA_DESCRIPTION, String.class, "") : "");
+            obj
+                    .addProperty("scannable",
+                            station.getMetadata().containsKey(METADATA_SCANNABLE)
+                                    ? station.getMetadataValue(METADATA_SCANNABLE, Boolean.class, false)
+                                    : scannable);
             array.add(obj);
         }
         gson.toJson(array, output);
