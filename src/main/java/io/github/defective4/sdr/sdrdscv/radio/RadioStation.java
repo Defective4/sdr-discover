@@ -41,6 +41,11 @@ public class RadioStation {
             throw new IllegalArgumentException(modulationStr + " is not a valid gqrx modulation");
         }
 
+        public static Modulation fromSdrppMod(int code) {
+            for (Modulation mod : values()) if (mod.sdrppMod == code) return mod;
+            throw new IllegalArgumentException("Invalid SDR++ modulation code: " + code);
+        }
+
     }
 
     public static final String METADATA_BANDWIDTH = "bandwidth";

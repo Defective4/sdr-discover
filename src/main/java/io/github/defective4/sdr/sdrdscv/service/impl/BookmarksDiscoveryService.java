@@ -10,6 +10,7 @@ import io.github.defective4.sdr.sdrdscv.annotation.BuilderParam;
 import io.github.defective4.sdr.sdrdscv.io.reader.BookmarkReader;
 import io.github.defective4.sdr.sdrdscv.io.reader.GqrxBookmarkReader;
 import io.github.defective4.sdr.sdrdscv.io.reader.JSONBookmarkReader;
+import io.github.defective4.sdr.sdrdscv.io.reader.SDRPPBookmarkReader;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 import io.github.defective4.sdr.sdrdscv.service.DiscoveryService;
 import io.github.defective4.sdr.sdrdscv.service.DiscoveryServiceBuilder;
@@ -23,16 +24,24 @@ public class BookmarksDiscoveryService implements DiscoveryService {
         private String gqrxTagFilter;
         private boolean lenient;
         private String readerId;
+        private String[] sdrppListFilter;
         private String source = "-";
 
         @Override
         public BookmarksDiscoveryService build() {
-            return new BookmarksDiscoveryService(lenient, readerId, source, verbose, gqrxSeparatorChar, gqrxTagFilter);
+            return new BookmarksDiscoveryService(lenient, readerId, source, verbose, gqrxSeparatorChar, gqrxTagFilter,
+                    sdrppListFilter);
         }
 
         @BuilderParam(argName = "lenient", description = "If enabled, invalid/malformed bookmark entries will be ignored instead of throwing an error")
         public Builder lenient() {
             lenient = true;
+            return this;
+        }
+
+        @BuilderParam(argName = "sdrpp-list-filter", description = "Comma-separated list of list names to read from SDR++ file")
+        public Builder sdrppListFilter(String[] filter) {
+            sdrppListFilter = filter;
             return this;
         }
 
@@ -64,7 +73,8 @@ public class BookmarksDiscoveryService implements DiscoveryService {
 
     public static enum ReaderId {
         GQRX("Read bookmarks from gqrx's CSV file"),
-        JSON("Read stations stored in a JSON file output by the \"json\" writer.");
+        JSON("Read stations stored in a JSON file output by the \"json\" writer."),
+        SDRPP("Read bookmarks from SDR++ frequency manager JSON file");
 
         private final String description;
 
@@ -83,10 +93,11 @@ public class BookmarksDiscoveryService implements DiscoveryService {
     private final boolean lenient, verbose;
 
     private final ReaderId readerId;
+    private final String[] sdrppListFilter;
     private final String source;
 
     private BookmarksDiscoveryService(boolean lenient, String readerId, String source, boolean verbose,
-            char gqrxSeparatorChar, String gqrxTagFilter) {
+            char gqrxSeparatorChar, String gqrxTagFilter, String[] sdrppListFilter) {
         if (readerId == null) throw new IllegalArgumentException("Option \"bookmarks-reader\" is required.");
         try {
             this.readerId = ReaderId.valueOf(readerId.toUpperCase());
@@ -98,6 +109,7 @@ public class BookmarksDiscoveryService implements DiscoveryService {
         this.verbose = verbose;
         this.source = source;
         this.gqrxTagFilter = gqrxTagFilter;
+        this.sdrppListFilter = sdrppListFilter;
     }
 
     @Override
@@ -115,6 +127,7 @@ public class BookmarksDiscoveryService implements DiscoveryService {
                 case JSON -> new JSONBookmarkReader(lenient, verbose);
                 case GQRX -> new GqrxBookmarkReader(lenient, verbose, gqrxSeparatorChar,
                         gqrxTagFilter == null ? null : gqrxTagFilter.split(","));
+                case SDRPP -> new SDRPPBookmarkReader(lenient, verbose, sdrppListFilter);
             };
             return br.read(reader);
         } finally {
