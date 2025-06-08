@@ -28,7 +28,7 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 12.0]
+    coordinate: [16, 8.0]
     rotation: 0
     state: enabled
 
@@ -196,25 +196,6 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [728, 144.0]
-    rotation: 0
-    state: true
-- name: blocks_throttle_0
-  id: blocks_throttle
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    ignoretag: 'True'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samples_per_second: samp_rate
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [288, 392.0]
     rotation: 0
     state: true
 - name: blocks_var_to_msg_0
@@ -983,7 +964,6 @@ connections:
 - [analog_agc_xx_0, '0', digital_symbol_sync_xx_0, '0']
 - [analog_quadrature_demod_cf_0, '0', freq_xlating_fir_filter_xxx_1_0, '0']
 - [blocks_complex_to_mag_squared_0, '0', sigProbe, '0']
-- [blocks_throttle_0, '0', freq_xlating_fir_filter_xxx_0, '0']
 - [blocks_var_to_msg_0, msgout, zeromq_push_msg_sink_1, in]
 - [digital_constellation_receiver_cb_0, '0', digital_diff_decoder_bb_0, '0']
 - [digital_diff_decoder_bb_0, '0', rds_decoder_0, '0']
@@ -992,7 +972,7 @@ connections:
 - [freq_xlating_fir_filter_xxx_0, '0', analog_quadrature_demod_cf_0, '0']
 - [freq_xlating_fir_filter_xxx_0, '0', blocks_complex_to_mag_squared_0, '0']
 - [freq_xlating_fir_filter_xxx_1_0, '0', rational_resampler_xxx_1, '0']
-- [osmosdr_source_0, '0', blocks_throttle_0, '0']
+- [osmosdr_source_0, '0', freq_xlating_fir_filter_xxx_0, '0']
 - [rational_resampler_xxx_1, '0', fir_filter_xxx_2, '0']
 - [rds_decoder_0, out, rds_parser_0, in]
 - [rds_parser_0, out, zeromq_push_msg_sink_0, in]

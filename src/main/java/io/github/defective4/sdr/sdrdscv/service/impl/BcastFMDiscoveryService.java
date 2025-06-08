@@ -208,6 +208,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         process = GRScriptRunner
                 .run("rds_rx.py", Collections.singleton("rds_rx_epy_block_0.py"), "--params", sdrParams, "--gain", gain,
                         "--rdsPort", rdsPort, "--probePort", probePort, "--ctlPort", ctlPort);
+        
         try (RawMessageReceiver signalProbe = new RawMessageReceiver("tcp://localhost:" + probePort, false);
                 RawMessageSender controller = new RawMessageSender("tcp://localhost:" + ctlPort, false);
                 RDSReceiver rdsReceiver = new RDSReceiver("tcp://localhost:" + rdsPort, false)) {
@@ -225,6 +226,26 @@ public class BcastFMDiscoveryService implements DiscoveryService {
                     rdsReceiver.start();
                 } catch (Exception e2) {}
             }).start();
+
+            Object lock = new Object();
+            AtomicBoolean success = new AtomicBoolean();
+
+            if (verbose) System.err.println("Connecting with the receiver...");
+            signalProbe.addListener(new MessageListener() {
+
+                @Override
+                public void messageReceived(MessagePair pair) {
+                    success.set(true);
+                    synchronized (lock) {
+                        lock.notify();
+                    }
+                }
+            });
+
+            synchronized (lock) {
+                lock.wait(10000);
+            }
+            if (!success.get()) throw new IOException("Couldn't connect with the receiver");
 
             double average;
             if (controlProbeFrequency != -1) {
