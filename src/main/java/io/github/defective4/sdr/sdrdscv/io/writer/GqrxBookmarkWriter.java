@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.opencsv.CSVWriterBuilder;
+import com.opencsv.ICSVWriter;
+
 import io.github.defective4.sdr.sdrdscv.ParamConverters;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 
@@ -18,6 +21,7 @@ public class GqrxBookmarkWriter implements BookmarkWriter {
 
     @Override
     public void write(Writer output, List<RadioStation> stations) throws IOException {
+        ICSVWriter csv = new CSVWriterBuilder(output).withSeparator(';').build();
         Map<String, Color> tags = new HashMap<>();
         for (RadioStation station : stations) {
             String metaTags = station.getMetadataValue(RadioStation.METADATA_TAGS, String.class);
@@ -42,24 +46,34 @@ public class GqrxBookmarkWriter implements BookmarkWriter {
                 }
             }
         }
-        output.write("# Tag name; color\n");
+        csv.writeNext(new String[] {
+                "# Tag name", "color"
+        }, false);
         for (Entry<String, Color> entry : tags.entrySet()) {
             String color = ParamConverters.encodeColor(entry.getValue());
-            output.write(entry.getKey() + "; " + color + "\n");
+            csv.writeNext(new String[] {
+                    entry.getKey(), color
+            }, false);
         }
+
+        csv.flush();
         output.write("\n");
-        output.write("# Frequency; Name; Modulation; Bandwidth; Tags\n");
+        csv.writeNext(new String[] {
+                "# Frequency", "Name", "Modulation", "Bandwidth", "Tags"
+        }, false);
         for (RadioStation station : stations) {
             String stTagsStr = station.getMetadataValue(RadioStation.METADATA_TAGS, String.class);
             String[] stTags = stTagsStr == null ? new String[0] : stTagsStr.split(",");
-            output
-                    .write(String
-                            .format("    %s; %s; %s; %s; %s\n", (long) station.getFrequency(), station.getName(),
-                                    station.getModulation().getGqrxMod(),
-                                    station
-                                            .getMetadataValue(RadioStation.METADATA_BANDWIDTH, Integer.class,
-                                                    (int) station.getModulation().getBandwidth()),
-                                    String.join(",", stTags)));
+            csv.writeNext(new String[] {
+                    "    " + Long.toString((long) station.getFrequency()), station.getName(),
+                    station.getModulation().getGqrxMod(),
+                    Integer
+                            .toString(station
+                                    .getMetadataValue(RadioStation.METADATA_BANDWIDTH, Integer.class,
+                                            (int) station.getModulation().getBandwidth())),
+                    String.join(",", stTags)
+            }, false);
         }
+        csv.flush();
     }
 }
