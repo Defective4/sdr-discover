@@ -34,6 +34,7 @@ import io.github.defective4.sdr.sdrdscv.service.DiscoveryServiceBuilder;
 import io.github.defective4.sdr.sdrdscv.service.ServiceManager;
 import io.github.defective4.sdr.sdrdscv.service.decorator.ServiceDecorator;
 import io.github.defective4.sdr.sdrdscv.service.decorator.ServiceDecoratorBuilder;
+import io.github.defective4.sdr.sdrdscv.service.decorator.impl.ChainServiceDecorator;
 import io.github.defective4.sdr.sdrdscv.service.impl.BookmarksDiscoveryService.ReaderId;
 
 public class Main {
@@ -44,10 +45,10 @@ public class Main {
         rootOptions = new Options()
                 .addOption(Option
                         .builder("D")
-                        .argName("decorate")
+                        .argName("decorator")
                         .hasArg()
                         .desc("Attach a decorator to current service.")
-                        .longOpt("decorator")
+                        .longOpt("decorate")
                         .build())
                 .addOption(Option
                         .builder("O")
@@ -249,6 +250,8 @@ public class Main {
 
                 List<RadioStation> stations = new ArrayList<>();
                 String[] values = cli.getOptionValues('S');
+                List<RadioStation> lastToDecorate = null;
+
                 for (int sid = 0; sid < values.length; sid++) {
                     String serviceName = values[sid];
                     BuilderEntry<? extends DiscoveryServiceBuilder<?>> service = ServiceManager.getService(serviceName);
@@ -263,6 +266,7 @@ public class Main {
                         Map<Option, String> sOps = serviceOptions.getOrDefault(sid, new HashMap<>());
                         String[] decoratorIds = serviceDecorators.get(sid);
                         List<ServiceDecorator> decorators = new ArrayList<>();
+                        ChainServiceDecorator lastChainDecorator = null;
 
                         if (decoratorIds != null) {
                             for (String id : decoratorIds) {
@@ -344,7 +348,13 @@ public class Main {
                             System.err.println("Couldn't create service: " + e.getMessage());
                             return;
                         }
-                        List<RadioStation> discovered = svc.discover();
+                        if (lastToDecorate != null && !svc.isDecoratingSupported()) {
+                            System.err.println("Service \"" + serviceName + "\" doesn't support chain decorating.");
+                            return;
+                        }
+                        List<RadioStation> discovered = lastToDecorate == null ? svc.discover()
+                                : svc.decorate(lastToDecorate, lastChainDecorator);
+                        if (lastToDecorate != null) lastToDecorate = null;
                         if (verbose) {
                             System.err
                                     .println("Service \"" + serviceName + "\" discovered " + discovered.size()
@@ -354,12 +364,26 @@ public class Main {
                             }
                         }
                         int prev = discovered.size();
+                        boolean decorateMode = false;
                         for (ServiceDecorator decorator : decorators) {
+                            if (decorator instanceof ChainServiceDecorator csd) {
+                                lastChainDecorator = csd;
+                                decorateMode = true;
+                                break;
+                            }
                             discovered = decorator.decorate(discovered);
                             if (discovered.size() != prev) throw new IllegalStateException(
                                     "One of decorators returned an invalid amount of stations.");
                         }
-                        stations.addAll(discovered);
+                        if (decorateMode) {
+                            if (sid >= values.length - 1) {
+                                System.err
+                                        .println(
+                                                "When using chain decorator, you also have to add another service to chain it with.");
+                                return;
+                            }
+                            lastToDecorate = discovered;
+                        } else stations.addAll(discovered);
                     } catch (Throwable e) {
                         e.printStackTrace();
                     }

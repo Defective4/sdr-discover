@@ -24,6 +24,7 @@ import io.github.defective4.sdr.sdrdscv.radio.RadioStation.Modulation;
 import io.github.defective4.sdr.sdrdscv.radio.tuner.Tuner;
 import io.github.defective4.sdr.sdrdscv.service.DiscoveryService;
 import io.github.defective4.sdr.sdrdscv.service.DiscoveryServiceBuilder;
+import io.github.defective4.sdr.sdrdscv.service.decorator.impl.ChainServiceDecorator;
 import io.github.defective4.sdr.sdrdscv.tool.GRScriptRunner;
 
 public class BcastFMDiscoveryService implements DiscoveryService {
@@ -198,6 +199,11 @@ public class BcastFMDiscoveryService implements DiscoveryService {
     }
 
     @Override
+    public List<RadioStation> decorate(List<RadioStation> decorate, ChainServiceDecorator decorator) throws Exception {
+        return null;
+    }
+
+    @Override
     public List<RadioStation> discover() throws Exception {
         process = GRScriptRunner
                 .run("rds_rx.py", Collections.singleton("rds_rx_epy_block_0.py"), "--params", sdrParams, "--gain", gain,
@@ -249,6 +255,11 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         } finally {
             process.destroyForcibly();
         }
+    }
+
+    @Override
+    public boolean isDecoratingSupported() {
+        return false;
     }
 
     private Collection<Double> measureAverageSignalStrength(RawMessageReceiver probe)

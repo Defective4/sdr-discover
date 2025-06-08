@@ -13,6 +13,7 @@ import io.github.defective4.sdr.sdrdscv.io.reader.JSONBookmarkReader;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 import io.github.defective4.sdr.sdrdscv.service.DiscoveryService;
 import io.github.defective4.sdr.sdrdscv.service.DiscoveryServiceBuilder;
+import io.github.defective4.sdr.sdrdscv.service.decorator.impl.ChainServiceDecorator;
 
 public class BookmarksDiscoveryService implements DiscoveryService {
 
@@ -100,6 +101,11 @@ public class BookmarksDiscoveryService implements DiscoveryService {
     }
 
     @Override
+    public List<RadioStation> decorate(List<RadioStation> decorate, ChainServiceDecorator decorator) throws Exception {
+        return null;
+    }
+
+    @Override
     public List<RadioStation> discover() throws Exception {
         Reader reader = null;
         try {
@@ -114,6 +120,11 @@ public class BookmarksDiscoveryService implements DiscoveryService {
         } finally {
             if (reader != null && !"-".equals(source)) reader.close();
         }
+    }
+
+    @Override
+    public boolean isDecoratingSupported() {
+        return false;
     }
 
 }
