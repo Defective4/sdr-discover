@@ -6,7 +6,10 @@ import java.util.Map;
 
 public class RadioStation {
     public static final String METADATA_BANDWIDTH = "bandwidth";
+    public static final String METADATA_CUSTOM_MODULATION = "custom_modulation";
     public static final String METADATA_DESCRIPTION = "description";
+    public static final String METADATA_SCANNABLE = "scannable";
+    public static final String METADATA_SECONDARY_MODULATION = "secondary_modulation";
     public static final String METADATA_TAG_COLORS = "tag_colors";
     public static final String METADATA_TAGS = "tags";
 

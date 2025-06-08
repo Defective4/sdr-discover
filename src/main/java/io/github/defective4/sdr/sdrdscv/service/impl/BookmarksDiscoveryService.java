@@ -10,6 +10,7 @@ import io.github.defective4.sdr.sdrdscv.annotation.BuilderParam;
 import io.github.defective4.sdr.sdrdscv.io.reader.BookmarkReader;
 import io.github.defective4.sdr.sdrdscv.io.reader.GqrxBookmarkReader;
 import io.github.defective4.sdr.sdrdscv.io.reader.JSONBookmarkReader;
+import io.github.defective4.sdr.sdrdscv.io.reader.OpenWebRXBookmarkReader;
 import io.github.defective4.sdr.sdrdscv.io.reader.SDRPPBookmarkReader;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 import io.github.defective4.sdr.sdrdscv.service.DiscoveryService;
@@ -23,6 +24,7 @@ public class BookmarksDiscoveryService implements DiscoveryService {
         private char gqrxSeparatorChar = ';';
         private String gqrxTagFilter;
         private boolean lenient;
+        private boolean owrxIncludeCustomModulation = true;
         private String readerId;
         private String[] sdrppListFilter;
         private String source = "-";
@@ -30,12 +32,18 @@ public class BookmarksDiscoveryService implements DiscoveryService {
         @Override
         public BookmarksDiscoveryService build() {
             return new BookmarksDiscoveryService(lenient, readerId, source, verbose, gqrxSeparatorChar, gqrxTagFilter,
-                    sdrppListFilter);
+                    sdrppListFilter, owrxIncludeCustomModulation);
         }
 
         @BuilderParam(argName = "lenient", description = "If enabled, invalid/malformed bookmark entries will be ignored instead of throwing an error")
         public Builder lenient() {
             lenient = true;
+            return this;
+        }
+
+        @BuilderParam(argName = "owrx-skip-custom-mod", description = "Skip bookmarks that use non-standard modulation.")
+        public Builder owrxSkipCustomModulation() {
+            owrxIncludeCustomModulation = false;
             return this;
         }
 
@@ -72,9 +80,10 @@ public class BookmarksDiscoveryService implements DiscoveryService {
     }
 
     public static enum ReaderId {
-        GQRX("Read bookmarks from gqrx's CSV file"),
+        GQRX("Read bookmarks from gqrx's CSV file."),
         JSON("Read stations stored in a JSON file output by the \"json\" writer."),
-        SDRPP("Read bookmarks from SDR++ frequency manager JSON file");
+        OPENWEBRX("Read bookmarks from OpenWebRX JSON file."),
+        SDRPP("Read bookmarks from SDR++ frequency manager JSON file.");
 
         private final String description;
 
@@ -91,19 +100,22 @@ public class BookmarksDiscoveryService implements DiscoveryService {
     private final char gqrxSeparatorChar;
     private final String gqrxTagFilter;
     private final boolean lenient, verbose;
+    private final boolean owrxIncludeCustomModulation;
 
     private final ReaderId readerId;
     private final String[] sdrppListFilter;
     private final String source;
 
     private BookmarksDiscoveryService(boolean lenient, String readerId, String source, boolean verbose,
-            char gqrxSeparatorChar, String gqrxTagFilter, String[] sdrppListFilter) {
+            char gqrxSeparatorChar, String gqrxTagFilter, String[] sdrppListFilter,
+            boolean owrxIncludeCustomModulation) {
         if (readerId == null) throw new IllegalArgumentException("Option \"bookmarks-reader\" is required.");
         try {
             this.readerId = ReaderId.valueOf(readerId.toUpperCase());
         } catch (Exception e) {
             throw new IllegalArgumentException("Reader not found: " + readerId);
         }
+        this.owrxIncludeCustomModulation = owrxIncludeCustomModulation;
         this.gqrxSeparatorChar = gqrxSeparatorChar;
         this.lenient = lenient;
         this.verbose = verbose;
@@ -128,6 +140,7 @@ public class BookmarksDiscoveryService implements DiscoveryService {
                 case GQRX -> new GqrxBookmarkReader(lenient, verbose, gqrxSeparatorChar,
                         gqrxTagFilter == null ? null : gqrxTagFilter.split(","));
                 case SDRPP -> new SDRPPBookmarkReader(lenient, verbose, sdrppListFilter);
+                case OPENWEBRX -> new OpenWebRXBookmarkReader(lenient, verbose, owrxIncludeCustomModulation);
             };
             return br.read(reader);
         } finally {
