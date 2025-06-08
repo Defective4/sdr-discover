@@ -11,8 +11,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import io.github.defective4.sdr.sdrdscv.radio.Modulation;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
-import io.github.defective4.sdr.sdrdscv.radio.RadioStation.Modulation;
 
 public class SDRPPBookmarkReader extends BookmarkReader {
 

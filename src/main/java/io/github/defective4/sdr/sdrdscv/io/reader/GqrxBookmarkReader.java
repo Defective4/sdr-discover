@@ -15,8 +15,8 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
 import io.github.defective4.sdr.sdrdscv.ParamConverters;
+import io.github.defective4.sdr.sdrdscv.radio.Modulation;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
-import io.github.defective4.sdr.sdrdscv.radio.RadioStation.Modulation;
 
 public class GqrxBookmarkReader extends BookmarkReader {
 

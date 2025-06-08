@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import io.github.defective4.sdr.sdrdscv.radio.Modulation;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
-import io.github.defective4.sdr.sdrdscv.radio.RadioStation.Modulation;
 import io.github.defective4.sdr.sdrdscv.service.DiscoveryService;
 import io.github.defective4.sdr.sdrdscv.service.DiscoveryServiceBuilder;
 import io.github.defective4.sdr.sdrdscv.service.decorator.impl.ChainServiceDecorator;
