@@ -26,7 +26,8 @@ public class SDRPPBookmarkWriter implements BookmarkWriter {
         defaultListName = listName;
         this.ignoreTags = ignoreTags;
         GsonBuilder builder = new GsonBuilder();
-        if (prettyPrint) builder = builder.setPrettyPrinting();
+        if (prettyPrint)
+            builder = builder.setPrettyPrinting();
         gson = builder.create();
     }
 
@@ -40,20 +41,18 @@ public class SDRPPBookmarkWriter implements BookmarkWriter {
 
         for (RadioStation station : stations) {
             JsonObject bookmark = new JsonObject();
-            bookmark
-                    .addProperty("bandwidth",
-                            (float) station
-                                    .getMetadataValue(RadioStation.METADATA_BANDWIDTH, Integer.class,
-                                            (int) station.getModulation().getBandwidth()));
+            bookmark.addProperty("bandwidth", (float) station.getMetadataValue(RadioStation.METADATA_BANDWIDTH,
+                    Integer.class, (int) station.getModulation().getBandwidth()));
             bookmark.addProperty("frequency", station.getFrequency());
             bookmark.addProperty("mode", station.getModulation().getSdrppMod());
             bookmarks.add(station.getName(), bookmark);
 
             if (!ignoreTags && station.getMetadata().containsKey(RadioStation.METADATA_TAGS)) {
                 String[] tags = station.getMetadataValue(RadioStation.METADATA_TAGS, String.class, "").split(",");
-                for (String tag : tags) if (!tag.isBlank() && !tag.equals(defaultlist)) {
-                    tagBookmarks.computeIfAbsent(tag, e -> new JsonObject()).add(station.getName(), bookmark);
-                }
+                for (String tag : tags)
+                    if (!tag.isBlank() && !tag.equals(defaultListName)) {
+                        tagBookmarks.computeIfAbsent(tag, e -> new JsonObject()).add(station.getName(), bookmark);
+                    }
             }
         }
 
