@@ -42,9 +42,4 @@ public class GRScriptRunner {
     public static Process run(String resource, Object... args) throws IOException {
         return run(resource, Collections.emptySet(), args);
     }
-
-    private static File getParent(File child) {
-        File parent = child.getParentFile();
-        return parent == null ? new File(".") : parent;
-    }
 }
