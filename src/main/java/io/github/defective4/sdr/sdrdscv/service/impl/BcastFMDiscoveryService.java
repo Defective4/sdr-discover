@@ -217,9 +217,8 @@ public class BcastFMDiscoveryService implements DiscoveryService {
     private List<RadioStation> discover(List<RadioStation> decorate, ChainServiceDecorator decorator) throws Exception {
         if (controlProbeFrequency != -1 && decorate != null)
             throw new IOException("Control probe is not allowed in decorator mode.");
-        process = GRScriptRunner
-                .run("rds_rx.py", Collections.singleton("rds_rx_epy_block_0.py"), "--params", sdrParams, "--gain", gain,
-                        "--rdsPort", rdsPort, "--probePort", probePort, "--ctlPort", ctlPort);
+        process = GRScriptRunner.run("rds_rx.py", Collections.singleton("rds_rx_epy_block_0.py"), "--params", sdrParams,
+                "--gain", gain, "--rdsPort", rdsPort, "--probePort", probePort, "--ctlPort", ctlPort);
 
         try (RawMessageReceiver signalProbe = new RawMessageReceiver("tcp://localhost:" + probePort, false);
                 RawMessageSender controller = new RawMessageSender("tcp://localhost:" + ctlPort, false);
@@ -231,18 +230,22 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             new Thread(() -> {
                 try {
                     signalProbe.start();
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
             }).start();
             new Thread(() -> {
                 try {
                     rdsReceiver.start();
-                } catch (Exception e2) {}
+                } catch (Exception e2) {
+                }
             }).start();
 
             Object lock = new Object();
             AtomicBoolean success = new AtomicBoolean();
 
-            if (verbose) System.err.println("Connecting with the receiver...");
+            if (verbose) {
+                System.err.println("Connecting with the receiver...");
+            }
             signalProbe.addListener(new MessageListener() {
 
                 @Override
@@ -262,23 +265,27 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             double average;
             if (controlProbeFrequency != -1) {
                 if (verbose) {
-                    System.err
-                            .println("Probing average signal strength on the control frequency " + controlProbeFrequency
-                                    + "Hz...");
+                    System.err.println("Probing average signal strength on the control frequency "
+                            + controlProbeFrequency + "Hz...");
                 }
                 Collection<Double> avgCol = measureAverageSignalStrength(signalProbe);
                 average = avgCol.stream().mapToDouble(e -> e).average().orElse(-1);
                 if (average < 0) throw new IOException("Failed to calculate average signal");
-                if (verbose) System.err
-                        .println("Average signal strength on the control frequency is " + average + " based on "
-                                + avgCol.size() + " samples.");
-            } else average = sensitivity / 100d;
+                if (verbose) {
+                    System.err.println("Average signal strength on the control frequency is " + average + " based on "
+                            + avgCol.size() + " samples.");
+                }
+            } else {
+                average = sensitivity / 100d;
+            }
 
             List<RadioStation> stations = new ArrayList<>();
             if (decorate != null && decorator != null) {
                 for (RadioStation prev : decorate) {
                     float freq = prev.getFrequency();
-                    if (verbose) System.err.println("Trying " + freq + "Hz...");
+                    if (verbose) {
+                        System.err.println("Trying " + freq + "Hz...");
+                    }
                     RadioStation detected = tryFrequency(freq, signalProbe, rdsReceiver, average);
                     Map<String, Object> metadata;
                     if (decorator.isIgnoreMeta()) {
@@ -292,17 +299,22 @@ public class BcastFMDiscoveryService implements DiscoveryService {
                         }
                     }
                     System.err.println("Decorated station \"" + prev.getName() + "\"");
-                    stations
-                            .add(new RadioStation((decorator.isReplaceNames() ? detected : prev).getName(), freq,
-                                    (decorator.isReplaceModulation() ? detected : prev).getModulation(), metadata));
+                    stations.add(new RadioStation((decorator.isReplaceNames() ? detected : prev).getName(), freq,
+                            (decorator.isReplaceModulation() ? detected : prev).getModulation(), metadata));
                 }
-            } else for (float freq = startFreq; freq <= endFreq; freq += 100e3f) {
-                if (verbose) System.err.println("Trying " + freq + "Hz...");
-                RadioStation station = tryFrequency(freq, signalProbe, rdsReceiver, average);
-                if (station != null) {
-                    System.err.println("Detected a new station \"" + station.getName() + "\" on " + freq + "Hz");
-                    if (automaticStep) freq += 100e3f;
-                    stations.add(station);
+            } else {
+                for (float freq = startFreq; freq <= endFreq; freq += 100e3f) {
+                    if (verbose) {
+                        System.err.println("Trying " + freq + "Hz...");
+                    }
+                    RadioStation station = tryFrequency(freq, signalProbe, rdsReceiver, average);
+                    if (station != null) {
+                        System.err.println("Detected a new station \"" + station.getName() + "\" on " + freq + "Hz");
+                        if (automaticStep) {
+                            freq += 100e3f;
+                        }
+                        stations.add(station);
+                    }
                 }
             }
             return Collections.unmodifiableList(stations);
@@ -349,7 +361,9 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         probe.removeListener(probeListener);
         if (signalRef.get() == null) throw new IOException("Couldn't probe signal on " + freq + "Hz");
         if (signalRef.get() > threshold) {
-            if (verbose) System.err.println("Locked. Waiting for RDS...");
+            if (verbose) {
+                System.err.println("Locked. Waiting for RDS...");
+            }
 
             List<String> stationNames = new ArrayList<>();
             AtomicReference<String> programInfoRef = new AtomicReference<>();
@@ -381,9 +395,13 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             Thread.sleep(rdsRecvTime);
             String pi = programInfoRef.get();
             if (pi == null) {
-                if (verbose) System.err.println("No RDS data received. Skipped.");
+                if (verbose) {
+                    System.err.println("No RDS data received. Skipped.");
+                }
             } else if (stationNames.isEmpty()) {
-                if (verbose) System.err.println("Received RDS data, but the station didn't identify itself. Skipped.");
+                if (verbose) {
+                    System.err.println("Received RDS data, but the station didn't identify itself. Skipped.");
+                }
             } else {
                 String stationName;
                 switch (stationNameConflictMode) {
@@ -394,7 +412,9 @@ public class BcastFMDiscoveryService implements DiscoveryService {
                     }
                     case MERGE: {
                         List<String> deduped = new ArrayList<>();
-                        for (String n : stationNames) if (!deduped.contains(n)) deduped.add(n);
+                        for (String n : stationNames) if (!deduped.contains(n)) {
+                            deduped.add(n);
+                        }
                         stationName = String.join("/", deduped.toArray(new String[0]));
                         break;
                     }
@@ -415,12 +435,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
         for (String string : collection) {
             stringRate.compute(string, (key, val) -> (val == null ? 0 : val) + 1);
         }
-        return stringRate
-                .entrySet()
-                .stream()
-                .sorted((e1, e2) -> e2.getValue() - e1.getValue())
-                .findFirst()
-                .get()
+        return stringRate.entrySet().stream().sorted((e1, e2) -> e2.getValue() - e1.getValue()).findFirst().get()
                 .getKey();
     }
 }

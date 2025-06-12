@@ -17,7 +17,8 @@ import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 
 public class GqrxBookmarkWriter implements BookmarkWriter {
 
-    public GqrxBookmarkWriter() {}
+    public GqrxBookmarkWriter() {
+    }
 
     @Override
     public void write(Writer output, List<RadioStation> stations) throws IOException {
@@ -46,33 +47,23 @@ public class GqrxBookmarkWriter implements BookmarkWriter {
                 }
             }
         }
-        csv.writeNext(new String[] {
-                "# Tag name", "color"
-        }, false);
+        csv.writeNext(new String[] { "# Tag name", "color" }, false);
         for (Entry<String, Color> entry : tags.entrySet()) {
             String color = ParamConverters.encodeColor(entry.getValue());
-            csv.writeNext(new String[] {
-                    entry.getKey(), color
-            }, false);
+            csv.writeNext(new String[] { entry.getKey(), color }, false);
         }
 
         csv.flush();
         output.write("\n");
-        csv.writeNext(new String[] {
-                "# Frequency", "Name", "Modulation", "Bandwidth", "Tags"
-        }, false);
+        csv.writeNext(new String[] { "# Frequency", "Name", "Modulation", "Bandwidth", "Tags" }, false);
         for (RadioStation station : stations) {
             String stTagsStr = station.getMetadataValue(RadioStation.METADATA_TAGS, String.class);
             String[] stTags = stTagsStr == null ? new String[0] : stTagsStr.split(",");
-            csv.writeNext(new String[] {
-                    "    " + Long.toString((long) station.getFrequency()), station.getName(),
+            csv.writeNext(new String[] { "    " + Long.toString((long) station.getFrequency()), station.getName(),
                     station.getModulation().getGqrxMod(),
-                    Integer
-                            .toString(station
-                                    .getMetadataValue(RadioStation.METADATA_BANDWIDTH, Integer.class,
-                                            (int) station.getModulation().getBandwidth())),
-                    String.join(",", stTags)
-            }, false);
+                    Integer.toString(station.getMetadataValue(RadioStation.METADATA_BANDWIDTH, Integer.class,
+                            (int) station.getModulation().getBandwidth())),
+                    String.join(",", stTags) }, false);
         }
         csv.flush();
     }

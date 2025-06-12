@@ -41,17 +41,23 @@ public class GqrxBookmarkReader extends BookmarkReader {
 
         while (true) {
             String[] next = csv.readNext();
-            if (next == null) break;
+            if (next == null) {
+                break;
+            }
             if (next.length == 2) {
                 String tagName = next[0].trim();
-                if (tagName.startsWith("#")) continue;
+                if (tagName.startsWith("#")) {
+                    continue;
+                }
                 Color tagColor;
                 try {
                     tagColor = Color.decode(next[1].trim());
                 } catch (Exception e) {
                     if (lenient) {
-                        if (verbose) System.err
-                                .println("Tag " + tagName + " couldn't be parsed, because its color code is malformed");
+                        if (verbose) {
+                            System.err.println(
+                                    "Tag " + tagName + " couldn't be parsed, because its color code is malformed");
+                        }
                         tagsFailed++;
                         continue;
                     }
@@ -60,18 +66,24 @@ public class GqrxBookmarkReader extends BookmarkReader {
                 tags.put(tagName, tagColor);
             } else if (next.length == 5) {
                 String freqName = next[0].trim();
-                if (freqName.startsWith("#")) continue;
+                if (freqName.startsWith("#")) {
+                    continue;
+                }
                 String name = next[1].trim();
                 String modulationStr = next[2].trim();
                 String bandwidthStr = next[3].trim();
                 String[] tagNames = next[4].trim().split(",");
-                for (int i = 0; i < tagNames.length; i++) tagNames[i] = tagNames[i].trim();
+                for (int i = 0; i < tagNames.length; i++) {
+                    tagNames[i] = tagNames[i].trim();
+                }
 
                 if (tagFilter != null) {
                     boolean matches = false;
                     if (tagNames.length > 0) {
                         for (String tag : tagNames) {
-                            if (matches) break;
+                            if (matches) {
+                                break;
+                            }
                             for (String compare : tagFilter) if (tag.equals(compare)) {
                                 matches = true;
                                 break;
@@ -79,8 +91,10 @@ public class GqrxBookmarkReader extends BookmarkReader {
                         }
                     }
                     if (!matches) {
-                        if (verbose) System.err
-                                .println("Ignored bookmark " + name + " because it doesn't match the tag filter.");
+                        if (verbose) {
+                            System.err
+                                    .println("Ignored bookmark " + name + " because it doesn't match the tag filter.");
+                        }
                         continue;
                     }
                 }
@@ -95,7 +109,9 @@ public class GqrxBookmarkReader extends BookmarkReader {
                     bandwidth = Integer.parseInt(bandwidthStr);
                 } catch (Exception e) {
                     if (lenient) {
-                        if (verbose) System.err.println("Bookmark " + name + " couldn't be parsed: " + e.getMessage());
+                        if (verbose) {
+                            System.err.println("Bookmark " + name + " couldn't be parsed: " + e.getMessage());
+                        }
                         stationsFailed++;
                         continue;
                     }
@@ -119,8 +135,12 @@ public class GqrxBookmarkReader extends BookmarkReader {
 
         if (verbose) {
             System.err.println("Successfully parsed " + stations.size() + " gqrx bookmarks");
-            if (tagsFailed > 0) System.err.println("Failed to parse " + tagsFailed + " tags");
-            if (stationsFailed > 0) System.err.println("Failed to parse " + stationsFailed + " stations");
+            if (tagsFailed > 0) {
+                System.err.println("Failed to parse " + tagsFailed + " tags");
+            }
+            if (stationsFailed > 0) {
+                System.err.println("Failed to parse " + stationsFailed + " stations");
+            }
         }
 
         return Collections.unmodifiableList(stations);

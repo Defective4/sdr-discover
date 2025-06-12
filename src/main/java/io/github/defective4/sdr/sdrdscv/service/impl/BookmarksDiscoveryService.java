@@ -144,7 +144,9 @@ public class BookmarksDiscoveryService implements DiscoveryService {
             };
             return br.read(reader);
         } finally {
-            if (reader != null && !"-".equals(source)) reader.close();
+            if (reader != null && !"-".equals(source)) {
+                reader.close();
+            }
         }
     }
 

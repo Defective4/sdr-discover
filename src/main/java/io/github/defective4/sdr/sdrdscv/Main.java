@@ -43,59 +43,25 @@ public class Main {
 
     static {
         rootOptions = new Options()
-                .addOption(Option
-                        .builder("D")
-                        .argName("decorator")
-                        .hasArg()
-                        .desc("Attach a decorator to current service.")
-                        .longOpt("decorate")
-                        .build())
-                .addOption(Option
-                        .builder("O")
-                        .argName("output-file")
-                        .hasArg()
+                .addOption(Option.builder("D").argName("decorator").hasArg()
+                        .desc("Attach a decorator to current service.").longOpt("decorate").build())
+                .addOption(Option.builder("O").argName("output-file").hasArg()
                         .desc("Specify where to write command's output. Use \"-\" for standard output.")
-                        .longOpt("output")
-                        .build())
-                .addOption(Option
-                        .builder("F")
-                        .argName("format")
-                        .hasArg()
-                        .desc("Specify which output format to use.")
-                        .longOpt("output-format")
-                        .build())
-                .addOption(Option
-                        .builder("S")
-                        .argName("service")
-                        .hasArg()
-                        .desc("Add a discovery service.")
-                        .longOpt("add-service")
-                        .build())
+                        .longOpt("output").build())
+                .addOption(Option.builder("F").argName("format").hasArg().desc("Specify which output format to use.")
+                        .longOpt("output-format").build())
+                .addOption(Option.builder("S").argName("service").hasArg().desc("Add a discovery service.")
+                        .longOpt("add-service").build())
                 .addOption(Option.builder("h").desc("Show this help.").longOpt("help").build())
-                .addOption(Option
-                        .builder()
+                .addOption(Option.builder()
                         .desc("Show help about a service, or don't provide an argument to show help for all services.")
-                        .longOpt("help-service")
-                        .hasArg()
-                        .argName("service")
-                        .optionalArg(true)
-                        .build())
-                .addOption(Option
-                        .builder()
-                        .desc("Show help about a decorator, or don't provide an argument to show help for all decorators.")
-                        .longOpt("help-decorator")
-                        .hasArg()
-                        .argName("decorator")
-                        .optionalArg(true)
-                        .build())
-                .addOption(Option
-                        .builder()
-                        .desc("Show help about an output format, or don't probide an argument to show help for all output formats.")
-                        .longOpt("help-output")
-                        .hasArg()
-                        .argName("output")
-                        .optionalArg(true)
-                        .build())
+                        .longOpt("help-service").hasArg().argName("service").optionalArg(true).build())
+                .addOption(Option.builder().desc(
+                        "Show help about a decorator, or don't provide an argument to show help for all decorators.")
+                        .longOpt("help-decorator").hasArg().argName("decorator").optionalArg(true).build())
+                .addOption(Option.builder().desc(
+                        "Show help about an output format, or don't probide an argument to show help for all output formats.")
+                        .longOpt("help-output").hasArg().argName("output").optionalArg(true).build())
                 .addOption(Option.builder("v").desc("Be verbose.").longOpt("verbose").build());
     }
 
@@ -164,7 +130,9 @@ public class Main {
                 String key = outputFormatName.toLowerCase() + "-" + paramAnnotation.argName();
                 if (param.getType() == boolean.class) {
                     boolean defVal = "true".equalsIgnoreCase(paramAnnotation.defaultValue());
-                    if (cli.hasOption(key)) defVal = !defVal;
+                    if (cli.hasOption(key)) {
+                        defVal = !defVal;
+                    }
                     value = defVal;
                 } else {
                     Converter<?, ?> conv = ParamConverters.getConverter(param.getType());
@@ -179,10 +147,8 @@ public class Main {
                         try {
                             value = ParamConverters.convert(conv, cli.getOptionValue(key));
                         } catch (ParseException e) {
-                            System.err
-                                    .println(String
-                                            .format("Invalid value \"%s\" for option %s", cli.getOptionValue(key),
-                                                    key));
+                            System.err.println(
+                                    String.format("Invalid value \"%s\" for option %s", cli.getOptionValue(key), key));
                             return;
                         }
                     }
@@ -198,7 +164,9 @@ public class Main {
                 Class<? extends BookmarkWriter> writerClass = writerEntry.getWriterClass();
                 Constructor<?> constructor = writerClass.getConstructors()[0];
                 List<Object> params = new ArrayList<>();
-                for (Parameter param : constructor.getParameters()) params.add(writerParams.get(param.getName()));
+                for (Parameter param : constructor.getParameters()) {
+                    params.add(writerParams.get(param.getName()));
+                }
                 writer = (BookmarkWriter) constructor.newInstance(params.toArray(new Object[0]));
             } catch (Throwable e) {
                 throw new IllegalStateException(e);
@@ -220,19 +188,27 @@ public class Main {
                             BuilderEntry<? extends DiscoveryServiceBuilder<?>> service = ServiceManager
                                     .getService(cli.getOptionValues(op)[opNum]);
                             lastService.clear();
-                            if (service != null) lastService.putAll(service.getArguments());
+                            if (service != null) {
+                                lastService.putAll(service.getArguments());
+                            }
                             svcId++;
                             break;
                         }
                         case "D": {
-                            if (svcId < 0) break;
+                            if (svcId < 0) {
+                                break;
+                            }
                             String[] decorators = cli.getOptionValues(op)[opNum].split(",");
-                            for (int i = 0; i < decorators.length; i++) decorators[i] = decorators[i].trim();
+                            for (int i = 0; i < decorators.length; i++) {
+                                decorators[i] = decorators[i].trim();
+                            }
                             serviceDecorators.put(svcId, decorators);
                             break;
                         }
                         default: {
-                            if (svcId < 0) break;
+                            if (svcId < 0) {
+                                break;
+                            }
                             String val = null;
                             String[] vals = cli.getOptionValues(op);
                             if (vals != null) {
@@ -263,7 +239,9 @@ public class Main {
 
                     try {
                         DiscoveryServiceBuilder<?> builder = service.getBuilderClass().getConstructor().newInstance();
-                        if (verbose) builder.verbose();
+                        if (verbose) {
+                            builder.verbose();
+                        }
                         Map<Option, String> sOps = serviceOptions.getOrDefault(sid, new HashMap<>());
                         String[] decoratorIds = serviceDecorators.get(sid);
                         List<ServiceDecorator> decorators = new ArrayList<>();
@@ -276,10 +254,8 @@ public class Main {
                                     printHelp("Unknown decorator: " + id);
                                     return;
                                 }
-                                ServiceDecoratorBuilder<?> decBuilder = decoratorEntry
-                                        .getBuilderClass()
-                                        .getConstructor()
-                                        .newInstance();
+                                ServiceDecoratorBuilder<?> decBuilder = decoratorEntry.getBuilderClass()
+                                        .getConstructor().newInstance();
                                 for (Entry<Option, Method> entry : decoratorEntry.getArguments().entrySet()) {
                                     Option key = entry.getKey();
                                     if (cli.hasOption(key) && sOps.containsKey(key)) {
@@ -297,10 +273,8 @@ public class Main {
                                             }
                                             entry.getValue().invoke(decBuilder, value);
                                         } catch (ParseException e) {
-                                            System.err
-                                                    .println(String
-                                                            .format("Invalid value \"%s\" for option %s",
-                                                                    cli.getOptionValue(key), key.getKey()));
+                                            System.err.println(String.format("Invalid value \"%s\" for option %s",
+                                                    cli.getOptionValue(key), key.getKey()));
                                             return;
                                         }
                                     }
@@ -332,10 +306,8 @@ public class Main {
                                     }
                                     entry.getValue().invoke(builder, value);
                                 } catch (ParseException e) {
-                                    System.err
-                                            .println(String
-                                                    .format("Invalid value \"%s\" for option %s",
-                                                            cli.getOptionValue(key), key.getKey()));
+                                    System.err.println(String.format("Invalid value \"%s\" for option %s",
+                                            cli.getOptionValue(key), key.getKey()));
                                     return;
                                 }
                             }
@@ -354,11 +326,12 @@ public class Main {
                         }
                         List<RadioStation> discovered = lastToDecorate == null ? svc.discover()
                                 : svc.decorate(lastToDecorate, lastChainDecorator);
-                        if (lastToDecorate != null) lastToDecorate = null;
+                        if (lastToDecorate != null) {
+                            lastToDecorate = null;
+                        }
                         if (verbose) {
-                            System.err
-                                    .println("Service \"" + serviceName + "\" discovered " + discovered.size()
-                                            + " stations.");
+                            System.err.println(
+                                    "Service \"" + serviceName + "\" discovered " + discovered.size() + " stations.");
                             if (decorators.size() > 0) {
                                 System.err.println("Running the result through " + decorators.size() + " decorators.");
                             }
@@ -377,7 +350,9 @@ public class Main {
                         }
                         if (decorateMode) {
                             lastToDecorate = discovered;
-                        } else stations.addAll(discovered);
+                        } else {
+                            stations.addAll(discovered);
+                        }
                     } catch (Throwable e) {
                         e.printStackTrace();
                     }
@@ -394,15 +369,15 @@ public class Main {
 
     private static String createBookmarkReadersString() {
         StringBuilder builder = new StringBuilder();
-        for (ReaderId reader : ReaderId.values())
+        for (ReaderId reader : ReaderId.values()) {
             builder.append(" - " + reader.name().toLowerCase() + " - " + reader.getDescription() + "\n");
+        }
         return builder.toString();
     }
 
     private static String createDecoratorsString() {
         StringBuilder builder = new StringBuilder();
-        for (Entry<String, BuilderEntry<? extends ServiceDecoratorBuilder<?>>> entry : ServiceManager
-                .getDecorators()
+        for (Entry<String, BuilderEntry<? extends ServiceDecoratorBuilder<?>>> entry : ServiceManager.getDecorators()
                 .entrySet()) {
             builder.append(String.format(" - %s - %s\n", entry.getKey(), entry.getValue().getDescription()));
         }
@@ -419,8 +394,7 @@ public class Main {
 
     private static String createServicesString() {
         StringBuilder builder = new StringBuilder();
-        for (Entry<String, BuilderEntry<? extends DiscoveryServiceBuilder<?>>> entry : ServiceManager
-                .getServices()
+        for (Entry<String, BuilderEntry<? extends DiscoveryServiceBuilder<?>>> entry : ServiceManager.getServices()
                 .entrySet()) {
             builder.append(String.format(" - %s - %s\n", entry.getKey(), entry.getValue().getDescription()));
         }
@@ -440,20 +414,21 @@ public class Main {
                 System.err.println("Decorator not found: " + decorator);
                 return;
             }
-            for (Option op : svc.getArguments().keySet()) ops.addOption(op);
+            for (Option op : svc.getArguments().keySet()) {
+                ops.addOption(op);
+            }
         }
-        new HelpFormatter()
-                .printHelp(128, APP_NAME + " -S <service> <options> -D "
-                        + (decorator == null ? "<decorator>" : decorator) + " [options] [output]", null, ops, footer);
+        new HelpFormatter().printHelp(128, APP_NAME + " -S <service> <options> -D "
+                + (decorator == null ? "<decorator>" : decorator) + " [options] [output]", null, ops, footer);
     }
 
     private static void printHelp(String message) {
-        new HelpFormatter()
-                .printHelp(APP_NAME + " [-S service] [options] [-F format] [-O filename]", null, rootOptions,
-                        message == null ? "\nAvailable services:\n" + createServicesString() + "\nAvailable outputs:\n"
+        new HelpFormatter().printHelp(APP_NAME + " [-S service] [options] [-F format] [-O filename]", null, rootOptions,
+                message == null
+                        ? "\nAvailable services:\n" + createServicesString() + "\nAvailable outputs:\n"
                                 + createOutputsString() + "\nAvailable bookmark readers:\n"
                                 + createBookmarkReadersString() + "\nAvailable decorators:\n" + createDecoratorsString()
-                                : "\n" + message);
+                        : "\n" + message);
     }
 
     private static void printOutputHelp(String output) {
@@ -471,9 +446,8 @@ public class Main {
             }
             ops.addOptions(BookmarkWriterRegistry.constructOptions(output, entry));
         }
-        new HelpFormatter()
-                .printHelp(128, APP_NAME + " -O " + (output == null ? "<format>" : output) + " [output]", null, ops,
-                        footer);
+        new HelpFormatter().printHelp(128, APP_NAME + " -O " + (output == null ? "<format>" : output) + " [output]",
+                null, ops, footer);
     }
 
     private static void printServiceHelp(String service) {
@@ -489,10 +463,12 @@ public class Main {
                 System.err.println("Service not found: " + service);
                 return;
             }
-            for (Option op : svc.getArguments().keySet()) ops.addOption(op);
+            for (Option op : svc.getArguments().keySet()) {
+                ops.addOption(op);
+            }
         }
-        new HelpFormatter()
-                .printHelp(128, APP_NAME + " -S " + (service == null ? "<service>" : service) + " [options] [output]",
-                        null, ops, footer);
+        new HelpFormatter().printHelp(128,
+                APP_NAME + " -S " + (service == null ? "<service>" : service) + " [options] [output]", null, ops,
+                footer);
     }
 }

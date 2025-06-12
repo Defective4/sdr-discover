@@ -3,18 +3,10 @@ package io.github.defective4.sdr.sdrdscv.radio;
 import java.util.Arrays;
 
 public enum Modulation {
-    AM(10e3f, "AM", 2, "am"),
-    AM_SYNC(10e3f, "AM-Sync", 2, "sam", 0),
-    CUSTOM(48000, "Raw I/Q", 7, "usbd"),
-    CW(200, "CW-L", 5, "cw"),
-    DSB(4600, "USB", 3, "usb", 0),
-    LSB(5000, "LSB", 6, "lsb"),
-    NFM(10e3f, "Narrow FM", 0, "nfm"),
-    OFF(160e3f, "Demod Off", 7, "usbd", 0),
-    RAW(48000, "Raw I/Q", 7, "usbd"),
-    USB(5000, "USB", 4, "usb"),
-    WFM(160e3f, "WFM (mono)", 1, "wfm", 1),
-    WFM_OIRT(160e3f, "WFM (oirt)", 1, "wfm", 0),
+    AM(10e3f, "AM", 2, "am"), AM_SYNC(10e3f, "AM-Sync", 2, "sam", 0), CUSTOM(48000, "Raw I/Q", 7, "usbd"),
+    CW(200, "CW-L", 5, "cw"), DSB(4600, "USB", 3, "usb", 0), LSB(5000, "LSB", 6, "lsb"),
+    NFM(10e3f, "Narrow FM", 0, "nfm"), OFF(160e3f, "Demod Off", 7, "usbd", 0), RAW(48000, "Raw I/Q", 7, "usbd"),
+    USB(5000, "USB", 4, "usb"), WFM(160e3f, "WFM (mono)", 1, "wfm", 1), WFM_OIRT(160e3f, "WFM (oirt)", 1, "wfm", 0),
     WFM_STEREO(160e3f, "WFM (stereo)", 1, "wfm", 2);
 
     private final float bandwidth;

@@ -109,21 +109,27 @@ public class ServiceManager {
         Object builderInstance = null;
         try {
             builderInstance = clazz.getConstructor().newInstance();
-        } catch (Throwable e) {}
+        } catch (Throwable e) {
+        }
         for (Method method : clazz.getMethods()) if (method.isAnnotationPresent(BuilderParam.class)) {
             if (method.getParameterCount() > 1)
                 throw new IllegalStateException("Method " + method.getName() + " has more than one parameter.");
             BuilderParam arg = method.getAnnotation(BuilderParam.class);
             String desc = arg.description();
-            if (!desc.endsWith(".")) desc = desc + ".";
-            if (!arg.defaultField().isEmpty() && builderInstance != null) try {
-                Field field = clazz.getDeclaredField(arg.defaultField());
-                field.setAccessible(true);
-                String val = String.valueOf(field.get(builderInstance));
-                if (val != null) {
-                    desc += " (Default: " + val + ")";
+            if (!desc.endsWith(".")) {
+                desc = desc + ".";
+            }
+            if (!arg.defaultField().isEmpty() && builderInstance != null) {
+                try {
+                    Field field = clazz.getDeclaredField(arg.defaultField());
+                    field.setAccessible(true);
+                    String val = String.valueOf(field.get(builderInstance));
+                    if (val != null) {
+                        desc += " (Default: " + val + ")";
+                    }
+                } catch (Throwable e) {
                 }
-            } catch (Throwable e) {}
+            }
             Builder opt = Option.builder().longOpt(prefix + "-" + arg.argName()).desc(desc);
             if (method.getParameterCount() == 1) {
                 Parameter param = method.getParameters()[0];

@@ -1,6 +1,9 @@
 package io.github.defective4.sdr.sdrdscv.io.reader;
 
-import static io.github.defective4.sdr.sdrdscv.radio.RadioStation.*;
+import static io.github.defective4.sdr.sdrdscv.radio.RadioStation.METADATA_CUSTOM_MODULATION;
+import static io.github.defective4.sdr.sdrdscv.radio.RadioStation.METADATA_DESCRIPTION;
+import static io.github.defective4.sdr.sdrdscv.radio.RadioStation.METADATA_SCANNABLE;
+import static io.github.defective4.sdr.sdrdscv.radio.RadioStation.METADATA_SECONDARY_MODULATION;
 
 import java.io.Reader;
 import java.util.ArrayList;
@@ -29,7 +32,9 @@ public class OpenWebRXBookmarkReader extends BookmarkReader {
     @Override
     public List<RadioStation> read(Reader reader) throws Exception {
         JsonArray array = JsonParser.parseReader(reader).getAsJsonArray();
-        if (verbose) System.err.println("Loaded array with " + array.size() + " elements.");
+        if (verbose) {
+            System.err.println("Loaded array with " + array.size() + " elements.");
+        }
         List<RadioStation> stations = new ArrayList<>();
         for (JsonElement element : array) if (element instanceof JsonObject bookmark) {
             String name = bookmark.get("name").getAsString();
@@ -37,8 +42,9 @@ public class OpenWebRXBookmarkReader extends BookmarkReader {
             String modName = bookmark.get("modulation").getAsString();
             Modulation mod = Modulation.fromOwrxMod(modName);
             if (mod == Modulation.CUSTOM && !includeCustomModulation) {
-                if (verbose)
+                if (verbose) {
                     System.err.println("Bookmark \"" + name + "\" was excluded, because it uses a custom modulation.");
+                }
                 continue;
             }
             boolean scannable;
@@ -50,22 +56,35 @@ public class OpenWebRXBookmarkReader extends BookmarkReader {
             String underlying = null;
             try {
                 underlying = bookmark.get("underlying").getAsString();
-                if (underlying.isBlank()) underlying = null;
-            } catch (Exception e) {}
+                if (underlying.isBlank()) {
+                    underlying = null;
+                }
+            } catch (Exception e) {
+            }
 
             String description = null;
             try {
                 description = bookmark.get("description").getAsString();
-                if (description.isBlank()) description = null;
+                if (description.isBlank()) {
+                    description = null;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             Map<String, Object> metadata = new HashMap<>();
-            if (scannable) metadata.put(METADATA_SCANNABLE, true);
-            if (underlying != null) metadata.put(METADATA_SECONDARY_MODULATION, underlying);
-            if (mod == Modulation.CUSTOM) metadata.put(METADATA_CUSTOM_MODULATION, modName);
-            if (description != null) metadata.put(METADATA_DESCRIPTION, description);
+            if (scannable) {
+                metadata.put(METADATA_SCANNABLE, true);
+            }
+            if (underlying != null) {
+                metadata.put(METADATA_SECONDARY_MODULATION, underlying);
+            }
+            if (mod == Modulation.CUSTOM) {
+                metadata.put(METADATA_CUSTOM_MODULATION, modName);
+            }
+            if (description != null) {
+                metadata.put(METADATA_DESCRIPTION, description);
+            }
             stations.add(new RadioStation(name, frequency, mod, metadata));
         }
         return Collections.unmodifiableList(stations);

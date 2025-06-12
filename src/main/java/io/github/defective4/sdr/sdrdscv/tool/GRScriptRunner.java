@@ -12,7 +12,8 @@ import java.util.Collections;
 import io.github.defective4.sdr.sdrdscv.io.FileUtils;
 
 public class GRScriptRunner {
-    private GRScriptRunner() {}
+    private GRScriptRunner() {
+    }
 
     public static Process run(String resource, Collection<String> dependencies, Object... args) throws IOException {
         File tmpDir = Files.createTempDirectory("sdr-discover-").toFile();
@@ -22,9 +23,11 @@ public class GRScriptRunner {
             Files.copy(in, scriptFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
 
-        for (String dep : dependencies) try (InputStream in = GRScriptRunner.class.getResourceAsStream("/" + dep)) {
-            File depFile = new File(tmpDir, dep);
-            Files.copy(in, depFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        for (String dep : dependencies) {
+            try (InputStream in = GRScriptRunner.class.getResourceAsStream("/" + dep)) {
+                File depFile = new File(tmpDir, dep);
+                Files.copy(in, depFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
         }
 
         Object[] procArray = new Object[args.length + 2];

@@ -51,9 +51,8 @@ public class SDRPPBookmarkReader extends BookmarkReader {
                             throw new IllegalArgumentException(msg);
                         }
                         RadioStation station = new RadioStation(name, freq, modulation,
-                                Map
-                                        .of(RadioStation.METADATA_BANDWIDTH, bandwidth, RadioStation.METADATA_TAGS,
-                                                listName, RadioStation.METADATA_TAG_COLORS, "#ffffff"));
+                                Map.of(RadioStation.METADATA_BANDWIDTH, bandwidth, RadioStation.METADATA_TAGS, listName,
+                                        RadioStation.METADATA_TAG_COLORS, "#ffffff"));
                         stations.add(station);
                     }
             }

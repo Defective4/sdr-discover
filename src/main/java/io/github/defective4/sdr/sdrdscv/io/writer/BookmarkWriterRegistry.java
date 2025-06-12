@@ -47,27 +47,24 @@ public class BookmarkWriterRegistry {
     private static final Map<String, WriterEntry> WRITERS = new HashMap<>();
 
     static {
-        WRITERS
-                .putAll(Map
-                        .of("csv", new WriterEntry(CSVBookmarkWriter.class, "Save stations to a CSV file."), "gqrx",
-                                new WriterEntry(GqrxBookmarkWriter.class, "GQRX compatible CSV bookmarks file."),
-                                "json",
-                                new WriterEntry(JSONBookmarkWriter.class,
-                                        "Files saved by this output can be loaded with json-input service."),
-                                "oneline",
-                                new WriterEntry(OneLineBookmarkWriter.class,
-                                        "Save stations to an user-readable text file, one line per station."),
-                                "openwebrx",
-                                new WriterEntry(OpenWebRXBookmarkWriter.class,
-                                        "OpenWebRX compatible bookmarks JSON file."),
-                                "sdrpp", new WriterEntry(SDRPPBookmarkWriter.class,
-                                        "Outputs a JSON file compatible with SDR++'s frequency manager.")));
+        WRITERS.putAll(Map.of("csv", new WriterEntry(CSVBookmarkWriter.class, "Save stations to a CSV file."), "gqrx",
+                new WriterEntry(GqrxBookmarkWriter.class, "GQRX compatible CSV bookmarks file."), "json",
+                new WriterEntry(
+                        JSONBookmarkWriter.class, "Files saved by this output can be loaded with json-input service."),
+                "oneline",
+                new WriterEntry(OneLineBookmarkWriter.class,
+                        "Save stations to an user-readable text file, one line per station."),
+                "openwebrx",
+                new WriterEntry(OpenWebRXBookmarkWriter.class, "OpenWebRX compatible bookmarks JSON file."), "sdrpp",
+                new WriterEntry(SDRPPBookmarkWriter.class,
+                        "Outputs a JSON file compatible with SDR++'s frequency manager.")));
     }
 
     public static Options constructOptions() {
         Options ops = new Options();
-        for (Entry<String, WriterEntry> entry : WRITERS.entrySet())
+        for (Entry<String, WriterEntry> entry : WRITERS.entrySet()) {
             ops.addOptions(constructOptions(entry.getKey(), entry.getValue()));
+        }
         return ops;
     }
 
@@ -78,9 +75,11 @@ public class BookmarkWriterRegistry {
             ConstructorParam wp = e.getValue();
             String def = wp.defaultValue();
             Option.Builder builder = Option.builder().longOpt(id.toLowerCase() + "-" + wp.argName());
-            if (!def.isEmpty() && param.getType() != boolean.class)
+            if (!def.isEmpty() && param.getType() != boolean.class) {
                 builder.desc(wp.description() + " (Default: " + def + ")");
-            else builder.desc(wp.description());
+            } else {
+                builder.desc(wp.description());
+            }
             if (param.getType() != boolean.class) {
                 builder.argName(param.getName()).hasArgs().converter(ParamConverters.getConverter(param.getType()));
             }

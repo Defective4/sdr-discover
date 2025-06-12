@@ -26,7 +26,9 @@ public class RadioStation {
         this.name = name;
         this.frequency = frequency;
         this.modulation = modulation;
-        if (metadata != null) this.metadata.putAll(metadata);
+        if (metadata != null) {
+            this.metadata.putAll(metadata);
+        }
     }
 
     public float getFrequency() {

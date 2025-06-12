@@ -1,6 +1,9 @@
 package io.github.defective4.sdr.sdrdscv.io.writer;
 
-import static io.github.defective4.sdr.sdrdscv.radio.RadioStation.*;
+import static io.github.defective4.sdr.sdrdscv.radio.RadioStation.METADATA_CUSTOM_MODULATION;
+import static io.github.defective4.sdr.sdrdscv.radio.RadioStation.METADATA_DESCRIPTION;
+import static io.github.defective4.sdr.sdrdscv.radio.RadioStation.METADATA_SCANNABLE;
+import static io.github.defective4.sdr.sdrdscv.radio.RadioStation.METADATA_SECONDARY_MODULATION;
 
 import java.io.Writer;
 import java.util.List;
@@ -26,7 +29,9 @@ public class OpenWebRXBookmarkWriter implements BookmarkWriter {
         this.includeDescription = includeDescription;
         this.scannable = scannable;
         GsonBuilder builder = new GsonBuilder();
-        if (prettyPrint) builder = builder.setPrettyPrinting();
+        if (prettyPrint) {
+            builder = builder.setPrettyPrinting();
+        }
         gson = builder.create();
     }
 
@@ -38,23 +43,18 @@ public class OpenWebRXBookmarkWriter implements BookmarkWriter {
             obj.addProperty("name", station.getName());
             obj.addProperty("frequency", (int) station.getFrequency());
             Modulation modulation = station.getModulation();
-            obj
-                    .addProperty("modulation",
-                            modulation == Modulation.CUSTOM
-                                    && station.getMetadata().containsKey(METADATA_CUSTOM_MODULATION)
-                                            ? station
-                                                    .getMetadataValue(METADATA_CUSTOM_MODULATION, String.class,
-                                                            Modulation.RAW.getOwrxMod())
-                                            : modulation.getOwrxMod());
+            obj.addProperty("modulation",
+                    modulation == Modulation.CUSTOM && station.getMetadata().containsKey(METADATA_CUSTOM_MODULATION)
+                            ? station.getMetadataValue(METADATA_CUSTOM_MODULATION, String.class,
+                                    Modulation.RAW.getOwrxMod())
+                            : modulation.getOwrxMod());
             obj.addProperty("underlying", station.getMetadataValue(METADATA_SECONDARY_MODULATION, String.class, ""));
-            obj
-                    .addProperty("description",
-                            includeDescription ? station.getMetadataValue(METADATA_DESCRIPTION, String.class, "") : "");
-            obj
-                    .addProperty("scannable",
-                            station.getMetadata().containsKey(METADATA_SCANNABLE)
-                                    ? station.getMetadataValue(METADATA_SCANNABLE, Boolean.class, false)
-                                    : scannable);
+            obj.addProperty("description",
+                    includeDescription ? station.getMetadataValue(METADATA_DESCRIPTION, String.class, "") : "");
+            obj.addProperty("scannable",
+                    station.getMetadata().containsKey(METADATA_SCANNABLE)
+                            ? station.getMetadataValue(METADATA_SCANNABLE, Boolean.class, false)
+                            : scannable);
             array.add(obj);
         }
         gson.toJson(array, output);

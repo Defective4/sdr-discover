@@ -42,13 +42,13 @@ public class StripServiceDecorator implements ServiceDecorator {
             Map<String, Object> metadata = new HashMap<>();
             if (fields != null) {
                 for (Entry<String, Object> entry : station.getMetadata().entrySet()) {
-                    for (String field : fields)
-                        if (!field.equals(entry.getKey())) metadata.put(entry.getKey(), entry.getValue());
+                    for (String field : fields) if (!field.equals(entry.getKey())) {
+                        metadata.put(entry.getKey(), entry.getValue());
+                    }
                 }
             }
-            decorated
-                    .add(new RadioStation(station.getName(), station.getFrequency(), station.getModulation(),
-                            metadata));
+            decorated.add(
+                    new RadioStation(station.getName(), station.getFrequency(), station.getModulation(), metadata));
         }
         return Collections.unmodifiableList(decorated);
     }

@@ -26,8 +26,9 @@ public class SDRPPBookmarkWriter implements BookmarkWriter {
         defaultListName = listName;
         this.ignoreTags = ignoreTags;
         GsonBuilder builder = new GsonBuilder();
-        if (prettyPrint)
+        if (prettyPrint) {
             builder = builder.setPrettyPrinting();
+        }
         gson = builder.create();
     }
 
@@ -49,10 +50,9 @@ public class SDRPPBookmarkWriter implements BookmarkWriter {
 
             if (!ignoreTags && station.getMetadata().containsKey(RadioStation.METADATA_TAGS)) {
                 String[] tags = station.getMetadataValue(RadioStation.METADATA_TAGS, String.class, "").split(",");
-                for (String tag : tags)
-                    if (!tag.isBlank() && !tag.equals(defaultListName)) {
-                        tagBookmarks.computeIfAbsent(tag, e -> new JsonObject()).add(station.getName(), bookmark);
-                    }
+                for (String tag : tags) if (!tag.isBlank() && !tag.equals(defaultListName)) {
+                    tagBookmarks.computeIfAbsent(tag, e -> new JsonObject()).add(station.getName(), bookmark);
+                }
             }
         }
 

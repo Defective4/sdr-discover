@@ -20,10 +20,9 @@ public class OneLineBookmarkWriter implements BookmarkWriter {
 
     @Override
     public void write(Writer output, List<RadioStation> stations) throws IOException {
-        for (RadioStation station : stations) output
-                .write(String
-                        .format(format + "\n", station.getName(), (long) station.getFrequency(),
-                                station.getModulation(),
-                                station.getMetadataValue(RadioStation.METADATA_DESCRIPTION, "")));
+        for (RadioStation station : stations) {
+            output.write(String.format(format + "\n", station.getName(), (long) station.getFrequency(),
+                    station.getModulation(), station.getMetadataValue(RadioStation.METADATA_DESCRIPTION, "")));
+        }
     }
 }

@@ -17,7 +17,9 @@ public class JSONBookmarkWriter implements BookmarkWriter {
     public JSONBookmarkWriter(
             @ConstructorParam(argName = "disable-pretty-print", defaultValue = "true", description = "Disables pretty printing of the resulting JSON, saving space.") boolean prettyPrint) {
         GsonBuilder builder = new GsonBuilder();
-        if (prettyPrint) builder = builder.setPrettyPrinting();
+        if (prettyPrint) {
+            builder = builder.setPrettyPrinting();
+        }
         gson = builder.create();
     }
 
