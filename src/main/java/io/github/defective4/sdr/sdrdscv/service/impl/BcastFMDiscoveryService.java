@@ -217,7 +217,7 @@ public class BcastFMDiscoveryService implements DiscoveryService {
     private List<RadioStation> discover(List<RadioStation> decorate, ChainServiceDecorator decorator) throws Exception {
         if (controlProbeFrequency != -1 && decorate != null)
             throw new IOException("Control probe is not allowed in decorator mode.");
-        process = GRScriptRunner.run("rds_rx.py", Collections.singleton("rds_rx_epy_block_0.py"), "--params", sdrParams,
+        process = GRScriptRunner.run("rds_rx.py", Collections.singleton("rds_rx_controller.py"), "--params", sdrParams,
                 "--gain", gain, "--rdsPort", rdsPort, "--probePort", probePort, "--ctlPort", ctlPort);
 
         try (RawMessageReceiver signalProbe = new RawMessageReceiver("tcp://localhost:" + probePort, false);
@@ -230,14 +230,12 @@ public class BcastFMDiscoveryService implements DiscoveryService {
             new Thread(() -> {
                 try {
                     signalProbe.start();
-                } catch (Exception e) {
-                }
+                } catch (Exception e) {}
             }).start();
             new Thread(() -> {
                 try {
                     rdsReceiver.start();
-                } catch (Exception e2) {
-                }
+                } catch (Exception e2) {}
             }).start();
 
             Object lock = new Object();
