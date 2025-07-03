@@ -59,8 +59,7 @@ public class OpenWebRXBookmarkReader extends BookmarkReader {
                 if (underlying.isBlank()) {
                     underlying = null;
                 }
-            } catch (Exception e) {
-            }
+            } catch (Exception e) {}
 
             String description = null;
             try {

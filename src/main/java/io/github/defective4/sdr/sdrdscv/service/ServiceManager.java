@@ -20,6 +20,7 @@ import io.github.defective4.sdr.sdrdscv.service.decorator.impl.StripServiceDecor
 import io.github.defective4.sdr.sdrdscv.service.decorator.impl.TagServiceDecorator;
 import io.github.defective4.sdr.sdrdscv.service.impl.BcastFMDiscoveryService;
 import io.github.defective4.sdr.sdrdscv.service.impl.BookmarksDiscoveryService;
+import io.github.defective4.sdr.sdrdscv.service.impl.FFTDiscoveryService;
 
 public class ServiceManager {
     private static final Map<String, BuilderEntry<? extends ServiceDecoratorBuilder<?>>> DECORATORS = new LinkedHashMap<>();
@@ -29,7 +30,10 @@ public class ServiceManager {
         try {
             putServiceEntry("bcastfm", BcastFMDiscoveryService.Builder.class,
                     "Discover Broadcast FM stations by scanning the band for RDS services.");
-            putServiceEntry("bookmarks", BookmarksDiscoveryService.Builder.class, "Read stations from a bookmark file");
+            putServiceEntry("bookmarks", BookmarksDiscoveryService.Builder.class,
+                    "Read stations from a bookmark file.");
+            putServiceEntry("fft", FFTDiscoveryService.Builder.class,
+                    "Perform a quick scan using FFT. It's fast, but less accurate and doesn't detect stations' details.");
 
             putDecoratorEntry("tag", TagServiceDecorator.Builder.class,
                     "Decorates detected stations with colored tags. The tags are compatible with Gqrx.");
@@ -109,8 +113,7 @@ public class ServiceManager {
         Object builderInstance = null;
         try {
             builderInstance = clazz.getConstructor().newInstance();
-        } catch (Throwable e) {
-        }
+        } catch (Throwable e) {}
         for (Method method : clazz.getMethods()) if (method.isAnnotationPresent(BuilderParam.class)) {
             if (method.getParameterCount() > 1)
                 throw new IllegalStateException("Method " + method.getName() + " has more than one parameter.");
@@ -127,8 +130,7 @@ public class ServiceManager {
                     if (val != null) {
                         desc += " (Default: " + val + ")";
                     }
-                } catch (Throwable e) {
-                }
+                } catch (Throwable e) {}
             }
             Builder opt = Option.builder().longOpt(prefix + "-" + arg.argName()).desc(desc);
             if (method.getParameterCount() == 1) {

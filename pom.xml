@@ -61,6 +61,8 @@
                                 <argument>${project.basedir}/target/grc</argument>
                                 <argument>
                                     ${project.basedir}/src/main/gr/rds_rx.grc</argument>
+                                <argument>
+                                    ${project.basedir}/src/main/gr/fft_rx.grc</argument>
                             </arguments>
                         </configuration>
                     </execution>
