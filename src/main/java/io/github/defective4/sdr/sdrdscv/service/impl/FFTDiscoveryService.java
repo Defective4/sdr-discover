@@ -1,6 +1,7 @@
 package io.github.defective4.sdr.sdrdscv.service.impl;
 
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
@@ -8,6 +9,7 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +17,7 @@ import java.util.concurrent.TimeoutException;
 
 import io.github.defective4.sdr.msg.RawMessageSender;
 import io.github.defective4.sdr.sdrdscv.annotation.BuilderParam;
+import io.github.defective4.sdr.sdrdscv.radio.Modulation;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 import io.github.defective4.sdr.sdrdscv.radio.tuner.Tuner;
 import io.github.defective4.sdr.sdrdscv.service.DiscoveryService;
@@ -31,16 +34,19 @@ public class FFTDiscoveryService implements DiscoveryService {
         private float dcFilterWidth = 10e3f;
         private float endFreq = 108e6f;
         private int fftSize = 1024;
+        private String namingFormat = "FFT %1$s";
         private boolean probe = false;
         private String probeCsvFile = null;
         private int rxPort = 2000;
         private float startFreq = 88e6f;
+        private float threshold = 0f;
         private int tuneDelay = 1000;
 
         @Override
         public FFTDiscoveryService build() throws Exception {
             return new FFTDiscoveryService(fftSize, controlPort, endFreq, startFreq, verbose, rxPort, tuneDelay,
-                    dcBlock, dcFilterWidth);
+                    dcBlock, dcFilterWidth, probe, probeCsvFile == null ? null : new File(probeCsvFile), threshold,
+                    namingFormat);
         }
 
         @BuilderParam(argName = "dc-block", description = "Tries to ignore the DC spike.")
@@ -61,7 +67,7 @@ public class FFTDiscoveryService implements DiscoveryService {
             return this;
         }
 
-        @BuilderParam(argName = "dc-filter-width", defaultField = "dcFilterWidth", description = "Width of the DC filter in HZ")
+        @BuilderParam(argName = "dc-filter-width", defaultField = "dcFilterWidth", description = "Width of the DC filter in Hz")
         public void setDcFilterWidth(float dcFilterWidth) {
             this.dcFilterWidth = dcFilterWidth;
         }
@@ -75,6 +81,13 @@ public class FFTDiscoveryService implements DiscoveryService {
         @BuilderParam(argName = "fft-size", defaultField = "fftSize", description = "FFT Size. Higher values increase scan accuracy, but require more processing power.")
         public Builder setFftSize(int fftSize) {
             this.fftSize = fftSize;
+            return this;
+        }
+
+        @BuilderParam(argName = "name-format", defaultField = "namingFormat", description = "Station naming format.\n"
+                + " %1$s - station number\n" + " %2$s - center frequency (Hz)\n")
+        public Builder setNamingFormat(String namingFormat) {
+            this.namingFormat = namingFormat;
             return this;
         }
 
@@ -95,6 +108,11 @@ public class FFTDiscoveryService implements DiscoveryService {
             return this;
         }
 
+        @BuilderParam(argName = "threshold", defaultField = "threshold", description = "Signal threshold in dB. All signals above this value will be detected as stations")
+        public void setThreshold(float threshold) {
+            this.threshold = threshold;
+        }
+
         @BuilderParam(argName = "tune-delay", defaultField = "tuneDelay", description = "A delay between tuning to and probing the signal in milliseconds")
         public Builder setTuneDelay(int tuneDelay) {
             this.tuneDelay = tuneDelay;
@@ -111,16 +129,25 @@ public class FFTDiscoveryService implements DiscoveryService {
     private float[] fft;
     private final Object fftLock = new Object();
     private final int fftSize;
+    private final String namingFormat;
+    private final boolean probe;
+    private final File probeCsvFile;
     private boolean requestFFT;
     private final int rxPort;
     private final ExecutorService service = Executors.newSingleThreadExecutor();
     private final float startFreq, endFreq;
+    private final float threshold;
     private final int tuneDelay;
+
     private Tuner tuner;
+
     private final boolean verbose;
 
     private FFTDiscoveryService(int fftSize, int controlPort, float endFreq, float startFreq, boolean verbose,
-            int rxPort, int tuneDelay, boolean dcBlock, float dcFilterWidth) {
+            int rxPort, int tuneDelay, boolean dcBlock, float dcFilterWidth, boolean probe, File probeCsvFile,
+            float threshold, String namingFormat) {
+        this.probe = probe;
+        this.probeCsvFile = probeCsvFile;
         this.dcFilterWidth = dcFilterWidth;
         this.fftSize = fftSize;
         this.controlPort = controlPort;
@@ -129,6 +156,8 @@ public class FFTDiscoveryService implements DiscoveryService {
         this.verbose = verbose;
         this.rxPort = rxPort;
         this.tuneDelay = tuneDelay;
+        this.threshold = threshold;
+        this.namingFormat = namingFormat;
         fft = new float[fftSize];
         this.dcBlock = dcBlock;
     }
@@ -191,7 +220,7 @@ public class FFTDiscoveryService implements DiscoveryService {
                     float f = fft[i];
                     points.add(f);
                     if (f > max) {
-                        freq = calcRelativeFrequency(SAMPLE_RATE, i);
+                        freq = calcRelativeFrequency(i, fftSize);
                         if (dcBlock && freq > -(dcFilterWidth / 2f) && freq < dcFilterWidth / 2f) continue;
                         max = f;
                         point = i;
@@ -201,13 +230,45 @@ public class FFTDiscoveryService implements DiscoveryService {
                     System.err.println(String.format("  Peak %sdB at point %s (%sHz)", max, point, centerFreq + freq));
             }
 
+            if (probe) {
+                System.err.println("FFT scan complete");
+                System.err.println("Frequency range: " + lowerFreq + "Hz - " + higherFreq + "Hz");
+                System.err.println("Min. power: " + points.stream().mapToDouble(e -> e).min().getAsDouble());
+                System.err.println("Max. power: " + points.stream().mapToDouble(e -> e).max().getAsDouble());
+                System.err.println("Avg. power: " + points.stream().mapToDouble(e -> e).average().getAsDouble());
+                return Collections.emptyList();
+            }
+
+            float sigStart = -1;
+            int index = 0;
+
+            List<RadioStation> stations = new ArrayList<>();
+
+            for (int i = 0; i < points.size(); i++) {
+                float sig = points.get(i);
+                float freq = calcRelativeFrequency(i, points.size());
+                freq += (lowerFreq + higherFreq) / 2f;
+                if (sig > threshold) {
+                    if (sigStart == -1) sigStart = freq;
+                } else if (sigStart != -1) {
+                    float sigEnd = freq;
+                    float center = (sigStart + sigEnd) / 2f;
+                    float bandwidth = sigEnd - sigStart;
+                    sigStart = -1;
+                    String name = String.format(namingFormat, ++index, center);
+
+                    // TODO modulation
+                    stations.add(new RadioStation(name, center, Modulation.RAW,
+                            Map.of(RadioStation.METADATA_BANDWIDTH, (int) bandwidth)));
+                }
+            }
+            return Collections.unmodifiableList(stations);
         } catch (TimeoutException ex) {
             throw new IOException("Couldn't connect with the receiver");
         } finally {
             service.shutdownNow();
             fftRx.destroyForcibly();
         }
-        return Collections.emptyList();
     }
 
     @Override
@@ -215,8 +276,9 @@ public class FFTDiscoveryService implements DiscoveryService {
         return false;
     }
 
-    private float calcRelativeFrequency(float bandwidth, int point) {
-        return point / (float) (fftSize - 1) * bandwidth - bandwidth / 2f;
+    private float calcRelativeFrequency(int point, int totalPoints) {
+        float bandwidth = totalPoints / fftSize * SAMPLE_RATE;
+        return point / (float) (totalPoints - 1) * bandwidth - bandwidth / 2f;
     }
 
     private static float[] readFFT(DataInputStream in, int fftSize) throws IOException {
