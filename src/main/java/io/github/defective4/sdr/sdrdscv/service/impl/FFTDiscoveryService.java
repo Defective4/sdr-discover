@@ -32,6 +32,7 @@ public class FFTDiscoveryService implements DiscoveryService {
         private int controlPort = 25555;
         private boolean dcBlock = true;
         private float dcFilterWidth = 10e3f;
+        private Modulation defaultModulation = Modulation.RAW;
         private float endFreq = 108e6f;
         private int fftSize = 1024;
         private String namingFormat = "FFT %1$s";
@@ -46,7 +47,7 @@ public class FFTDiscoveryService implements DiscoveryService {
         public FFTDiscoveryService build() throws Exception {
             return new FFTDiscoveryService(fftSize, controlPort, endFreq, startFreq, verbose, rxPort, tuneDelay,
                     dcBlock, dcFilterWidth, probe, probeCsvFile == null ? null : new File(probeCsvFile), threshold,
-                    namingFormat);
+                    namingFormat, defaultModulation);
         }
 
         @BuilderParam(argName = "dc-block", description = "Tries to ignore the DC spike.")
@@ -70,6 +71,12 @@ public class FFTDiscoveryService implements DiscoveryService {
         @BuilderParam(argName = "dc-filter-width", defaultField = "dcFilterWidth", description = "Width of the DC filter in Hz")
         public void setDcFilterWidth(float dcFilterWidth) {
             this.dcFilterWidth = dcFilterWidth;
+        }
+
+        @BuilderParam(argName = "default-mod", defaultField = "defaultModulation", description = "Default modulation for all detected stations")
+        public Builder setDefaultModulation(Modulation defaultModulation) {
+            this.defaultModulation = defaultModulation;
+            return this;
         }
 
         @BuilderParam(argName = "end-freq", defaultField = "endFreq", description = "Target scan frequency")
@@ -126,6 +133,7 @@ public class FFTDiscoveryService implements DiscoveryService {
     private final int controlPort;
     private final boolean dcBlock;
     private final float dcFilterWidth;
+    private final Modulation defaultModulation;
     private float[] fft;
     private final Object fftLock = new Object();
     private final int fftSize;
@@ -137,6 +145,7 @@ public class FFTDiscoveryService implements DiscoveryService {
     private final ExecutorService service = Executors.newSingleThreadExecutor();
     private final float startFreq, endFreq;
     private final float threshold;
+
     private final int tuneDelay;
 
     private Tuner tuner;
@@ -145,7 +154,7 @@ public class FFTDiscoveryService implements DiscoveryService {
 
     private FFTDiscoveryService(int fftSize, int controlPort, float endFreq, float startFreq, boolean verbose,
             int rxPort, int tuneDelay, boolean dcBlock, float dcFilterWidth, boolean probe, File probeCsvFile,
-            float threshold, String namingFormat) {
+            float threshold, String namingFormat, Modulation defaultModulation) {
         this.probe = probe;
         this.probeCsvFile = probeCsvFile;
         this.dcFilterWidth = dcFilterWidth;
@@ -158,6 +167,7 @@ public class FFTDiscoveryService implements DiscoveryService {
         this.tuneDelay = tuneDelay;
         this.threshold = threshold;
         this.namingFormat = namingFormat;
+        this.defaultModulation = defaultModulation;
         fft = new float[fftSize];
         this.dcBlock = dcBlock;
     }
@@ -257,8 +267,7 @@ public class FFTDiscoveryService implements DiscoveryService {
                     sigStart = -1;
                     String name = String.format(namingFormat, ++index, center);
 
-                    // TODO modulation
-                    stations.add(new RadioStation(name, center, Modulation.RAW,
+                    stations.add(new RadioStation(name, center, defaultModulation,
                             Map.of(RadioStation.METADATA_BANDWIDTH, (int) bandwidth)));
                 }
             }

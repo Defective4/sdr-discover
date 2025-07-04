@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.cli.Converter;
 import org.apache.commons.cli.ParseException;
 
+import io.github.defective4.sdr.sdrdscv.radio.Modulation;
 import io.github.defective4.sdr.sdrdscv.service.impl.BcastFMDiscoveryService;
 
 public class ParamConverters {
@@ -19,6 +20,7 @@ public class ParamConverters {
                 Float::parseFloat, boolean.class, Boolean::parseBoolean, String.class, str -> str, double.class,
                 Double::parseDouble, BcastFMDiscoveryService.StationNameConflictMode.class,
                 str -> BcastFMDiscoveryService.StationNameConflictMode.valueOf(str.toUpperCase())));
+        CONVERTERS.putAll(Map.of(Modulation.class, str -> Modulation.valueOf(str.toUpperCase())));
     }
 
     private ParamConverters() {
