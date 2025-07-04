@@ -257,6 +257,7 @@ public class FFTDiscoveryService implements DiscoveryService {
             for (int i = 0; i < points.size(); i++) {
                 float sig = points.get(i);
                 float freq = calcRelativeFrequency(i, points.size());
+                if (dcBlock && freq > -(dcFilterWidth / 2f) && freq < dcFilterWidth / 2f) continue;
                 freq += (lowerFreq + higherFreq) / 2f;
                 if (sig > threshold) {
                     if (sigStart == -1) sigStart = freq;
