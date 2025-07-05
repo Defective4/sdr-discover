@@ -1,0 +1,98 @@
+[
+    {
+        "start": 0,
+        "end": 50e6,
+        "mod": "AM",
+        "priority": 0
+    },
+    {
+        "start": 1.8e6,
+        "end": 2e6,
+        "mod": "LSB",
+        "priority": 1
+    },
+    {
+        "start": 1.81e6,
+        "end": 1.843e6,
+        "mod": "CW",
+        "priority": 2
+    },
+    {
+        "start": 3.5e6,
+        "end": 3.9e6,
+        "mod": "LSB",
+        "priority": 1
+    },
+    {
+        "start": 7e6,
+        "end": 7.2e6,
+        "mod": "LSB",
+        "priority": 1
+    },
+    {
+        "start": 10.1e6,
+        "end": 10.15e6,
+        "mod": "USB",
+        "priority": 1
+    },
+    {
+        "start": 14e6,
+        "end": 14.35e6,
+        "mod": "USB",
+        "priority": 1
+    },
+    {
+        "start": 18.068e6,
+        "end": 18.168e6,
+        "mod": "USB",
+        "priority": 1
+    },
+    {
+        "start": 21e6,
+        "end": 21.45e6,
+        "mod": "USB",
+        "priority": 1
+    },
+    {
+        "start": 24.89e6,
+        "end": 24.99e6,
+        "mod": "USB",
+        "priority": 1
+    },
+    {
+        "start": 28e6,
+        "end": 29.7e6,
+        "mod": "CW",
+        "priority": 1
+    },
+    {
+        "start": 50e6,
+        "end": 54e6,
+        "mod": "CW",
+        "priority": 1
+    },
+    {
+        "start": 54e6,
+        "end": 87e6,
+        "mod": "NFM",
+        "priority": 1
+    },
+    {
+        "start": 87e6,
+        "end": 108e6,
+        "mod": "WFM_STEREO",
+        "priority": 1
+    },
+    {
+        "start": 108e6,
+        "end": 137e6,
+        "mod": "AM",
+        "priority": 1
+    },
+    {
+        "start": 137e6,
+        "end": 2000e6,
+        "mod": "NFM",
+        "priority": 1
+    }
+]
