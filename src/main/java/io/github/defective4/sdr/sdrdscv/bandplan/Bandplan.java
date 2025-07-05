@@ -1,5 +1,6 @@
 package io.github.defective4.sdr.sdrdscv.bandplan;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -7,7 +8,9 @@ public class Bandplan {
     private final List<Band> bands;
 
     public Bandplan(List<Band> bands) {
-        this.bands = Collections.unmodifiableList(bands);
+        List<Band> sorted = new ArrayList<>(bands);
+        sorted.sort((b1, b2) -> (b2.getPriority() - b1.getPriority()));
+        this.bands = Collections.unmodifiableList(sorted);
     }
 
     public List<Band> getBands() {

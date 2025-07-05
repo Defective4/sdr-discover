@@ -15,6 +15,7 @@ import org.apache.commons.cli.Options;
 import io.github.defective4.sdr.sdrdscv.ParamConverters;
 import io.github.defective4.sdr.sdrdscv.annotation.BuilderParam;
 import io.github.defective4.sdr.sdrdscv.service.decorator.ServiceDecoratorBuilder;
+import io.github.defective4.sdr.sdrdscv.service.decorator.impl.BandplanServiceDecorator;
 import io.github.defective4.sdr.sdrdscv.service.decorator.impl.ChainServiceDecorator;
 import io.github.defective4.sdr.sdrdscv.service.decorator.impl.StripServiceDecorator;
 import io.github.defective4.sdr.sdrdscv.service.decorator.impl.TagServiceDecorator;
@@ -39,6 +40,8 @@ public class ServiceManager {
                     "Decorates detected stations with colored tags. The tags are compatible with Gqrx.");
             putDecoratorEntry("strip", StripServiceDecorator.Builder.class,
                     "Strips metadata from discovered stations. Unless specified otherwise, this decorator will remove ALL metadata values.");
+            putDecoratorEntry("bandplan", BandplanServiceDecorator.Builder.class,
+                    "Changes stations' modulation according to a bandplan.");
             putDecoratorEntry("chain", ChainServiceDecorator.Builder.class,
                     "Use results of the next service to decorate this one.");
         } catch (Exception e) {

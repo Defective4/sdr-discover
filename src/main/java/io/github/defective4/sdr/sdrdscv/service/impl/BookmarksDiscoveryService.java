@@ -25,7 +25,7 @@ public class BookmarksDiscoveryService implements DiscoveryService {
         private String gqrxTagFilter;
         private boolean lenient;
         private boolean owrxIncludeCustomModulation = true;
-        private String readerId;
+        private ReaderId readerId;
         private String[] sdrppListFilter;
         private String source = "-";
 
@@ -66,7 +66,7 @@ public class BookmarksDiscoveryService implements DiscoveryService {
         }
 
         @BuilderParam(argName = "reader", description = "Bookmark reader to use")
-        public Builder withReaderId(String readerId) {
+        public Builder withReaderId(ReaderId readerId) {
             this.readerId = readerId;
             return this;
         }
@@ -106,15 +106,11 @@ public class BookmarksDiscoveryService implements DiscoveryService {
     private final String[] sdrppListFilter;
     private final String source;
 
-    private BookmarksDiscoveryService(boolean lenient, String readerId, String source, boolean verbose,
+    private BookmarksDiscoveryService(boolean lenient, ReaderId readerId, String source, boolean verbose,
             char gqrxSeparatorChar, String gqrxTagFilter, String[] sdrppListFilter,
             boolean owrxIncludeCustomModulation) {
         if (readerId == null) throw new IllegalArgumentException("Option \"bookmarks-reader\" is required.");
-        try {
-            this.readerId = ReaderId.valueOf(readerId.toUpperCase());
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Reader not found: " + readerId);
-        }
+        this.readerId = readerId;
         this.owrxIncludeCustomModulation = owrxIncludeCustomModulation;
         this.gqrxSeparatorChar = gqrxSeparatorChar;
         this.lenient = lenient;

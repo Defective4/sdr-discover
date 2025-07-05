@@ -59,7 +59,6 @@ public class GqrxBandplanReader implements BandplanReader {
             weightedBands.add(
                     new Band(band.getName(), band.getStartFreq(), band.getEndFreq(), band.getModulation(), priority));
         }
-        weightedBands.sort((b1, b2) -> (b2.getPriority() - b1.getPriority()));
         return new Bandplan(weightedBands);
     }
 }
