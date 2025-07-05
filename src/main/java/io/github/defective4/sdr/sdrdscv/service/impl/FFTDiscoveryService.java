@@ -38,6 +38,7 @@ public class FFTDiscoveryService implements DiscoveryService {
         private String namingFormat = "FFT %1$s";
         private boolean probe = false;
         private String probeCsvFile = null;
+        private float roundCenterFreq = 1;
         private int rxPort = 2000;
         private float startFreq = 88e6f;
         private float threshold = 0f;
@@ -47,7 +48,7 @@ public class FFTDiscoveryService implements DiscoveryService {
         public FFTDiscoveryService build() throws Exception {
             return new FFTDiscoveryService(fftSize, controlPort, endFreq, startFreq, verbose, rxPort, tuneDelay,
                     dcBlock, dcFilterWidth, probe, probeCsvFile == null ? null : new File(probeCsvFile), threshold,
-                    namingFormat, defaultModulation);
+                    namingFormat, defaultModulation, (int) roundCenterFreq);
         }
 
         @BuilderParam(argName = "dc-block", description = "Tries to ignore the DC spike.")
@@ -104,6 +105,12 @@ public class FFTDiscoveryService implements DiscoveryService {
             return this;
         }
 
+        @BuilderParam(argName = "center-freq-round", defaultField = "roundCenterFreq", description = "Round center frequencies to a multiply of this value in Hz")
+        public Builder setRoundcenterFreq(float roundCenterFreq) {
+            this.roundCenterFreq = roundCenterFreq;
+            return this;
+        }
+
         @BuilderParam(argName = "rx-port", defaultField = "rxPort", description = "Receive port for FFT data")
         public void setRxPort(int rxPort) {
             this.rxPort = rxPort;
@@ -134,6 +141,7 @@ public class FFTDiscoveryService implements DiscoveryService {
     private final boolean dcBlock;
     private final float dcFilterWidth;
     private final Modulation defaultModulation;
+    private final int detectorStep;
     private float[] fft;
     private final Object fftLock = new Object();
     private final int fftSize;
@@ -144,6 +152,7 @@ public class FFTDiscoveryService implements DiscoveryService {
     private final int rxPort;
     private final ExecutorService service = Executors.newSingleThreadExecutor();
     private final float startFreq, endFreq;
+
     private final float threshold;
 
     private final int tuneDelay;
@@ -154,7 +163,7 @@ public class FFTDiscoveryService implements DiscoveryService {
 
     private FFTDiscoveryService(int fftSize, int controlPort, float endFreq, float startFreq, boolean verbose,
             int rxPort, int tuneDelay, boolean dcBlock, float dcFilterWidth, boolean probe, File probeCsvFile,
-            float threshold, String namingFormat, Modulation defaultModulation) {
+            float threshold, String namingFormat, Modulation defaultModulation, int detectorStep) {
         this.probe = probe;
         this.probeCsvFile = probeCsvFile;
         this.dcFilterWidth = dcFilterWidth;
@@ -168,6 +177,7 @@ public class FFTDiscoveryService implements DiscoveryService {
         this.threshold = threshold;
         this.namingFormat = namingFormat;
         this.defaultModulation = defaultModulation;
+        this.detectorStep = detectorStep;
         fft = new float[fftSize];
         this.dcBlock = dcBlock;
     }
@@ -268,7 +278,7 @@ public class FFTDiscoveryService implements DiscoveryService {
                     sigStart = -1;
                     String name = String.format(namingFormat, ++index, center);
 
-                    stations.add(new RadioStation(name, center, defaultModulation,
+                    stations.add(new RadioStation(name, round(center), defaultModulation,
                             Map.of(RadioStation.METADATA_BANDWIDTH, (int) bandwidth)));
                 }
             }
@@ -289,6 +299,14 @@ public class FFTDiscoveryService implements DiscoveryService {
     private float calcRelativeFrequency(int point, int totalPoints) {
         float bandwidth = totalPoints / fftSize * SAMPLE_RATE;
         return point / (float) (totalPoints - 1) * bandwidth - bandwidth / 2f;
+    }
+
+    private float round(float freq) {
+        if (detectorStep <= 1) return freq;
+        int f = (int) freq;
+        int mod = f % detectorStep;
+        int rest = detectorStep - mod;
+        return rest >= mod ? f - mod : f + rest;
     }
 
     private static float[] readFFT(DataInputStream in, int fftSize) throws IOException {
