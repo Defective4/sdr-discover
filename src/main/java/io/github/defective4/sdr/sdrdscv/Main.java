@@ -24,9 +24,9 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 import io.github.defective4.sdr.sdrdscv.annotation.ConstructorParam;
-import io.github.defective4.sdr.sdrdscv.io.writer.BookmarkWriter;
-import io.github.defective4.sdr.sdrdscv.io.writer.BookmarkWriterRegistry;
-import io.github.defective4.sdr.sdrdscv.io.writer.BookmarkWriterRegistry.WriterEntry;
+import io.github.defective4.sdr.sdrdscv.bookmark.writer.BookmarkWriter;
+import io.github.defective4.sdr.sdrdscv.bookmark.writer.BookmarkWriterRegistry;
+import io.github.defective4.sdr.sdrdscv.bookmark.writer.BookmarkWriterRegistry.WriterEntry;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 import io.github.defective4.sdr.sdrdscv.service.BuilderEntry;
 import io.github.defective4.sdr.sdrdscv.service.DiscoveryService;

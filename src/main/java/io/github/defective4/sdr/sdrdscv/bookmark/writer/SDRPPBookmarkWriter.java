@@ -1,4 +1,4 @@
-package io.github.defective4.sdr.sdrdscv.io.writer;
+package io.github.defective4.sdr.sdrdscv.bookmark.writer;
 
 import java.io.Writer;
 import java.util.LinkedHashMap;

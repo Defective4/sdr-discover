@@ -1,4 +1,4 @@
-package io.github.defective4.sdr.sdrdscv.io.reader;
+package io.github.defective4.sdr.sdrdscv.bookmark.reader;
 
 import java.io.Reader;
 import java.util.List;

@@ -1,4 +1,4 @@
-package io.github.defective4.sdr.sdrdscv.io.reader;
+package io.github.defective4.sdr.sdrdscv.bookmark.reader;
 
 import static io.github.defective4.sdr.sdrdscv.radio.RadioStation.METADATA_CUSTOM_MODULATION;
 import static io.github.defective4.sdr.sdrdscv.radio.RadioStation.METADATA_DESCRIPTION;

@@ -7,11 +7,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import io.github.defective4.sdr.sdrdscv.annotation.BuilderParam;
-import io.github.defective4.sdr.sdrdscv.io.reader.BookmarkReader;
-import io.github.defective4.sdr.sdrdscv.io.reader.GqrxBookmarkReader;
-import io.github.defective4.sdr.sdrdscv.io.reader.JSONBookmarkReader;
-import io.github.defective4.sdr.sdrdscv.io.reader.OpenWebRXBookmarkReader;
-import io.github.defective4.sdr.sdrdscv.io.reader.SDRPPBookmarkReader;
+import io.github.defective4.sdr.sdrdscv.bookmark.reader.BookmarkReader;
+import io.github.defective4.sdr.sdrdscv.bookmark.reader.GqrxBookmarkReader;
+import io.github.defective4.sdr.sdrdscv.bookmark.reader.JSONBookmarkReader;
+import io.github.defective4.sdr.sdrdscv.bookmark.reader.OpenWebRXBookmarkReader;
+import io.github.defective4.sdr.sdrdscv.bookmark.reader.SDRPPBookmarkReader;
 import io.github.defective4.sdr.sdrdscv.radio.RadioStation;
 import io.github.defective4.sdr.sdrdscv.service.DiscoveryService;
 import io.github.defective4.sdr.sdrdscv.service.DiscoveryServiceBuilder;
