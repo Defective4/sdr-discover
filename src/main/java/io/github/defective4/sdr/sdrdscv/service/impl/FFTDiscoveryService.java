@@ -35,11 +35,13 @@ public class FFTDiscoveryService implements DiscoveryService {
         private Modulation defaultModulation = Modulation.RAW;
         private float endFreq = 108e6f;
         private int fftSize = 1024;
+        private int gain = 0;
         private String namingFormat = "FFT %1$s";
         private boolean probe = false;
         private String probeCsvFile = null;
         private float roundCenterFreq = 1;
         private int rxPort = 2000;
+        private String sdrParams = "";
         private float startFreq = 88e6f;
         private float threshold = 0f;
         private int tuneDelay = 1000;
@@ -48,7 +50,7 @@ public class FFTDiscoveryService implements DiscoveryService {
         public FFTDiscoveryService build() throws Exception {
             return new FFTDiscoveryService(fftSize, controlPort, endFreq, startFreq, verbose, rxPort, tuneDelay,
                     dcBlock, dcFilterWidth, probe, probeCsvFile == null ? null : new File(probeCsvFile), threshold,
-                    namingFormat, defaultModulation, (int) roundCenterFreq);
+                    namingFormat, defaultModulation, (int) roundCenterFreq, gain, sdrParams);
         }
 
         @BuilderParam(argName = "dc-block", description = "Tries to ignore the DC spike.")
@@ -133,6 +135,18 @@ public class FFTDiscoveryService implements DiscoveryService {
             return this;
         }
 
+        @BuilderParam(defaultField = "gain", argName = "gain", description = "RF Gain")
+        public Builder withGain(int gain) {
+            this.gain = gain;
+            return this;
+        }
+
+        @BuilderParam(argName = "sdr-params", description = "Params to pass to the SDR driver")
+        public Builder withSDRParams(String sdrParams) {
+            this.sdrParams = sdrParams;
+            return this;
+        }
+
     }
 
     private static final float SAMPLE_RATE = 24e5f;
@@ -145,12 +159,16 @@ public class FFTDiscoveryService implements DiscoveryService {
     private float[] fft;
     private final Object fftLock = new Object();
     private final int fftSize;
+    private final int gain;
     private final String namingFormat;
     private final boolean probe;
     private final File probeCsvFile;
     private boolean requestFFT;
     private final int rxPort;
+    private final String sdrParams;
+
     private final ExecutorService service = Executors.newSingleThreadExecutor();
+
     private final float startFreq, endFreq;
 
     private final float threshold;
@@ -163,7 +181,8 @@ public class FFTDiscoveryService implements DiscoveryService {
 
     private FFTDiscoveryService(int fftSize, int controlPort, float endFreq, float startFreq, boolean verbose,
             int rxPort, int tuneDelay, boolean dcBlock, float dcFilterWidth, boolean probe, File probeCsvFile,
-            float threshold, String namingFormat, Modulation defaultModulation, int detectorStep) {
+            float threshold, String namingFormat, Modulation defaultModulation, int detectorStep, int gain,
+            String sdrParams) {
         this.probe = probe;
         this.probeCsvFile = probeCsvFile;
         this.dcFilterWidth = dcFilterWidth;
@@ -178,6 +197,8 @@ public class FFTDiscoveryService implements DiscoveryService {
         this.namingFormat = namingFormat;
         this.defaultModulation = defaultModulation;
         this.detectorStep = detectorStep;
+        this.gain = gain;
+        this.sdrParams = sdrParams;
         fft = new float[fftSize];
         this.dcBlock = dcBlock;
     }
@@ -189,7 +210,7 @@ public class FFTDiscoveryService implements DiscoveryService {
 
     @Override
     public List<RadioStation> discover() throws Exception {
-        Process fftRx = GRScriptRunner.run("fft_rx.py", "-c", controlPort, "-t", fftSize);
+        Process fftRx = GRScriptRunner.run("fft_rx.py", "-c", controlPort, "-t", fftSize, "-g", gain, "-a", sdrParams);
         if (verbose) {
             System.err.println("Connecting with the receiver...");
         }
