@@ -2,7 +2,9 @@ package io.github.defective4.sdr.sdrdscv.service.impl;
 
 import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -14,6 +16,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import com.opencsv.CSVWriter;
 
 import io.github.defective4.sdr.msg.RawMessageSender;
 import io.github.defective4.sdr.sdrdscv.annotation.BuilderParam;
@@ -277,7 +281,18 @@ public class FFTDiscoveryService implements DiscoveryService {
                 System.err.println("Min. power: " + points.stream().mapToDouble(e -> e).min().getAsDouble());
                 System.err.println("Max. power: " + points.stream().mapToDouble(e -> e).max().getAsDouble());
                 System.err.println("Avg. power: " + points.stream().mapToDouble(e -> e).average().getAsDouble());
-                // TODO CSV
+                if (probeCsvFile != null) {
+                    try (Writer fw = new FileWriter(probeCsvFile);
+                            CSVWriter writer = new CSVWriter(fw, ',', '"', '\\', "\r\n")) {
+                        writer.writeNext(new String[] { "Point", "Frequency", "Power (dB)" });
+                        for (int i = 0; i < points.size(); i++) {
+                            writer.writeNext(new String[] { Integer.toString(i), Long.toString(
+                                    (long) (calcRelativeFrequency(i, points.size()) + (lowerFreq + higherFreq) / 2)),
+                                    Double.toString(points.get(i)) });
+                        }
+                    }
+                    System.err.println("Result saved to " + probeCsvFile);
+                }
                 return Collections.emptyList();
             }
 
