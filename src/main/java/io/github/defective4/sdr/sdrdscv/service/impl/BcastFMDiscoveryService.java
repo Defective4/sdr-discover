@@ -285,20 +285,24 @@ public class BcastFMDiscoveryService implements DiscoveryService {
                         System.err.println("Trying " + freq + "Hz...");
                     }
                     RadioStation detected = tryFrequency(freq, signalProbe, rdsReceiver, average);
-                    Map<String, Object> metadata;
-                    if (decorator.isIgnoreMeta()) {
-                        metadata = prev.getMetadata();
+                    if (detected == null) {
+                        stations.add(detected);
                     } else {
-                        metadata = new HashMap<>(detected.getMetadata());
-                        if (!decorator.isReplaceMeta()) {
-                            for (Entry<String, Object> entry : prev.getMetadata().entrySet()) {
-                                metadata.put(entry.getKey(), entry.getValue());
+                        Map<String, Object> metadata;
+                        if (decorator.isIgnoreMeta()) {
+                            metadata = prev.getMetadata();
+                        } else {
+                            metadata = new HashMap<>(detected.getMetadata());
+                            if (!decorator.isReplaceMeta()) {
+                                for (Entry<String, Object> entry : prev.getMetadata().entrySet()) {
+                                    metadata.put(entry.getKey(), entry.getValue());
+                                }
                             }
                         }
+                        System.err.println("Decorated station \"" + prev.getName() + "\"");
+                        stations.add(new RadioStation((decorator.isReplaceNames() ? detected : prev).getName(), freq,
+                                (decorator.isReplaceModulation() ? detected : prev).getModulation(), metadata));
                     }
-                    System.err.println("Decorated station \"" + prev.getName() + "\"");
-                    stations.add(new RadioStation((decorator.isReplaceNames() ? detected : prev).getName(), freq,
-                            (decorator.isReplaceModulation() ? detected : prev).getModulation(), metadata));
                 }
             } else {
                 for (float freq = startFreq; freq <= endFreq; freq += 100e3f) {

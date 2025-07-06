@@ -218,28 +218,26 @@ blocks:
 - name: controller
   id: epy_block
   parameters:
-    _source_code: "#!/usr/bin/env python\n#\n# Copyright 2020 Free Software Foundation,\
-      \ Inc.\n#\n# This file is part of GNU Radio\n#\n# SPDX-License-Identifier: GPL-3.0-or-later\n\
-      #\n#\n\nfrom gnuradio import gr\nimport pmt\n\n\nclass msg_controller(gr.sync_block):\n\
-      \    def __init__(self):\n        gr.sync_block.__init__(\n            self,\
-      \ name=\"Message Controller\", in_sig=None, out_sig=None)\n\n        self.message_port_register_in(pmt.intern(\"\
-      source\"))\n        self.set_msg_handler(pmt.intern(\"source\"), self.msg_handler)\n\
-      \n    def callbacks(self, freq, freq_offset):\n        self.cb = {\n       \
-      \     \"freq\": freq,\n            \"freq_offset\": freq_offset\n        }\n\
-      \n    def msg_handler(self, msg):\n        if not pmt.is_pair(msg) or pmt.is_dict(msg)\
-      \ or pmt.is_pdu(msg):\n            gr.log.warn(\n                \"Input message\
-      \ %s is not a simple pair, dropping\" % repr(msg))\n            return\n   \
-      \     key = pmt.to_python(pmt.car(msg))\n        val = pmt.to_python(pmt.cdr(msg))\n\
-      \        if key in self.cb:\n            self.cb[key](val)\n\n    def stop(self):\n\
-      \        return True\n"
+    _source_code: "#!/usr/bin/env python\n\nfrom gnuradio import gr\nimport pmt\n\n\
+      \nclass msg_controller(gr.sync_block):\n    def __init__(self):\n        gr.sync_block.__init__(\n\
+      \            self, name=\"Message Controller\", in_sig=None, out_sig=None)\n\
+      \n        self.message_port_register_in(pmt.intern(\"in\"))\n        self.set_msg_handler(pmt.intern(\"\
+      in\"), self.msg_handler)\n\n    def callbacks(self, freq, freq_offset):\n  \
+      \      self.cb = {\n            \"freq\": freq,\n            \"freq_offset\"\
+      : freq_offset\n        }\n\n    def msg_handler(self, msg):\n        if not\
+      \ pmt.is_pair(msg) or pmt.is_dict(msg) or pmt.is_pdu(msg):\n            gr.log.warn(\n\
+      \                \"Input message %s is not a simple pair, dropping\" % repr(msg))\n\
+      \            return\n        key = pmt.to_python(pmt.car(msg))\n        val\
+      \ = pmt.to_python(pmt.cdr(msg))\n        if key in self.cb:\n            self.cb[key](val)\n\
+      \n    def stop(self):\n        return True\n"
     affinity: ''
     alias: ''
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
-    _io_cache: ('Message Controller', 'msg_controller', [], [('source', 'message',
-      1)], [], '', [])
+    _io_cache: ('Message Controller', 'msg_controller', [], [('in', 'message', 1)],
+      [], '', [])
     bus_sink: false
     bus_source: false
     bus_structure: null
@@ -898,7 +896,7 @@ blocks:
   id: snippet
   parameters:
     alias: ''
-    code: self.epy_block_0.callbacks(self.set_freq,self.set_freq_offset)
+    code: self.controller.callbacks(self.set_freq,self.set_freq_offset)
     comment: ''
     priority: '0'
     section: main_after_start
@@ -976,7 +974,7 @@ connections:
 - [rational_resampler_xxx_1, '0', fir_filter_xxx_2, '0']
 - [rds_decoder_0, out, rds_parser_0, in]
 - [rds_parser_0, out, zeromq_push_msg_sink_0, in]
-- [zeromq_pull_msg_source_0, out, controller, source]
+- [zeromq_pull_msg_source_0, out, controller, in]
 
 metadata:
   file_format: 1
