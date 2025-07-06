@@ -277,11 +277,11 @@ public class FFTDiscoveryService implements DiscoveryService {
                 System.err.println("Min. power: " + points.stream().mapToDouble(e -> e).min().getAsDouble());
                 System.err.println("Max. power: " + points.stream().mapToDouble(e -> e).max().getAsDouble());
                 System.err.println("Avg. power: " + points.stream().mapToDouble(e -> e).average().getAsDouble());
+                // TODO CSV
                 return Collections.emptyList();
             }
 
             float sigStart = -1;
-            int index = 0;
 
             List<RadioStation> stations = new ArrayList<>();
 
@@ -297,7 +297,9 @@ public class FFTDiscoveryService implements DiscoveryService {
                     float center = (sigStart + sigEnd) / 2f;
                     float bandwidth = sigEnd - sigStart;
                     sigStart = -1;
-                    String name = String.format(namingFormat, ++index, center);
+                    float round = round(center);
+                    if (stations.stream().anyMatch(station -> round == station.getFrequency())) continue;
+                    String name = String.format(namingFormat, stations.size(), center);
 
                     stations.add(new RadioStation(name, round(center), defaultModulation,
                             Map.of(RadioStation.METADATA_BANDWIDTH, (int) bandwidth)));
