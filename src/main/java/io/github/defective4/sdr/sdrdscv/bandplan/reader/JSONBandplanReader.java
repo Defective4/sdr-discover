@@ -25,8 +25,7 @@ public class JSONBandplanReader implements BandplanReader {
                 float start = obj.get("start").getAsFloat();
                 float end = obj.get("end").getAsFloat();
                 Modulation modulation = Modulation.valueOf(obj.get("modulation").getAsString().toUpperCase());
-                int priority = obj.get("priority").getAsInt();
-                bands.add(new Band(name, start, end, modulation, priority));
+                bands.add(new Band(name, start, end, modulation));
             }
         } catch (Exception e) {
             throw new IOException(e);

@@ -1,3724 +1,3190 @@
 {
-    "license": "CC0 1.0 Universal",
-    "source": "https://github.com/Arrin-KN1E/SDR-Band-Plans.git",
-    "author": "Arrin-KN1E",
     "bands": [
         {
             "name": "Unallocated",
             "start": 0.0,
             "end": 8300.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Radionavigation/ Lightning Detection Systems",
             "start": 8300.0,
             "end": 14000.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Power Line Carrier (PLC) Communications",
             "start": 14000.0,
             "end": 19650.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "NWC (AU)",
             "start": 19650.0,
             "end": 19950.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "20KHz Time Signal",
             "start": 19950.0,
             "end": 20050.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Power Line Carrier (PLC)",
             "start": 20050.0,
             "end": 21250.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "NPM (US)",
             "start": 21250.0,
             "end": 21550.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Power Line Carrier (PLC)",
             "start": 21550.0,
             "end": 24650.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "NLK (US)(Jim Creek)",
             "start": 24650.0,
             "end": 24950.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Power Line Carrier (PLC)",
             "start": 24950.0,
             "end": 25050.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "NML (US)",
             "start": 25050.0,
             "end": 25350.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Power Line Carrier (PLC)",
             "start": 25350.0,
             "end": 26750.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "NOV (US)",
             "start": 26750.0,
             "end": 27050.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Power Line Carrier (PLC)",
             "start": 27050.0,
             "end": 37850.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "SHR (SE)",
             "start": 37850.0,
             "end": 38150.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Power Line Carrier (PLC)",
             "start": 38150.0,
             "end": 39950.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "JJY-40 (JP)",
             "start": 39950.0,
             "end": 40050.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Power Line Carrier (PLC)",
             "start": 40050.0,
             "end": 40250.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "SAS/SRC (SE)",
             "start": 40250.0,
             "end": 40550.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Power Line Carrier (PLC)",
             "start": 40550.0,
             "end": 42350.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "SAS2 (SE)",
             "start": 42350.0,
             "end": 42650.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Power Line Carrier (PLC)",
             "start": 42650.0,
             "end": 44050.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "SAS3 (SE)",
             "start": 44050.0,
             "end": 44350.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Power Line Carrier (PLC)",
             "start": 44350.0,
             "end": 59500.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "WWVB NIST",
             "start": 59500.0,
             "end": 60500.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Power Line Carrier (PLC)",
             "start": 60500.0,
             "end": 66335.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "RBU (RU)",
             "start": 66335.0,
             "end": 66985.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Power Line Carrier (PLC)",
             "start": 66985.0,
             "end": 68350.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "BPC (CN)",
             "start": 68350.0,
             "end": 68650.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Power Line Carrier (PLC)",
             "start": 68650.0,
             "end": 76850.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "DCF77 (DE)",
             "start": 76850.0,
             "end": 78150.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Power Line Carrier (PLC)",
             "start": 78150.0,
             "end": 80850.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "GYN2 GBR (UK)",
             "start": 80850.0,
             "end": 81150.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Radiolocation",
             "start": 81150.0,
             "end": 135700.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "2200m Telegraphy",
             "start": 136000.0,
             "end": 137400.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Digital",
             "start": 137400.0,
             "end": 137600.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Slow Telegraphy   |2200m Ham Band",
             "start": 137600.0,
             "end": 137800.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Maritime Mobile Service",
             "start": 137800.0,
             "end": 148500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Long Wave",
             "start": 148500.0,
             "end": 160000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "1750m (LowFER) and Long Wave",
             "start": 160000.0,
             "end": 161850.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "TDF (FR)",
             "start": 161850.0,
             "end": 162150.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "1750m (LowFER) and Long Wave",
             "start": 162150.0,
             "end": 190000.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Long Wave",
             "start": 190000.0,
             "end": 196500.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "BBC Radio 4",
             "start": 196500.0,
             "end": 199500.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Long Wave",
             "start": 199500.0,
             "end": 283500.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Radionavigation",
             "start": 283500.0,
             "end": 472000.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "630m Ham Band",
             "start": 472000.0,
             "end": 479000.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Maritime Mobile/ Aeronautical Radionavigation/ RFID",
             "start": 479000.0,
             "end": 525000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Medium Wave (212m)",
             "start": 525000.0,
             "end": 535000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "AM Radio",
             "start": 535000.0,
             "end": 1705000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Radiolocation Beacons",
             "start": 1705000.0,
             "end": 1800000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "160m Ham\tBand|  Digital",
             "start": 1800000.0,
             "end": 1810000.0,
-            "modulation": "LSB",
-            "priority": 0
+            "modulation": "LSB"
         },
         {
             "name": "160m",
             "start": 1810000.0,
             "end": 1843000.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Maritime Mobile",
             "start": 2000000.0,
             "end": 2025000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Oceanographic Buoys",
             "start": 2025000.0,
             "end": 2045000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Maritime Mobile",
             "start": 2045000.0,
             "end": 2173500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Distress and Calling for Maritime and Aeronautical",
             "start": 2173500.0,
             "end": 2190500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Maritime Mobile",
             "start": 2190500.0,
             "end": 2300000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Shortwave (Tropical Band 120m) Broadcast",
             "start": 2300000.0,
             "end": 2495000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "WWV NIST",
             "start": 2495000.0,
             "end": 2505000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Maritime Mobile",
             "start": 2505000.0,
             "end": 2850000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Transoceanic Flights (Aeronautical Mobile)",
             "start": 2850000.0,
             "end": 3155000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Maritime Mobile",
             "start": 3155000.0,
             "end": 3200000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Shortwave (Tropical Band 90m) Broadcast",
             "start": 3200000.0,
             "end": 3329000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "CHU Canada",
             "start": 3329000.0,
             "end": 3331000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Shortwave (Tropical Band 90m) Broadcast",
             "start": 3331000.0,
             "end": 3400000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Aeronautical",
             "start": 3400000.0,
             "end": 3500000.0,
-            "modulation": "LSB",
-            "priority": 0
+            "modulation": "LSB"
         },
         {
             "name": "80m Ham Band|",
             "start": 3500000.0,
             "end": 3570000.0,
-            "modulation": "LSB",
-            "priority": 0
+            "modulation": "LSB"
         },
         {
             "name": "RTTY/Data DX",
             "start": 3570000.0,
             "end": 3600000.0,
-            "modulation": "LSB",
-            "priority": 0
+            "modulation": "LSB"
         },
         {
             "name": "80m",
             "start": 3600000.0,
             "end": 3754500.0,
-            "modulation": "LSB",
-            "priority": 0
+            "modulation": "LSB"
         },
         {
             "name": "The Pip (Night)",
             "start": 3754500.0,
             "end": 3757500.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "80m",
             "start": 3757500.0,
             "end": 3790000.0,
-            "modulation": "LSB",
-            "priority": 0
+            "modulation": "LSB"
         },
         {
             "name": "DX window",
             "start": 3790000.0,
             "end": 3800000.0,
-            "modulation": "LSB",
-            "priority": 0
+            "modulation": "LSB"
         },
         {
             "name": "80m",
             "start": 3800000.0,
             "end": 3882000.0,
-            "modulation": "LSB",
-            "priority": 0
+            "modulation": "LSB"
         },
         {
             "name": "AM calling frequency",
             "start": 3882000.0,
             "end": 3888000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "80m Ham Band",
             "start": 3888000.0,
             "end": 3900000.0,
-            "modulation": "LSB",
-            "priority": 0
+            "modulation": "LSB"
         },
         {
             "name": "Shared 80m| and Shortwave (75m) Broadcast",
             "start": 3900000.0,
             "end": 4000000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "(Ship TX) Maritime",
             "start": 4000000.0,
             "end": 4063500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "ITU Ch. 401 (Ship TX)",
             "start": 4063500.0,
             "end": 4066500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "402",
             "start": 4066500.0,
             "end": 4069500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "403",
             "start": 4069500.0,
             "end": 4072500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "404",
             "start": 4072500.0,
             "end": 4075500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "405",
             "start": 4075500.0,
             "end": 4078500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "406",
             "start": 4078500.0,
             "end": 4081500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "407",
             "start": 4081500.0,
             "end": 4084500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "408",
             "start": 4084500.0,
             "end": 4087500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "409",
             "start": 4087500.0,
             "end": 4090500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "410",
             "start": 4090500.0,
             "end": 4093500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "411",
             "start": 4093500.0,
             "end": 4096500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "412",
             "start": 4096500.0,
             "end": 4099500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "413",
             "start": 4099500.0,
             "end": 4102500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "414",
             "start": 4102500.0,
             "end": 4105500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "415",
             "start": 4105500.0,
             "end": 4108500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "416",
             "start": 4108500.0,
             "end": 4111500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "417",
             "start": 4111500.0,
             "end": 4114500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "418",
             "start": 4114500.0,
             "end": 4117500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "419",
             "start": 4117500.0,
             "end": 4120500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "420",
             "start": 4120500.0,
             "end": 4123500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "421 (Distress/ Safety)",
             "start": 4123500.0,
             "end": 4126500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "422",
             "start": 4126500.0,
             "end": 4129500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "423",
             "start": 4129500.0,
             "end": 4132500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "424",
             "start": 4132500.0,
             "end": 4135500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "425",
             "start": 4135500.0,
             "end": 4138500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "426",
             "start": 4138500.0,
             "end": 4141500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "427",
             "start": 4141500.0,
             "end": 4144500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "(Ship TX) Maritime",
             "start": 4144500.0,
             "end": 4348000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "(Coast TX) Maritime",
             "start": 4348000.0,
             "end": 4349500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "ITU Ch. 428 (Coast TX)",
             "start": 4349500.0,
             "end": 4352500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "429",
             "start": 4352500.0,
             "end": 4355500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "401",
             "start": 4355500.0,
             "end": 4358500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "402",
             "start": 4358500.0,
             "end": 4361500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "403",
             "start": 4361500.0,
             "end": 4364500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "404",
             "start": 4364500.0,
             "end": 4367500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "405",
             "start": 4367500.0,
             "end": 4370500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "406",
             "start": 4370500.0,
             "end": 4373500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "407",
             "start": 4373500.0,
             "end": 4376500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "408",
             "start": 4376500.0,
             "end": 4379500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "409",
             "start": 4379500.0,
             "end": 4382500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "410",
             "start": 4382500.0,
             "end": 4385500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "411",
             "start": 4385500.0,
             "end": 4388500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "412",
             "start": 4388500.0,
             "end": 4391500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "413",
             "start": 4391500.0,
             "end": 4394500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "414",
             "start": 4394500.0,
             "end": 4397500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "415",
             "start": 4397500.0,
             "end": 4400500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "416",
             "start": 4400500.0,
             "end": 4403500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "417",
             "start": 4403500.0,
             "end": 4406500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "418",
             "start": 4406500.0,
             "end": 4409500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "419",
             "start": 4409500.0,
             "end": 4412500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "420",
             "start": 4412500.0,
             "end": 4415500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "421",
             "start": 4415500.0,
             "end": 4418500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "422",
             "start": 4418500.0,
             "end": 4421500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "423",
             "start": 4421500.0,
             "end": 4424500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "424",
             "start": 4424500.0,
             "end": 4427500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "425",
             "start": 4427500.0,
             "end": 4430500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "426",
             "start": 4430500.0,
             "end": 4433500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "427",
             "start": 4433500.0,
             "end": 4436500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "(Coast TX) Maritime",
             "start": 4436500.0,
             "end": 4623500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "UVB-76 (Lower)",
             "start": 4623500.0,
             "end": 4626500.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "(Coast TX) Maritime",
             "start": 4626500.0,
             "end": 4750000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Shortwave (Tropical Band 60m) Broadcast",
             "start": 4750000.0,
             "end": 4808500.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "UVB-76 (Upper)",
             "start": 4808500.0,
             "end": 4811500.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Shortwave (Tropical Band 60m) Broadcast",
             "start": 4811500.0,
             "end": 4995000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Standard Frequency and Time Signal",
             "start": 4995000.0,
             "end": 5005000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Shortwave (Tropical Band 60m) Broadcast",
             "start": 5005000.0,
             "end": 5060000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Maritime Mobile/ Private Land Mobile",
             "start": 5060000.0,
             "end": 5330500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "60m Ham Band| Ch. 1",
             "start": 5330500.0,
             "end": 5333400.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "",
             "start": 5333400.0,
             "end": 5346500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Ch. 2 (60m)",
             "start": 5346500.0,
             "end": 5349400.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "",
             "start": 5349400.0,
             "end": 5357000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Ch. 3 (60m)",
             "start": 5357000.0,
             "end": 5359900.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "",
             "start": 5359900.0,
             "end": 5371500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Ch. 4 (60m)",
             "start": 5371500.0,
             "end": 5374400.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "",
             "start": 5374400.0,
             "end": 5403500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Ch. 5 | 60m Ham Band",
             "start": 5403500.0,
             "end": 5406400.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Aeronautical/ Maritime",
             "start": 5406400.0,
             "end": 5446500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "The Pip (Day)",
             "start": 5446500.0,
             "end": 5449500.0,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Aeronautical/ Maritime",
             "start": 5449500.0,
             "end": 5900000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Shortwave (49m) Broadcast",
             "start": 5900000.0,
             "end": 6200000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "(Ship TX) Maritime",
             "start": 6200000.0,
             "end": 6214750.0,
-            "modulation": "USB",
-            "priority": 1
+            "modulation": "USB"
         },
         {
             "name": "Distress",
             "start": 6213750.0,
             "end": 6216250.0,
-            "modulation": "USB",
-            "priority": 1
+            "modulation": "USB"
         },
         {
             "name": "(Ship TX) Maritime",
             "start": 6216250.0,
             "end": 6342500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "(Transoceanic Flights) Aeronautical and (Ship/Shore) Maritime",
             "start": 6342500.0,
             "end": 6765000.0,
-            "modulation": "LSB",
-            "priority": 0
+            "modulation": "LSB"
         },
         {
             "name": "ISM Band (50m)",
             "start": 6765000.0,
             "end": 6795000.0,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Long Distance Communications",
             "start": 6795000.0,
             "end": 7000000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "40m Ham Band|",
             "start": 7000000.0,
             "end": 7080000.0,
-            "modulation": "LSB",
-            "priority": 0
+            "modulation": "LSB"
         },
         {
             "name": "RTTY/Data",
             "start": 7080000.0,
             "end": 7169000.0,
-            "modulation": "LSB",
-            "priority": 0
+            "modulation": "LSB"
         },
         {
             "name": "SSTV",
             "start": 7169000.0,
             "end": 7173000.0,
-            "modulation": "LSB",
-            "priority": 0
+            "modulation": "LSB"
         },
         {
             "name": "40m",
             "start": 7173000.0,
             "end": 7200000.0,
-            "modulation": "LSB",
-            "priority": 0
+            "modulation": "LSB"
         },
         {
             "name": "Shared 40m and Shortwave (41m) Broadcast",
             "start": 7200000.0,
             "end": 7300000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Shortwave (41m) Broadcast",
             "start": 7300000.0,
             "end": 7450000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Maritime",
             "start": 7450000.0,
             "end": 7633500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "MARS",
             "start": 7633500.0,
             "end": 7636500.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Maritime",
             "start": 7636500.0,
             "end": 7850000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "(Ship/Shore) Maritime",
             "start": 7850000.0,
             "end": 8289750.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Distress",
             "start": 8289750.0,
             "end": 8292250.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "(Ship/Shore) Maritime",
             "start": 8292250.0,
             "end": 8680000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "(Transoceanic Flights) Aeronautical and (Ship/Shore) Maritime",
             "start": 8680000.0,
             "end": 9108000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Maritime Mobile/ Private Land Mobile",
             "start": 9108000.0,
             "end": 9400000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Shortwave (31m) Broadcast",
             "start": 9400000.0,
             "end": 9900000.0,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Private Land Mobile",
             "start": 9900000.0,
             "end": 9995000.0,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Standard Frequency and Time Signal",
             "start": 9995000.0,
             "end": 1.0005E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Aeronautical",
             "start": 1.0005E7,
             "end": 1.01E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "30m Ham Band|",
             "start": 1.01E7,
             "end": 1.013E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "RTTY",
             "start": 1.013E7,
             "end": 1.014E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Packet  |30m Ham Band",
             "start": 1.014E7,
             "end": 1.015E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Aeronautical",
             "start": 1.015E7,
             "end": 1.1407E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "MARS",
             "start": 1.1407E7,
             "end": 1.141E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Aeronautical",
             "start": 1.141E7,
             "end": 1.16E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Shortwave (25m) Broadcast",
             "start": 1.16E7,
             "end": 1.21E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "(Ship/Shore) Maritime",
             "start": 1.21E7,
             "end": 1.228875E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Distress",
             "start": 1.228875E7,
             "end": 1.229125E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "(Ship/Shore) Maritime",
             "start": 1.229125E7,
             "end": 1.27879E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "(Transoceanic Flights) Aeronautical and (Ship/Shore) Maritime",
             "start": 1.27919E7,
             "end": 1.336E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Radio Astronomy",
             "start": 1.336E7,
             "end": 1.341E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "(Ship/Shore) Maritime",
             "start": 1.341E7,
             "end": 1.3553E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "22m (HiFER) Band and 22m ISM",
             "start": 1.3553E7,
             "end": 1.3567E7,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "22m ISM Band",
             "start": 1.3567E7,
             "end": 1.357E7,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Shortwave (22m) Broadcast",
             "start": 1.357E7,
             "end": 1.387E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "MARS",
             "start": 1.3927E7,
             "end": 1.393E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "20m Ham Band|",
             "start": 1.4E7,
             "end": 1.407E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "RTTY",
             "start": 1.407E7,
             "end": 1.4095E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Packet",
             "start": 1.4095E7,
             "end": 1.40995E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "NCDXF Beacons",
             "start": 1.40995E7,
             "end": 1.41005E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Packet",
             "start": 1.41005E7,
             "end": 1.4112E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "20m",
             "start": 1.4112E7,
             "end": 1.4228E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "SSTV",
             "start": 1.4228E7,
             "end": 1.4232E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "20m",
             "start": 1.4232E7,
             "end": 1.4284E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "AM calling frequency",
             "start": 1.4284E7,
             "end": 1.4288E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "|20m Ham Band",
             "start": 1.4288E7,
             "end": 1.435E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Private Land Mobile",
             "start": 1.435E7,
             "end": 1.4995E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Standard Frequency and Time Signal",
             "start": 1.4995E7,
             "end": 1.5005E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "(Transoceanic Flights) Aeronautical Mobile",
             "start": 1.5005E7,
             "end": 1.51E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Shortwave (19m) Broadcast",
             "start": 1.51E7,
             "end": 1.58E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "(Ship/Shore) Maritime",
             "start": 1.58E7,
             "end": 1.641875E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Distress",
             "start": 1.641875E7,
             "end": 1.642125E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "(Ship/Shore) Maritime",
             "start": 1.642125E7,
             "end": 1.748E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Shortwave (16m) Broadcast",
             "start": 1.748E7,
             "end": 1.79E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "(Transoceanic Flights) Aeronautical",
             "start": 1.79E7,
             "end": 1.8068E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "17m Ham Band",
             "start": 1.8068E7,
             "end": 1.8168E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "(Ship/Shore) Maritime/ Fixed Service",
             "start": 1.8168E7,
             "end": 1.89E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Shortwave (15m) Broadcast",
             "start": 1.89E7,
             "end": 1.902E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "(Ship/Shore) Maritime",
             "start": 1.902E7,
             "end": 1.9995E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Standard Frequency and Time Signal",
             "start": 1.9995E7,
             "end": 2.0005E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Private Land Mobile",
             "start": 2.0005E7,
             "end": 2.1E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "15m Ham Band",
             "start": 2.1E7,
             "end": 2.145E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Shortwave (13m) Broadcast",
             "start": 2.145E7,
             "end": 2.185E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Aeronautical Mobile",
             "start": 2.185E7,
             "end": 2.2E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "(Ship/Shore) Maritime",
             "start": 2.2E7,
             "end": 2.489E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "12m Ham Band",
             "start": 2.489E7,
             "end": 2.499E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Maritime",
             "start": 2.499E7,
             "end": 2.4995E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Standard Frequency and Time Signal",
             "start": 2.4995E7,
             "end": 2.5005E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Maritime",
             "start": 2.5005E7,
             "end": 2.555E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Radio Astronomy",
             "start": 2.555E7,
             "end": 2.567E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Shortwave (11m) Broadcast",
             "start": 2.567E7,
             "end": 2.61E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Maritime",
             "start": 2.61E7,
             "end": 2.6957E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "10m ISM",
             "start": 2.6957E7,
             "end": 2.7283E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Maritime",
             "start": 2.7283E7,
             "end": 2.741E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "Meteorological Aids",
             "start": 2.741E7,
             "end": 2.8E7,
-            "modulation": "USB",
-            "priority": 0
+            "modulation": "USB"
         },
         {
             "name": "10m Ham Band",
             "start": 2.8E7,
             "end": 2.97E7,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Fixed Mobile/ Maritime",
             "start": 2.97E7,
             "end": 4.066E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "8m ISM",
             "start": 4.066E7,
             "end": 4.07E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Fixed Mobile/ Maritime",
             "start": 4.07E7,
             "end": 5.0E7,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "6m Ham Band",
             "start": 5.0E7,
             "end": 5.4E7,
-            "modulation": "CW",
-            "priority": 0
+            "modulation": "CW"
         },
         {
             "name": "Radiolocation/ Television VHF",
             "start": 5.4E7,
             "end": 7.2E7,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Radio Astronomy",
             "start": 7.3E7,
             "end": 7.46E7,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Radiolocation/ FM Broadcast",
             "start": 7.6E7,
             "end": 8.8E7,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "FM Broadcast",
             "start": 8.8E7,
             "end": 1.08E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "Air Band VOR/ILS",
             "start": 1.08E8,
             "end": 1.18E8,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Air Band Voice",
             "start": 1.18E8,
             "end": 1.2149E8,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Civilian Aircraft Distress/ Emergency",
             "start": 1.2149E8,
             "end": 1.2151E8,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Air Band Voice",
             "start": 1.2151E8,
             "end": 1.31545E8,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "ACARS",
             "start": 1.31545E8,
             "end": 1.31555E8,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Air Band Voice",
             "start": 1.31555E8,
             "end": 1.36637504E8,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "VDL-M2 (US)",
             "start": 1.36637504E8,
             "end": 1.36662496E8,
-            "modulation": "RAW",
-            "priority": 0
+            "modulation": "RAW"
         },
         {
             "name": "",
             "start": 1.36662496E8,
             "end": 1.36687504E8,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "VDL-M2 (US)",
             "start": 1.36687504E8,
             "end": 1.36712496E8,
-            "modulation": "RAW",
-            "priority": 0
+            "modulation": "RAW"
         },
         {
             "name": "VDL-M2 (EU)",
             "start": 1.36712496E8,
             "end": 1.36737504E8,
-            "modulation": "RAW",
-            "priority": 0
+            "modulation": "RAW"
         },
         {
             "name": "",
             "start": 1.36737504E8,
             "end": 1.36762496E8,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "VDL-M2 (EU)",
             "start": 1.36762496E8,
             "end": 1.36787504E8,
-            "modulation": "RAW",
-            "priority": 0
+            "modulation": "RAW"
         },
         {
             "name": "VDL-M2 (US)",
             "start": 1.36787504E8,
             "end": 1.36812496E8,
-            "modulation": "RAW",
-            "priority": 0
+            "modulation": "RAW"
         },
         {
             "name": "VDL-M2 (EU)",
             "start": 1.36812496E8,
             "end": 1.36837504E8,
-            "modulation": "RAW",
-            "priority": 0
+            "modulation": "RAW"
         },
         {
             "name": "",
             "start": 1.36837504E8,
             "end": 1.36862496E8,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "VDL-M2 (EU)",
             "start": 1.36862496E8,
             "end": 1.36887504E8,
-            "modulation": "RAW",
-            "priority": 0
+            "modulation": "RAW"
         },
         {
             "name": "",
             "start": 1.36887504E8,
             "end": 1.36962496E8,
-            "modulation": "AM",
-            "priority": 0
+            "modulation": "AM"
         },
         {
             "name": "Worldwide VDL-M2",
             "start": 1.36962496E8,
             "end": 1.36987504E8,
-            "modulation": "RAW",
-            "priority": 0
+            "modulation": "RAW"
         },
         {
             "name": "",
             "start": 1.36987504E8,
             "end": 1.37E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "| METEOR",
             "start": 1.3704E8,
             "end": 1.3708E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "NOAA-19",
             "start": 1.3708E8,
             "end": 1.3712E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "METEOR |",
             "start": 1.3712E8,
             "end": 1.3716E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "ORB. Seg. 1",
             "start": 1.37175008E8,
             "end": 1.37327504E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "DSB NOAA-15 and NOAA-18",
             "start": 1.37332992E8,
             "end": 1.37367008E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "ORB. Seg. 2",
             "start": 1.37422496E8,
             "end": 1.37472496E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "Orbcomm Gateway",
             "start": 1.37535008E8,
             "end": 1.37584992E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "NOAA-15",
             "start": 1.376E8,
             "end": 1.3764E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "ORB. Seg. 3",
             "start": 1.3765E8,
             "end": 1.3775E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "DSB NOAA-19",
             "start": 1.37752992E8,
             "end": 1.37787008E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "ORB. Seg. 4",
             "start": 1.37787504E8,
             "end": 1.37812496E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "NOAA-18",
             "start": 1.37892496E8,
             "end": 1.37932496E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "2m Ham Band",
             "start": 1.44E8,
             "end": 1.4448E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "ISS Voice Uplink",
             "start": 1.4448E8,
             "end": 1.445E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "2m",
             "start": 1.445E8,
             "end": 1.4579E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "ISS Voice/ SSTV Downlink",
             "start": 1.4579E8,
             "end": 1.4581E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Satellites",
             "start": 1.4581E8,
             "end": 1.45815008E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "ISS VHF Packet U/D",
             "start": 1.45815008E8,
             "end": 1.45835008E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Satellites",
             "start": 1.45835008E8,
             "end": 1.45844992E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "SO-50 Uplink",
             "start": 1.45844992E8,
             "end": 1.45855008E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Satellites",
             "start": 1.45855008E8,
             "end": 1.4587E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "AO-92 Downlink",
             "start": 1.4587E8,
             "end": 1.4589E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Satellites",
             "start": 1.4589E8,
             "end": 1.45895008E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "PO-101 Downlink",
             "start": 1.45895008E8,
             "end": 1.45904992E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Satellites",
             "start": 1.45904992E8,
             "end": 1.4595E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "AO-91 Downlink",
             "start": 1.4595E8,
             "end": 1.4597E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "AO-85 Downlink",
             "start": 1.4597E8,
             "end": 1.4598E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "AO-85 Downlink and ISS Repeater Uplink",
             "start": 1.4598E8,
             "end": 1.4599E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "ISS U/V Repeater Uplink",
             "start": 1.4599E8,
             "end": 1.46E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "2m Ham Band",
             "start": 1.46E8,
             "end": 1.48E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Orbcomm Uplink",
             "start": 1.48E8,
             "end": 1.5E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Fixed Mobile",
             "start": 1.5E8,
             "end": 1.55987504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "0",
             "start": 1.55987504E8,
             "end": 1.56012496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "60",
             "start": 1.56012496E8,
             "end": 1.56037504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "1",
             "start": 1.56037504E8,
             "end": 1.56062496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "61",
             "start": 1.56062496E8,
             "end": 1.56087504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "2",
             "start": 1.56087504E8,
             "end": 1.56112496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "62",
             "start": 1.56112496E8,
             "end": 1.56137504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "3",
             "start": 1.56137504E8,
             "end": 1.56162496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "63",
             "start": 1.56162496E8,
             "end": 1.56187504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "4",
             "start": 1.56187504E8,
             "end": 1.56212496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "64",
             "start": 1.56212496E8,
             "end": 1.56237504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "5",
             "start": 1.56237504E8,
             "end": 1.56262496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "65",
             "start": 1.56262496E8,
             "end": 1.56287504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "6 (Splx)",
             "start": 1.56287504E8,
             "end": 1.56312496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "66",
             "start": 1.56312496E8,
             "end": 1.56337504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "7",
             "start": 1.56337504E8,
             "end": 1.56362496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "67 (Splx)",
             "start": 1.56362496E8,
             "end": 1.56387504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "8 (Splx)",
             "start": 1.56387504E8,
             "end": 1.56412496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "68 (Splx)",
             "start": 1.56412496E8,
             "end": 1.56437504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "9 (Splx)",
             "start": 1.56437504E8,
             "end": 1.56462496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "69 (Splx)",
             "start": 1.56462496E8,
             "end": 1.56487504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "10 (Splx)",
             "start": 1.56487504E8,
             "end": 1.56512496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "70 (Splx)",
             "start": 1.56512496E8,
             "end": 1.56537504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "11 (Splx)",
             "start": 1.56537504E8,
             "end": 1.56562496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "71 (Splx)",
             "start": 1.56562496E8,
             "end": 1.56587504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "12 (Splx)",
             "start": 1.56587504E8,
             "end": 1.56612496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "72 (Splx)",
             "start": 1.56612496E8,
             "end": 1.56637504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "13 (Splx)",
             "start": 1.56637504E8,
             "end": 1.56662496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "73 (Splx)",
             "start": 1.56662496E8,
             "end": 1.56687504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "14 (Splx)",
             "start": 1.56687504E8,
             "end": 1.56712496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "74 (Splx)",
             "start": 1.56712496E8,
             "end": 1.56737504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "15 (Splx)",
             "start": 1.56737504E8,
             "end": 1.56762496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "75 (Splx)",
             "start": 1.56762496E8,
             "end": 1.56787504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "International Distress (Ch. 16)",
             "start": 1.56787504E8,
             "end": 1.56812496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "76 (Splx)",
             "start": 1.56812496E8,
             "end": 1.56837504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "17 (Splx)",
             "start": 1.56837504E8,
             "end": 1.56862496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "77 (Splx)",
             "start": 1.56862496E8,
             "end": 1.56887504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "18",
             "start": 1.56887504E8,
             "end": 1.56912496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "78",
             "start": 1.56912496E8,
             "end": 1.56937504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "19",
             "start": 1.56937504E8,
             "end": 1.56962496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "79",
             "start": 1.56962496E8,
             "end": 1.56987504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "20",
             "start": 1.56987504E8,
             "end": 1.57012496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "80",
             "start": 1.57012496E8,
             "end": 1.57037504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "21",
             "start": 1.57037504E8,
             "end": 1.57062496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "81",
             "start": 1.57062496E8,
             "end": 1.57087504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "22",
             "start": 1.57087504E8,
             "end": 1.57112496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "82",
             "start": 1.57112496E8,
             "end": 1.57137504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "23",
             "start": 1.57137504E8,
             "end": 1.57162496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "83",
             "start": 1.57162496E8,
             "end": 1.57187504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "24",
             "start": 1.57187504E8,
             "end": 1.57212496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "84",
             "start": 1.57212496E8,
             "end": 1.57237504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "25",
             "start": 1.57237504E8,
             "end": 1.57262496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "85",
             "start": 1.57262496E8,
             "end": 1.57287504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "26",
             "start": 1.57287504E8,
             "end": 1.57312496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "86",
             "start": 1.57312496E8,
             "end": 1.57337504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "27",
             "start": 1.57337504E8,
             "end": 1.57362496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "87 (Splx)",
             "start": 1.57362496E8,
             "end": 1.57387504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "28",
             "start": 1.57387504E8,
             "end": 1.57412496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "88 (Splx)",
             "start": 1.57412496E8,
             "end": 1.57437504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Marine",
             "start": 1.57437504E8,
             "end": 1.60587504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Marine VHF Ch. 0 (Coast Stations)",
             "start": 1.60587504E8,
             "end": 1.60612496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "60",
             "start": 1.60612496E8,
             "end": 1.60637504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "1",
             "start": 1.60637504E8,
             "end": 1.60662496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "61",
             "start": 1.60662496E8,
             "end": 1.60687504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "2",
             "start": 1.60687504E8,
             "end": 1.60712496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "62",
             "start": 1.60712496E8,
             "end": 1.60737504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "3",
             "start": 1.60737504E8,
             "end": 1.60762496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "63",
             "start": 1.60762496E8,
             "end": 1.60787504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "4",
             "start": 1.60787504E8,
             "end": 1.60812496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "64",
             "start": 1.60812496E8,
             "end": 1.60837504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "5",
             "start": 1.60837504E8,
             "end": 1.60862496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "65",
             "start": 1.60862496E8,
             "end": 1.60887504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Marine",
             "start": 1.60887504E8,
             "end": 1.60912496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "66",
             "start": 1.60912496E8,
             "end": 1.60937504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "7",
             "start": 1.60937504E8,
             "end": 1.60962496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "18",
             "start": 1.61487504E8,
             "end": 1.61512496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "78",
             "start": 1.61512496E8,
             "end": 1.61537504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "19",
             "start": 1.61537504E8,
             "end": 1.61562496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "79",
             "start": 1.61562496E8,
             "end": 1.61587504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "20",
             "start": 1.61587504E8,
             "end": 1.61612496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "80",
             "start": 1.61612496E8,
             "end": 1.61637504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "21",
             "start": 1.61637504E8,
             "end": 1.61662496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "81",
             "start": 1.61662496E8,
             "end": 1.61687504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "22",
             "start": 1.61687504E8,
             "end": 1.61712496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "82",
             "start": 1.61712496E8,
             "end": 1.61737504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "23",
             "start": 1.61737504E8,
             "end": 1.61762496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "83",
             "start": 1.61762496E8,
             "end": 1.61787504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "24",
             "start": 1.61787504E8,
             "end": 1.61812496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "84",
             "start": 1.61812496E8,
             "end": 1.61837504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "25",
             "start": 1.61837504E8,
             "end": 1.61862496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "85",
             "start": 1.61862496E8,
             "end": 1.61887504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "26",
             "start": 1.61887504E8,
             "end": 1.61912496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "86",
             "start": 1.61912496E8,
             "end": 1.61937504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "27",
             "start": 1.61937504E8,
             "end": 1.61962496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "AIS Ch. A (87B)",
             "start": 1.61962496E8,
             "end": 1.61987504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "88B/ 28",
             "start": 1.61987504E8,
             "end": 1.62012496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "AIS Ch. B",
             "start": 1.62012496E8,
             "end": 1.62037504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Marine",
             "start": 1.62037504E8,
             "end": 1.62137504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "31",
             "start": 1.62137504E8,
             "end": 1.62162496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Fixed Mobile/ Marine",
             "start": 1.62162496E8,
             "end": 1.74E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Television VHF",
             "start": 1.74E8,
             "end": 2.16E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "Radiolocation/ Television VHF",
             "start": 2.16E8,
             "end": 2.23E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Standard Frequency and Time Signal-Satellite Service",
             "start": 4.00049984E8,
             "end": 4.00150016E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "(NVNG)/ Mobile Satellite Service (MSS)",
             "start": 4.00150016E8,
             "end": 4.01E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Earth Exploration Satellite",
             "start": 4.01E8,
             "end": 4.03E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Radio Astronomy",
             "start": 4.061E8,
             "end": 4.1E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "70cm Ham Band",
             "start": 4.3E8,
             "end": 4.33049984E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Shared 70cm Ham and 70cm ISM",
             "start": 4.33049984E8,
             "end": 4.34790016E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "70cm Ham Band",
             "start": 4.34790016E8,
             "end": 4.35172E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "AO-85 Uplink",
             "start": 4.35172E8,
             "end": 4.35192E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Satellite",
             "start": 4.35192E8,
             "end": 4.3524E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "AO-91 Uplink",
             "start": 4.3524E8,
             "end": 4.3526E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Satellite",
             "start": 4.3526E8,
             "end": 4.3534E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "AO-92 Uplink",
             "start": 4.3534E8,
             "end": 4.3536E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Satellite",
             "start": 4.3536E8,
             "end": 4.36784992E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "SO-50 Downlink",
             "start": 4.36784992E8,
             "end": 4.36804992E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Satellite",
             "start": 4.36804992E8,
             "end": 4.37489984E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "PO-101 Uplink",
             "start": 4.37489984E8,
             "end": 4.37510016E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Satellite",
             "start": 4.37510016E8,
             "end": 4.3754E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "ISS UHF Packet U/D",
             "start": 4.3754E8,
             "end": 4.3756E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Satellite",
             "start": 4.3756E8,
             "end": 4.37790016E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "ISS U/V Repeater Downlink",
             "start": 4.37790016E8,
             "end": 4.37809984E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Satellite",
             "start": 4.37809984E8,
             "end": 4.38E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "70cm Ham Band",
             "start": 4.38E8,
             "end": 4.4E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "PMR446 Ch. 1",
             "start": 4.46E8,
             "end": 4.46012512E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "2",
             "start": 4.46012512E8,
             "end": 4.46024992E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "3",
             "start": 4.46024992E8,
             "end": 4.46037504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "4",
             "start": 4.46037504E8,
             "end": 4.46049984E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "5",
             "start": 4.46049984E8,
             "end": 4.46062496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "6",
             "start": 4.46062496E8,
             "end": 4.46075008E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "7",
             "start": 4.46075008E8,
             "end": 4.46087488E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "8",
             "start": 4.46087488E8,
             "end": 4.461E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "9",
             "start": 4.461E8,
             "end": 4.46112512E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "10",
             "start": 4.46112512E8,
             "end": 4.46124992E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "11",
             "start": 4.46124992E8,
             "end": 4.46137504E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "12",
             "start": 4.46137504E8,
             "end": 4.46150016E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "13",
             "start": 4.46150016E8,
             "end": 4.46162496E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "14",
             "start": 4.46162496E8,
             "end": 4.46175008E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "15",
             "start": 4.46175008E8,
             "end": 4.46187488E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "PMR446 Ch. 16",
             "start": 4.46187488E8,
             "end": 4.462E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Metops\u0027 DCP configuration control",
             "start": 4.65986496E8,
             "end": 4.65988512E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Television UHF",
             "start": 4.7E8,
             "end": 6.08E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "Radio Astronomy (Ch.37)",
             "start": 6.08E8,
             "end": 6.14E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Television UHF",
             "start": 6.14E8,
             "end": 8.06E8,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "33cm ISM",
             "start": 9.02E8,
             "end": 9.28E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Aviation",
             "start": 9.6E8,
             "end": 9.7729997E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "ADSB 978",
             "start": 9.7729997E8,
             "end": 9.7870003E8,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Aviation",
             "start": 9.7870003E8,
             "end": 1.08994995E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "ADSB",
             "start": 1.08994995E9,
             "end": 1.09005005E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Aviation",
             "start": 1.09005005E9,
             "end": 1.164E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "GPS L5 and GALILEO E5a",
             "start": 1.164E9,
             "end": 1.18899994E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "GALILEO E5a and GLONASS G3",
             "start": 1.18899994E9,
             "end": 1.214E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "Radionavigation Satellite Service",
             "start": 1.214E9,
             "end": 1.21500006E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "GPS L2",
             "start": 1.21500006E9,
             "end": 1.23699994E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "GPS L2 and GLONASS G2",
             "start": 1.23699994E9,
             "end": 1.2396E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "GLONASS G2",
             "start": 1.2396E9,
             "end": 1.24E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "23cm Ham Band",
             "start": 1.24E9,
             "end": 1.26734656E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "AO-92 Uplink",
             "start": 1.26734656E9,
             "end": 1.26737152E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "23cm Ham Band",
             "start": 1.26737152E9,
             "end": 1.29580006E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "EME",
             "start": 1.29580006E9,
             "end": 1.29608E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "23cm Ham Band",
             "start": 1.29608E9,
             "end": 1.3E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Radio Astronomy (1390 - 1395 MHz Band)",
             "start": 1.39E9,
             "end": 1.39500006E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Earth Exploration-Satellite/ Radio Astronomy",
             "start": 1.4E9,
             "end": 1.42040474E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Hygrogen Line",
             "start": 1.42040474E9,
             "end": 1.42040678E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Earth Exploration-Satellite/ Radio Astronomy",
             "start": 1.42040678E9,
             "end": 1.42700006E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Inmarsat Satellites",
             "start": 1.52499994E9,
             "end": 1.544E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "GALILEO SAR Downlink",
             "start": 1.544E9,
             "end": 1.54499994E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "Inmarsat Satellites",
             "start": 1.54499994E9,
             "end": 1.55900006E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "GALILEO E1",
             "start": 1.55900006E9,
             "end": 1.56300006E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "GPS L1 and GALILEO E1",
             "start": 1.56300006E9,
             "end": 1.58700006E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "GALILEO E1",
             "start": 1.58700006E9,
             "end": 1.59100006E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "Radionavigation Satellite Service",
             "start": 1.59100006E9,
             "end": 1.59299994E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "GLONASS G1",
             "start": 1.59299994E9,
             "end": 1.61E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "Mobile Satellite Service (MSS)",
             "start": 1.61059994E9,
             "end": 1.616E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Iridium Satellites",
             "start": 1.616E9,
             "end": 1.6260009E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Ch.1 Guard Channel (Iridium)",
             "start": 1.6260009E9,
             "end": 1.62604083E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "2 Guard Channel",
             "start": 1.6260425E9,
             "end": 1.62608256E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "3 Quaternary Messaging",
             "start": 1.62608422E9,
             "end": 1.62612416E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "4 Tertiary Messaging",
             "start": 1.62612582E9,
             "end": 1.62616589E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "5 Guard Channel",
             "start": 1.62616755E9,
             "end": 1.62620749E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "6 Guard Channel",
             "start": 1.62620915E9,
             "end": 1.62624922E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "7 Ring Alert",
             "start": 1.62625088E9,
             "end": 1.62629082E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "8 Guard Channel",
             "start": 1.62629248E9,
             "end": 1.62633254E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "9 Guard Channel",
             "start": 1.62633421E9,
             "end": 1.62637414E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "10 Secondary Messaging",
             "start": 1.62637581E9,
             "end": 1.62641587E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "11 Primary Messaging",
             "start": 1.62641754E9,
             "end": 1.62645747E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "12 Guard Channel |Iridium",
             "start": 1.62645914E9,
             "end": 1.6264992E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Inmarsat Satellites",
             "start": 1.62649997E9,
             "end": 1.66049997E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Radio Astronomy",
             "start": 1.66049997E9,
             "end": 1.6684E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Meteorological Aids and Radio Astronomy",
             "start": 1.6684E9,
             "end": 1.67E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Government Use Meteorological-Satellite",
             "start": 1.67E9,
             "end": 1.67500006E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Meteorological Satellite",
             "start": 1.67500006E9,
             "end": 1.69649997E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "HRPT Shared",
             "start": 1.69649997E9,
             "end": 1.69775002E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "NOAA-19 Center",
             "start": 1.69775002E9,
             "end": 1.69824998E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "Shared",
             "start": 1.69824998E9,
             "end": 1.69975002E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "METEOR M2 Center",
             "start": 1.69975002E9,
             "end": 1.70024998E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "Shared",
             "start": 1.70024998E9,
             "end": 1.70104998E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "Shared",
             "start": 1.70154995E9,
             "end": 1.70224998E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "NOAA-15 Center",
             "start": 1.70224998E9,
             "end": 1.70274995E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "Shared",
             "start": 1.70274995E9,
             "end": 1.70424998E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "METEOR M2-2 Center",
             "start": 1.70474995E9,
             "end": 1.70525005E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "Shared",
             "start": 1.70525005E9,
             "end": 1.70674995E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "HRPT Shared",
             "start": 1.70725005E9,
             "end": 1.70849997E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "Meteorological Satellite",
             "start": 1.70849997E9,
             "end": 1.71E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "Earth-to-Space and Space-to-Space Communications",
             "start": 2.02499994E9,
             "end": 2.11E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Radio Astronomy",
             "start": 2.28999987E9,
             "end": 2.3E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "13cm Ham Band (Lower)",
             "start": 2.3E9,
             "end": 2.31000013E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Satellite Digital Audio Radio Service (SDARS)",
             "start": 2.32E9,
             "end": 2.33249997E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "SiriusXM Satellites",
             "start": 2.33249997E9,
             "end": 2.34499994E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Aviation Service and the Wireless Communications Service (WCS)",
             "start": 2.34499994E9,
             "end": 2.36E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Aviation",
             "start": 2.36E9,
             "end": 2.39000013E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "13cm Ham Band (Upper)|  Analog and Digital",
             "start": 2.39000013E9,
             "end": 2.39375002E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Experimental",
             "start": 2.39375002E9,
             "end": 2.39474995E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Analog and Digital",
             "start": 2.39474995E9,
             "end": 2.4E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "Shared Satellite and 13cm ISM",
             "start": 2.4E9,
             "end": 2.40099994E9,
-            "modulation": "NFM",
-            "priority": 0
+            "modulation": "NFM"
         },
         {
             "name": "WiFi shared with Satellite and 13cm ISM",
             "start": 2.40099994E9,
             "end": 2.40999987E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "WiFi shared with Broadband Modes and 13cm ISM",
             "start": 2.40999987E9,
             "end": 2.4118999E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "WiFi Ch. 1 (Center)",
             "start": 2.4118999E9,
             "end": 2.4121001E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "WiFi shared with Broadband Modes 13cm ISM  |13cm Ham Band",
             "start": 2.4121001E9,
             "end": 2.44999987E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "",
             "start": 2.4169001E9,
             "end": 2.41710003E9,
-            "modulation": "WFM",
-            "priority": 1
+            "modulation": "WFM"
         },
         {
             "name": "",
             "start": 2.42190003E9,
             "end": 2.42209997E9,
-            "modulation": "WFM",
-            "priority": 1
+            "modulation": "WFM"
         },
         {
             "name": "",
             "start": 2.42689997E9,
             "end": 2.4270999E9,
-            "modulation": "WFM",
-            "priority": 1
+            "modulation": "WFM"
         },
         {
             "name": "",
             "start": 2.4318999E9,
             "end": 2.4321001E9,
-            "modulation": "WFM",
-            "priority": 1
+            "modulation": "WFM"
         },
         {
             "name": "",
             "start": 2.4369001E9,
             "end": 2.43710003E9,
-            "modulation": "WFM",
-            "priority": 1
+            "modulation": "WFM"
         },
         {
             "name": "",
             "start": 2.44190003E9,
             "end": 2.44209997E9,
-            "modulation": "WFM",
-            "priority": 1
+            "modulation": "WFM"
         },
         {
             "name": "",
             "start": 2.44689997E9,
             "end": 2.4470999E9,
-            "modulation": "WFM",
-            "priority": 1
+            "modulation": "WFM"
         },
         {
             "name": "WiFi shared with ISM Band (13cm)",
             "start": 2.44999987E9,
             "end": 2.4518999E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "WiFi Ch. 9",
             "start": 2.4518999E9,
             "end": 2.4521001E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "WiFi shared with ISM Band (13cm)",
             "start": 2.4521001E9,
             "end": 2.4569001E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "WiFi Ch. 10",
             "start": 2.4569001E9,
             "end": 2.45710003E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "WiFi shared with ISM Band (13cm)",
             "start": 2.45710003E9,
             "end": 2.46190003E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "WiFi Ch. 11",
             "start": 2.46190003E9,
             "end": 2.46209997E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "WiFi shared with ISM Band (13cm)",
             "start": 2.46209997E9,
             "end": 2.47299994E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         },
         {
             "name": "ISM Band (13cm)",
             "start": 2.47299994E9,
             "end": 2.5E9,
-            "modulation": "WFM",
-            "priority": 0
+            "modulation": "WFM"
         }
     ]
 }

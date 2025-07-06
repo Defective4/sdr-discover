@@ -9,7 +9,7 @@ public class Bandplan {
 
     public Bandplan(List<Band> bands) {
         List<Band> sorted = new ArrayList<>(bands);
-        sorted.sort((b1, b2) -> (b2.getPriority() - b1.getPriority()));
+        sorted.sort((b1, b2) -> (int) (b2.getStartFreq() - b1.getStartFreq()));
         this.bands = Collections.unmodifiableList(sorted);
     }
 

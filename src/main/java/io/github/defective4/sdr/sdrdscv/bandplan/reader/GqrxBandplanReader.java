@@ -38,27 +38,13 @@ public class GqrxBandplanReader implements BandplanReader {
                             continue;
                         }
 
-                        bands.add(new Band(name, startFreq, endFreq, modulation, 0));
+                        bands.add(new Band(name, startFreq, endFreq, modulation));
                     } catch (Exception e) {
                         throw new IOException(e);
                     }
                 }
             }
         }
-        bands.sort((b1, b2) -> (int) (b1.getStartFreq() - b2.getStartFreq()));
-        List<Band> weightedBands = new ArrayList<>();
-        for (Band band : bands) {
-            int priority = 0;
-            for (Band band2 : bands) {
-                if (band2 == band) continue;
-                if (band.getStartFreq() > band2.getStartFreq() && band.getStartFreq() < band2.getEndFreq()
-                        || band.getEndFreq() > band2.getStartFreq() && band.getEndFreq() < band2.getEndFreq()) {
-                    priority++;
-                }
-            }
-            weightedBands.add(
-                    new Band(band.getName(), band.getStartFreq(), band.getEndFreq(), band.getModulation(), priority));
-        }
-        return new Bandplan(weightedBands);
+        return new Bandplan(bands);
     }
 }
